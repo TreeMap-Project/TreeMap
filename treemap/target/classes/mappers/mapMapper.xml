@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.treemap">
+
+	<select id ="getMapBoardList" resultType="com.spring.treemap.domain.AddressVO">
+		select adrNo,userNo,catNo,adrName,lat,lng,rowaddress,address from board.Address where userNo=1
+	</select>
+	<insert id="insertAddress" parameterType="com.spring.treemap.domain.AddressVO">
+		insert into 
+		board.Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo) 
+		values(1,1,#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
+	</insert>
+	
+	<insert id ="insertCategory" parameterType="com.spring.treemap.domain.AddressVO">
+		insert into board.category(userNo,IconUrl, catName) values(1,'IconUrl',#{category})
+	</insert>
+</mapper>
