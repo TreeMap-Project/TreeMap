@@ -22,46 +22,58 @@ import com.spring.treemap.service.MapService;
 @Controller
 @RequestMapping("/treeMap/*")
 public class MapContoller {
-	
+
 	@Autowired
 	MapService service;
-	//처음 들어올시
+
+	// 처음 들어올시
 	@GetMapping("/map")
 	public String openMap(Model model) {
 		System.out.println("접근");
 		int userNo = 1;
 		List<AddressVO> vo = service.getMapBoardList(userNo);
-		
-		model.addAttribute("mapBoardList",vo);
+
+		model.addAttribute("mapBoardList", vo);
 		return "treeMap/map";
 	}
-	
-	//즐겨찾기 등록시 include 다시 받음
+
+	// 즐겨찾기 등록시 include 다시 받음
 	@GetMapping("/reloadBoard")
 	public String getMapBoard(Model model) {
 		int userNo = 1;
 		List<AddressVO> vo = service.getMapBoardList(userNo);
 		System.out.println(vo);
-		model.addAttribute("mapBoardList",vo);
+		model.addAttribute("mapBoardList", vo);
 		return "include/mapboard";
 	}
-	
-	//즐겨찾기 등록
+
+	// 즐겨찾기 등록
 	@ResponseBody
 	@PostMapping("/favorites")
-	public void insertMap(AddressVO address,CategoryVO category) {
+	public void insertMap(AddressVO address, CategoryVO category) {
 		service.insertCategory(category);
 		service.insertAddress(address);
 	}
-	
-	//상세보기
+
+	// 상세보기
 	@GetMapping("/mapBoardDetail")
-	public String getMapBoardDetail(int adrNo,Model model) {
+	public String getMapBoardDetail(int adrNo, Model model) {
 		AddressVO detail = service.getMapBoardDetail(adrNo);
-		//detail이 true면 include가 바뀜
+		// detail이 true면 include가 바뀜
 		detail.setDetail(true);
 		model.addAttribute("mapBoardDetail", detail);
-		
+
+		return "include/mapboard";
+	}
+
+	// 상세보기
+	@GetMapping("/mapBoardDetail2")
+	public String getMapBoardDetail2(int adrNo, Model model) {
+		AddressVO detail = service.getMapBoardDetail(adrNo);
+		// detail이 true면 include가 바뀜
+		detail.setDetail(true);
+		model.addAttribute("mapBoardDetail", detail);
+
 		return "include/mapboard";
 	}
 }
