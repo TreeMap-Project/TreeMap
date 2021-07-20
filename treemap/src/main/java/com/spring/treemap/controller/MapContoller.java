@@ -76,4 +76,26 @@ public class MapContoller {
 
 		return "include/mapboard";
 	}
+
+	// 상세보기
+	@GetMapping("/mapBoardDetail3")
+	public String getMapBoardDetail3(int adrNo, Model model) {
+		AddressVO detail = service.getMapBoardDetail(adrNo);
+		// detail이 true면 include가 바뀜
+		detail.setDetail(true);
+		model.addAttribute("mapBoardDetail", detail);
+
+		return "include/mapboard";
+	}
+
+	// 상세보기
+	@GetMapping("/mapBoardDetail4")
+	public String getMapBoardDetail4(int adrNo, Model model) {
+		AddressVO detail = service.getMapBoardDetail(adrNo);
+		// detail이 true면 include가 바뀜
+		detail.setDetail(true);
+		model.addAttribute("mapBoardDetail", detail);
+
+		return "include/mapboard";
+	}
 }
