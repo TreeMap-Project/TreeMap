@@ -7,13 +7,17 @@
 	<select id ="getMapBoardList" resultType="com.spring.treemap.domain.AddressVO">
 		select adrNo,userNo,catNo,adrName,lat,lng,rowaddress,address from board.Address where userNo=1
 	</select>
+	
 	<insert id="insertAddress" parameterType="com.spring.treemap.domain.AddressVO">
 		insert into 
 		board.Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo) 
 		values(1,1,#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
 	</insert>
 	
-	<insert id ="insertCategory" parameterType="com.spring.treemap.domain.AddressVO">
-		insert into board.category(userNo,IconUrl, catName) values(1,'IconUrl',#{category})
+	<insert id ="insertCategory" parameterType="com.spring.treemap.domain.CategoryVO">
+		insert into board.category(userNo,IconUrl, catName) values(1,'IconUrl',#{catName})
 	</insert>
+	<select id="getMapBoardDetail" resultType="com.spring.treemap.domain.AddressVO">
+		select *from board.address where adrNo = #{adrNo}
+	</select>
 </mapper>

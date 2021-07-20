@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.treemap.dao.MapDAO;
 import com.spring.treemap.domain.AddressVO;
+import com.spring.treemap.domain.CategoryVO;
 import com.spring.treemap.domain.MemberVO;
 
 @Service
@@ -36,9 +37,9 @@ public class MapServiceImpl implements MapService{
 	
 
 	@Override
-	public AddressVO getMapBoardDetail(int addressNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public AddressVO getMapBoardDetail(int adrNo) {
+		
+		return dao.getMapBoardDetail(adrNo);
 	}
 
 	@Override
@@ -61,12 +62,11 @@ public class MapServiceImpl implements MapService{
 
 	@Override
 	public List<AddressVO> getMapBoardCategoryList(int userNo, String catName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void insertCategory(AddressVO vo) {
+	public void insertCategory(CategoryVO vo) {
 		dao.insertCategory(vo);
 	}
 

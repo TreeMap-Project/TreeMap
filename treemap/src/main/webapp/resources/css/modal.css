@@ -1,0 +1,84 @@
+@charset "UTF-8";
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: absolute; /* Stay in place */
+	z-index: 9999; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto; /* 15% from the top and centered */
+	padding: 10px;
+	border: 1px solid #888;
+	border-radius: 10px;
+	width: 30%; /* Could be more or less, depending on screen size */
+	min-width: 400px;
+	min-height: 200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.fBtn {
+	width: 120px;
+	margin: 5px;
+	border: none;
+	cursor: pointer;
+	background-color: #DDDDDD;
+	text-align: center;
+	cursor: pointer;
+	padding: 3px;
+	background-color: darkslategray;
+	color: white;
+}
+
+.modalInput {
+	width: 200px;
+	height: 20px;
+	border: 0.5px solid gray;
+	padding: 3px;
+}
+.modalInput:focus {
+	border: solid 1px lightblue;
+}
+
+.modalLabel {
+	font-size:13px;
+	margin-right: 5px;
+	color: darkslategray;
+}
+
+.modalBox {
+	width: 300px;
+	display: flex;
+	justify-content: space-between;
+	margin: 5px;
+}
+
+.modalTitle {
+	margin-bottom: 20px;
+}
+.modalmemo{
+	width: 200px;
+	height: 100px;
+	resize:none;
+	padding: 3px;
+}
+.makerSelect{
+	width: 200px;
+	height: 20px;
+}
+.makerSelect option{
+	width: 200px;
+	height: 80px;
+}

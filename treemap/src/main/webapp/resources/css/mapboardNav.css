@@ -62,6 +62,80 @@
 	outline:none;
 	box-shadow: 5px 5px 5px gray;
 }
+.boardDetailwapper{
+	padding: 40px 60px;	
+	background-color: white;
+	color:rgb(50, 70, 73);
+	min-width: 300px;
+}
+.boardDetail{
+	background-color: white;
+	width: 100%;
+	height: 350px;
+	display: flex;
+	flex-direction: column;
+	border:1px solid #dadce0;
+	border-radius: 8px;
+}
+
+.detailTitle{
+	width: 100%;
+	display:flex;
+	height: 60px;
+	align-items:center;
+	border-bottom: 1px solid #dadce0;
+}
+
+.detailaddress{
+	width: 100%;
+	height: 70px;
+	display:flex;
+	flex-direction:row;
+	border-bottom: 1px solid #dadce0;
+}
+.date{
+	width: 100%;
+	height: 40px;
+	display:flex;
+	border-bottom: 1px solid #dadce0;
+}
+.memoBox{
+	width: 100%;
+	height: 110px;
+	display:flex;
+	border-bottom: 1px solid #dadce0;
+}
+.memo{
+	width:200px;
+	height:80px;
+	resize:none;
+	margin-top:10px;
+}
+
+.detailLabel{
+	margin-top:10px;
+	margin-left:10px;
+	width: 70px;
+	font-size: 13px;
+	font-weight: bold;
+}
+.MapChange{
+	width:100%;
+	height:60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.MapChange button{
+	border:none;
+	background-color:rgb(35,140,250);
+	width: 100px;
+	color:white;
+	margin:10px;
+	cursor: pointer;
+}
+
 .boardList{
 	width: 100%;
 	height: 70px;
@@ -71,6 +145,7 @@
 	justify-content: center;
 	border-bottom: 1px solid gray; 
 }
+
 .addressname{
 	margin-left:20%;
 	margin-bottom: 3px;

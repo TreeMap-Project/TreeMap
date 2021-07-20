@@ -7,90 +7,17 @@
 <head>
 
 <meta charset="utf-8">
-<title>좌표로 주소를 얻어내기</title>
-<style>
-/* The Modal (background) */
-.modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
+<title>트리맵</title>
 
-/* Modal Content/Box */
-.modal-content {
-	background-color: #fefefe;
-	margin: 15% auto; /* 15% from the top and centered */
-	padding: 10px;
-	border: 1px solid #888;
-	border-radius: 10px;
-	width: 30%; /* Could be more or less, depending on screen size */
-	min-width: 400px;
-	min-height: 200px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-.fBtn {
-	width: 120px;
-	margin: 5px;
-	border: none;
-	cursor: pointer;
-	background-color: #DDDDDD;
-	text-align: center;
-	cursor: pointer;
-	padding: 3px;
-	background-color: darkslategray;
-	color: white;
-}
-
-.modalInput {
-	width: 200px;
-	height: 20px;
-	border: 0.5px solid gray;
-	padding: 3px;
-}
-.modalInput:focus {
-	border: solid 1px lightblue;
-}
-
-.modalLabel {
-	margin-right: 5px;
-	color: darkslategray;
-}
-
-.modalBox {
-	width: 300px;
-	display: flex;
-	justify-content: space-between;
-	margin: 5px;
-}
-
-.modalTitle {
-	margin-bottom: 20px;
-}
-.modalmemo{
-	width: 200px;
-	height: 100px;
-	resize:none;
-	padding: 3px;
-}
-
-</style>
 <link href="../../../../resources/css/map.css" rel="stylesheet" type="text/css">
 <link href="../../../../resources/css/searchKeyword.css" rel="stylesheet" type="text/css">
+<link href="../../../../resources/css/modal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<%@ include file="../include/mapNav.jsp"%>
-	<%@ include file="../include/mapboard.jsp"%>
+	<div id="include">
+		<%@ include file="../include/mapboard.jsp"%>
+	</div>
 	<div class="mapboardWrap">
 		<div class="map_wrap">
 			<div id="map"
@@ -100,23 +27,26 @@
 			</div>
 		</div>
 	</div>
+	
 	<div id="myModal" class="modal">
-
 		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modalTitle">
 				<h3 style="color: darkslategray">즐겨찾기 등록</h3>
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">카테고리</label><input class="modalInput"
-					id="category" type="text" placeholder="예) 맛집, 쇼핑" />
+				<label class="modalLabel">카테고리</label>
+				<input class="modalInput" id="category" type="text" placeholder="예) 맛집, 쇼핑" />
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">별칭</label><input class="modalInput"
-					id="addressname" type="text" />
+				<label class="modalLabel">별칭</label><input class="modalInput" id="addressname" type="text" value="${mapBoardDetail.adrName}"/>
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">메모</label><textarea class="modalmemo" id="memo"> </textarea>
+				<label class="modalLabel">메모</label><textarea class="modalmemo" id="memo">${mapBoardDetail.memo}</textarea>
+			</div>
+			<div class="modalBox">
+				<label class="modalLabel">마커 선택하기</label> 
+				<select class="makerSelect"><option><img src="../../../../resources/imgs/bank.png" /></option> </select>
 			</div>
 			<p>
 				<br />
@@ -133,6 +63,7 @@
 						<span class="pop_bt" style="font-size: 10pt;"> 취소 </span>
 					</button>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -166,9 +97,8 @@
 		//지번주소
 		let address;
 		let markerChk= false;
-		function addrmarker(lat, lng, rowaddress, address, adrName) {
-			if(markerChk===false){
-			markerChk==true;
+		function addrmarker(lat, lng, rowaddress, address, adrName,adrNo) {
+			console.log(adrNo);
 			// 마커가 표시될 위치입니다 
 			var markerPosition = new kakao.maps.LatLng(lat, lng);
 			
@@ -234,6 +164,15 @@
 			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
 			overlay.setMap(map);
 			
+			$.ajax({
+				type:'GET',
+				url:"/treeMap/mapBoardDetail",
+				data: {'adrNo':adrNo},
+				success : function(res) {
+					console.log(res);
+					$('#include').html(res);
+				}
+			});
 			/*
 			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
 			function closeOverlay() {
@@ -243,9 +182,7 @@
 
 			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
 			//infowindow.open(map, marker);
-			}else{
-				
-			}
+			
 		}
 
 		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
@@ -303,12 +240,11 @@
 
 		function openModal() {
 			document.querySelector('#myModal').style = "display:block";
-			//$('#myModal').show();
 		}
 
 		function setFavorites() {
 			let addressname = document.querySelector("#addressname");
-			let category = document.querySelector("#category");
+			let catName = document.querySelector("#category");
 			let memo = document.querySelector("#memo");
 			
 			let params = {
@@ -317,24 +253,42 @@
 				"rowaddress" : rowaddress,
 				"address" : address,
 				"adrName" : addressname.value,
-				"category" : category.value,
+				"catName" : catName.value,
 				"memo" : memo.value
 			};
 
 			$.ajax({
 				type : "POST",
 				url : "/treeMap/favorites",
+				//dataType : 'json', 받아올 데이터 타입
 				data : params,
-				dataType : 'json',
 				success : function(res) {
-					console.log("성공")
+					reloadMapList();
+				},
+				error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
+				});
+			
+			$('#myModal').hide();
+		}
+		
+		function reloadMapList() {
+			$.ajax({
+				type : "GET",
+				url : "/treeMap/reloadBoard",
+				dataType: 'html',
+				success : function(res) {
+					console.log(res);
+					$('#include').html(res);
 				}
 			});
-			$('#myModal').hide();
 		}
 
 		function closeModal() {
 			document.querySelector('#myModal').style = "display:none";
+			document.querySelector('#modifyModal').style = "display:none";
+			
 		}
 		function searchAddrFromCoords(coords, callback) {
 			// 좌표로 행정동 주소 정보를 요청합니다

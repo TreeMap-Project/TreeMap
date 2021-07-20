@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.treemap.domain.AddressVO;
+import com.spring.treemap.domain.CategoryVO;
 
 @Repository
 public class MapDAOImpl implements MapDAO {
@@ -25,7 +26,7 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public void insertCategory(AddressVO vo) {
+	public void insertCategory(CategoryVO vo) {
 		sql.insert(namespace+".insertCategory",vo);
 	}
 
@@ -33,5 +34,11 @@ public class MapDAOImpl implements MapDAO {
 	@Override
 	public void insertAddress(AddressVO vo) {
 		sql.insert(namespace+".insertAddress",vo);
+	}
+
+
+	@Override
+	public AddressVO getMapBoardDetail(int adrNo) {
+		return sql.selectOne(namespace+".getMapBoardDetail",adrNo);
 	}
 }
