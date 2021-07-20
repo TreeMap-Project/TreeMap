@@ -65,37 +65,25 @@ public class MapContoller {
 
 		return "include/mapboard";
 	}
-
-	// 상세보기
-	@GetMapping("/mapBoardDetail2")
-	public String getMapBoardDetail2(int adrNo, Model model) {
-		AddressVO detail = service.getMapBoardDetail(adrNo);
-		// detail이 true면 include가 바뀜
-		detail.setDetail(true);
-		model.addAttribute("mapBoardDetail", detail);
-
-		return "include/mapboard";
-	}
-
-	// 상세보기
-	@GetMapping("/mapBoardDetail3")
-	public String getMapBoardDetail3(int adrNo, Model model) {
-		AddressVO detail = service.getMapBoardDetail(adrNo);
-		// detail이 true면 include가 바뀜
-		detail.setDetail(true);
-		model.addAttribute("mapBoardDetail", detail);
-
-		return "include/mapboard";
-	}
-
-	// 상세보기
-	@GetMapping("/mapBoardDetail4")
-	public String getMapBoardDetail4(int adrNo, Model model) {
-		AddressVO detail = service.getMapBoardDetail(adrNo);
-		// detail이 true면 include가 바뀜
-		detail.setDetail(true);
-		model.addAttribute("mapBoardDetail", detail);
-
-		return "include/mapboard";
-	}
+	// 즐겨찾기 등록
+		@ResponseBody
+		@PostMapping("/favorites2")
+		public void insertMa2p(AddressVO address, CategoryVO category) {
+			service.insertCategory(category);
+			service.insertAddress(address);
+		}
+		// 즐겨찾기 등록
+		@ResponseBody
+		@PostMapping("/favorites3")
+		public void insertMap3(AddressVO address, CategoryVO category) {
+			service.insertCategory(category);
+			service.insertAddress(address);
+		}
+		// 즐겨찾기 등록
+		@ResponseBody
+		@PostMapping("/favorites34")
+		public void insertMap43(AddressVO address, CategoryVO category) {
+			service.insertCategory(category);
+			service.insertAddress(address);
+		}
 }
