@@ -28,7 +28,25 @@
 	align-items: center;
 	justify-content: center;
 }
-
+.markerBtnDiv{
+	width: 200px;
+	padding: 4px;
+	display:flex;
+	flex-direction: column;
+	
+}
+.markerBtnDiv2{
+	display:flex;
+	justify-content: space-between;
+	margin-bottom: 5px;
+}
+.markerBtn{
+	background-color: white;
+	border: none;
+	cursor: pointer;
+	background-color: rgb(230,230,230);
+	border-radius: 8px;
+}
 .fBtn {
 	width: 120px;
 	margin: 5px;

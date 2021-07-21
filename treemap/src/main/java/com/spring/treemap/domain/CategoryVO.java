@@ -6,7 +6,7 @@ import lombok.Data;
 public class CategoryVO {
 	private int userNo;
 	private int catNo;
-	private String IconUrl;
+	private String iconUrl;
 	private String catName;
 	private String createdAt;
 }

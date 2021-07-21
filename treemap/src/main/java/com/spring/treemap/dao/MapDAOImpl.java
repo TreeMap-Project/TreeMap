@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.treemap.domain.AddressVO;
 import com.spring.treemap.domain.CategoryVO;
+import com.spring.treemap.domain.MapVO;
 
 @Repository
 public class MapDAOImpl implements MapDAO {
@@ -20,13 +21,14 @@ public class MapDAOImpl implements MapDAO {
 
 	
 	@Override
-	public List<AddressVO> getMapBoardList(int userNo) {
+	public List<MapVO> getMapBoardList(int userNo) {
 		return sql.selectList(namespace+".getMapBoardList",userNo);
 	}
 
 
 	@Override
 	public void insertCategory(CategoryVO vo) {
+		System.out.println(vo);
 		sql.insert(namespace+".insertCategory",vo);
 	}
 
@@ -38,7 +40,19 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public AddressVO getMapBoardDetail(int adrNo) {
+	public MapVO getMapBoardDetail(int adrNo,int catNo) {
 		return sql.selectOne(namespace+".getMapBoardDetail",adrNo);
+	}
+
+
+	@Override
+	public void updateAddress(AddressVO address) {
+		sql.update(namespace+".updateAddress",address);
+	}
+
+
+	@Override
+	public void updateCategory(CategoryVO category) {
+		sql.update(namespace+".updateCategory",category);
 	}
 }

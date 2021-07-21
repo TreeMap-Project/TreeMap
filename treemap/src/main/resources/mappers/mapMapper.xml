@@ -4,20 +4,66 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.treemap">
 
-	<select id ="getMapBoardList" resultType="com.spring.treemap.domain.AddressVO">
-		select adrNo,userNo,catNo,adrName,lat,lng,rowaddress,address from board.Address where userNo=1
+	<resultMap type="com.spring.treemap.domain.AddressVO" id="AddressVO">
+		<id property="adrNo" column="adrNo" />
+		<id property="userNo" column="userNo" />
+		<id property="catNo" column="catNo" />
+		<id property="adrName" column="adrName" />
+		<id property="lat" column="lat" />
+		<id property="lng" column="lng" />
+		<id property="rowaddress" column="rowaddress" />
+		<id property="address" column="address" />
+		<id property="memo" column="memo" />
+		<id property="createdAt" column="createdAt" />
+	</resultMap>
+
+	<resultMap type="com.spring.treemap.domain.CategoryVO" id="CategoryVO">
+		<id property="userNo" column="userNo" />
+		<id property="catNo" column="catNo" />
+		<id property="iconUrl" column="iconUrl" />
+		<id property="catName" column="catName" />
+		<id property="createdAt" column="createdAt" />
+	</resultMap>
+
+	<resultMap type="com.spring.treemap.domain.MapVO" id="MapVO">
+		<collection property="address" resultMap="AddressVO" />
+		<collection property="category" resultMap="CategoryVO" />
+	</resultMap>
+
+	<select id="getMapBoardList" resultMap="MapVO">
+		select
+		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
+		board.Address a, board.Category b 
+        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1
+        order by a.adrNo
 	</select>
-	
-	<insert id="insertAddress" parameterType="com.spring.treemap.domain.AddressVO">
-		insert into 
-		board.Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo) 
+
+	<insert id="insertAddress"
+		parameterType="com.spring.treemap.domain.AddressVO">
+		insert into
+		board.Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo)
 		values(1,1,#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
 	</insert>
-	
-	<insert id ="insertCategory" parameterType="com.spring.treemap.domain.CategoryVO">
-		insert into board.category(userNo,IconUrl, catName) values(1,'IconUrl',#{catName})
+
+	<insert id="insertCategory"
+		parameterType="com.spring.treemap.domain.CategoryVO">
+		insert into board.category(userNo,iconUrl, catName)
+		values(1,#{iconUrl},#{catName})
 	</insert>
-	<select id="getMapBoardDetail" resultType="com.spring.treemap.domain.AddressVO">
-		select *from board.address where adrNo = #{adrNo}
+	
+	<select id="getMapBoardDetail" resultMap="MapVO">
+		select
+		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.createdAt,c.catName,c.catNo
+		from board.category c, board.address a
+		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>
+	
+	<update id="updateAddress" parameterType="com.spring.treemap.domain.AddressVO">
+	 	UPDATE board.address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
+	</update>
+	
+	<update id="updateCategory" parameterType="com.spring.treemap.domain.CategoryVO">
+	 	 UPDATE board.category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
+	</update>
+
 </mapper>

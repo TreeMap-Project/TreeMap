@@ -15,4 +15,5 @@ public class AddressVO extends MemberVO{
 	private String memo;		//메모
 	private String createdAt;	//생성일
 	private boolean detail;
+	
 }

@@ -45,8 +45,19 @@
 				<label class="modalLabel">메모</label><textarea class="modalmemo" id="memo">${mapBoardDetail.memo}</textarea>
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">마커 선택하기</label> 
-				<select class="makerSelect"><option><img src="../../../../resources/imgs/bank.png" /></option> </select>
+				<label class="modalLabel">마커 선택</label> 
+				<div class="markerBtnDiv">
+					<div class="markerBtnDiv2">
+						<button class="markerBtn" id="food" onclick="markerSelect('food','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
+						<button class="markerBtn" id="bank" onclick="markerSelect('bank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
+						<button class="markerBtn" id="hospital" onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
+					</div>
+					<div class="markerBtnDiv2">
+						<button class="markerBtn" id="mart" onclick="markerSelect('mart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
+						<button class="markerBtn" id="shopping" onclick="markerSelect('shopping','../../../../resources/imgs/shopping.png')"> <img style="width: 50px; "src="../../../../resources/imgs/shopping.png"> </button>
+						<button class="markerBtn" id="home"onclick="markerSelect('home','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
+					</div>
+				</div>
 			</div>
 			<p>
 				<br />
@@ -96,15 +107,86 @@
 		let rowaddress;
 		//지번주소
 		let address;
-		let markerChk= false;
-		function addrmarker(lat, lng, rowaddress, address, adrName,adrNo) {
-			console.log(adrNo);
+		
+		let iconUrl;
+		let check = true;
+		let icon = [];
+		
+		//수정 모달 오픈
+		function modifyModel(){
+			document.querySelector('#modifyModal').style = "display:block";
+		}
+		
+		//수정
+		function modifyFavorites(adrNo,catNo){
+			
+			let addressname= document.querySelector('#Maddressname');
+			let memo= document.querySelector('#Mmemo');
+			let category =  document.querySelector('#Mcategory');
+			
+			$.ajax({
+				type : "POST",
+				url : "/treeMap/modifyMapBoard",
+				//dataType : 'json', 받아올 데이터 타입
+				data : {
+					'adrNo' : adrNo,
+					'catNo' : catNo,
+					'catName':category.value,
+					'adrName':addressname.value,
+					'memo' : memo.value,
+					'iconUrl': iconUrl
+				},
+				success : function(res) {
+					reloadMapList();
+					iconUrl='';
+				},
+				error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
+				});
+		}
+		
+		//마커 선택
+		function markerSelect(icons,url){
+			
+			let marker = document.querySelector('#'+icons);
+			
+			//중복제거
+			for(let i=0;i<icon.length;i++){
+				if(icon[i]===icons){
+					icon.splice(i,1);
+				}
+			}
+			//배열에 더함
+			icon.push(icons);
+			
+			if(icon.length>1){
+				icon.pop();
+				alert("한가지만 선택해주세요!");
+			}
+			
+			if(icon[0]===icons){
+				if(check){
+					marker.style.background="rgb(200,200,200)";
+					check=false;
+					iconUrl = url;
+				}else{
+					marker.style.background="rgb(230,230,230)";
+					check=true;
+					icon.pop();
+					iconUrl = '';
+				}
+			}
+		}
+		
+		function addrmarker(lat, lng, rowaddress, address, adrName, adrNo,catNo,iconUrl) {
+			
 			// 마커가 표시될 위치입니다 
 			var markerPosition = new kakao.maps.LatLng(lat, lng);
 			
-			var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
-		    imageSize = new kakao.maps.Size(40, 44), // 마커이미지의 크기입니다
-		    imageOption = {offset: new kakao.maps.Point(18, 43)}; // 마커이미지의 옵션입니다.	 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			var imageSrc = iconUrl, // 마커이미지의 주소입니다    
+		    imageSize = new kakao.maps.Size(40, 50), // 마커이미지의 크기입니다
+		    imageOption = {offset: new kakao.maps.Point(20, 43)}; // 마커이미지의 옵션입니다.	 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
 		    
 			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
@@ -167,9 +249,11 @@
 			$.ajax({
 				type:'GET',
 				url:"/treeMap/mapBoardDetail",
-				data: {'adrNo':adrNo},
+				data: {
+					'adrNo':adrNo,
+					'catNo' : catNo
+					},
 				success : function(res) {
-					console.log(res);
 					$('#include').html(res);
 				}
 			});
@@ -241,7 +325,7 @@
 		function openModal() {
 			document.querySelector('#myModal').style = "display:block";
 		}
-
+		//즐겨찾기
 		function setFavorites() {
 			let addressname = document.querySelector("#addressname");
 			let catName = document.querySelector("#category");
@@ -254,7 +338,8 @@
 				"address" : address,
 				"adrName" : addressname.value,
 				"catName" : catName.value,
-				"memo" : memo.value
+				"memo" : memo.value,
+				"iconUrl" : iconUrl
 			};
 
 			$.ajax({
@@ -264,6 +349,7 @@
 				data : params,
 				success : function(res) {
 					reloadMapList();
+					iconUrl='';
 				},
 				error:function(request,status,error){
 			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -279,7 +365,6 @@
 				url : "/treeMap/reloadBoard",
 				dataType: 'html',
 				success : function(res) {
-					console.log(res);
 					$('#include').html(res);
 				}
 			});
@@ -454,7 +539,7 @@
 
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {
-			var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+			var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 , 스프라이트 이미지를 씁니다
 			imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
 			imgOptions = {
 				spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
