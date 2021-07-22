@@ -55,4 +55,28 @@ public class MapDAOImpl implements MapDAO {
 	public void updateCategory(CategoryVO category) {
 		sql.update(namespace+".updateCategory",category);
 	}
+
+
+	@Override
+	public void deleteAddress(int adrNo) {
+		sql.delete(namespace+".deleteAddress",adrNo);
+	}
+
+
+	@Override
+	public void deleteCategory(int catNo) {
+		sql.delete(namespace+".deleteCategory",catNo);
+	}
+
+
+	@Override
+	public List<CategoryVO> getMapBoardCateNameList(int userNo) {
+		return sql.selectList(namespace+".getMapBoardCategoryList",userNo);
+	}
+
+
+	@Override
+	public List<MapVO> getCatNameList(String catName) {
+		return sql.selectList(namespace+".getCatNameList",catName);
+	}
 }

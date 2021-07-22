@@ -7,7 +7,7 @@
 <div class="navbar">
 	<div class="logoBox">
 		<img class="logo" src="../../../../resources/imgs/treeLogo.png">
-	</div>
+	</div>	
 	<div class="mapSearchBox">
 		<form onsubmit="searchPlaces(); return false;">
 		<!-- 

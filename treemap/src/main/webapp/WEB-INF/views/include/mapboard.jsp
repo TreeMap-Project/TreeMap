@@ -8,10 +8,13 @@
 <body>
 	<div id="boardNav" class="boardNav">
 		<div class="category">
+		<div onclick="reloadMapList();" style="margin-left:30px; width: 70px;height: 100%;cursor:pointer; display:flex;justify-content: center; align-items: center;">
+			<span style="font-size:13px; color:white;">전체보기</span>
+		</div>
 			<ul>
-				<li>맛집</li>
-				<li>쇼핑</li>
-				<li>카테고리</li>
+				<c:forEach items="${catName}" var="list" varStatus="status">
+					<li class="catName" onclick="catNameList('${list.catName}')">${list.catName}</li>
+				</c:forEach>
 			</ul>
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
@@ -44,9 +47,12 @@
 								<textarea class="memo" disabled>${address.memo} </textarea>
 							</div>
 							<div class="MapChange">
-								<button type="button" onclick="modifyModel()">수정</button>
-								<button type="button" onclick="deleteMapboard()">삭제</button>
+								<button type="button" class="modifyBtn" onclick="modifyModel()">수정</button>
+								<button type="button" class="modifyBtn" onclick="deleteMapboard(${address.adrNo},${category.catNo})">삭제</button>
 							</div>
+						</div>
+						<div style="margin-top:20px;">
+							<button type="button" class="modifyBtn" onclick="reloadMapList()">돌아가기</button>
 						</div>
 					</div>
 				</c:when>
@@ -85,14 +91,14 @@
 				<label class="modalLabel">마커 선택</label> 
 				<div class="markerBtnDiv">
 					<div class="markerBtnDiv2">
-						<button class="markerBtn" id="food" onclick="markerSelect('food','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
-						<button class="markerBtn" id="bank" onclick="markerSelect('bank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
-						<button class="markerBtn" id="hospital" onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
+						<button class="markerBtn" id="Mfood" onclick="markerSelect('Mfood','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
+						<button class="markerBtn" id="Mbank" onclick="markerSelect('Mbank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
+						<button class="markerBtn" id="Mhospital" onclick="markerSelect('Mhospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
 					</div>
 					<div class="markerBtnDiv2">
-						<button class="markerBtn" id="mart" onclick="markerSelect('mart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
-						<button class="markerBtn" id="shopping" onclick="markerSelect('shopping','../../../../resources/imgs/shopping.png')"> <img style="width: 50px; "src="../../../../resources/imgs/shopping.png"> </button>
-						<button class="markerBtn" id="home"onclick="markerSelect('home','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
+						<button class="markerBtn" id="Mmart" onclick="markerSelect('Mmart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
+						<button class="markerBtn" id="Mshopping" onclick="markerSelect('Mshopping','../../../../resources/imgs/shopping.png')"> <img style="width: 50px; "src="../../../../resources/imgs/shopping.png"> </button>
+						<button class="markerBtn" id="Mhome"onclick="markerSelect('Mhome','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
 					</div>
 				</div>
 			</div>
@@ -117,10 +123,20 @@
 	</div>
 </body>
 <script type="text/javascript">
-	
-	function deleteMapboard(){
-		
+	function catNameList(catName){
+		console.log(catName);
+		$.ajax({
+			type:"GET",
+			url:'/treeMap/catNameList',
+			data:{'catName':catName},
+			success : function(res) {
+				$('#include').html(res);
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:"
+						+ request.responseText + "\n" + "error:" + error);
+			}
+		});
 	}
-	
 </script>
 </html>

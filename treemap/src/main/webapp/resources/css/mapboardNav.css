@@ -17,14 +17,17 @@
 .boardNav ul {
 	width: 100%;
 	margin-right: auto;
-	margin-left: auto;
+	margin-left: 0px;
+	padding: 2px;
 	text-align: center;
 }
 
-.boardNav li {
+.catName {
 	margin-left: 15px;
 	display:inline-block;
 	color:white;
+	font-size :13px;
+	cursor: pointer;
 }
 
 .category {
@@ -63,10 +66,13 @@
 	box-shadow: 5px 5px 5px gray;
 }
 .boardDetailwapper{
-	padding: 40px 60px;	
+	padding: 40px 60px;
 	background-color: white;
 	color:rgb(50, 70, 73);
 	min-width: 300px;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
 }
 .boardDetail{
 	background-color: white;
@@ -127,12 +133,13 @@
 	justify-content: center;
 }
 
-.MapChange button{
+.modifyBtn{
 	border:none;
 	background-color:rgb(35,140,250);
 	width: 100px;
 	color:white;
 	margin:10px;
+	padding:5px;
 	cursor: pointer;
 }
 

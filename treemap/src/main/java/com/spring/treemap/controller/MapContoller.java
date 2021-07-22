@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,21 +34,20 @@ public class MapContoller {
 	public String openMap(Model model) {
 		System.out.println("접근");
 		int userNo = 1;
-		List<MapVO> vo = service.getMapBoardList(userNo);
-		for(MapVO list: vo) {
-			System.out.println(list);
-		}
+		//List<MapVO> vo = service.getMapBoardList(userNo);
+		model.addAttribute("mapBoardList", service.getMapBoardList(userNo));
+		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
 		
-		model.addAttribute("mapBoardList", vo);
 		return "treeMap/map";
 	}
 
-	// 즐겨찾기 등록시 include 다시 받음
+	// 이벤트 발생시 다시 받음
 	@GetMapping("/reloadBoard")
 	public String getMapBoard(Model model) {
 		int userNo = 1;
-		List<MapVO> vo = service.getMapBoardList(userNo);
-		model.addAttribute("mapBoardList", vo);
+		//List<MapVO> vo = service.getMapBoardList(userNo);
+		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
+		model.addAttribute("mapBoardList", service.getMapBoardList(userNo));
 		return "include/mapboard";
 	}
 
@@ -77,12 +77,32 @@ public class MapContoller {
 		return "include/mapboard";
 	}
 	
+	//수정
 	@ResponseBody
 	@PostMapping("/modifyMapBoard")
 	public String modifyMapBoard(AddressVO address, CategoryVO category) {
 		service.updateCategory(category);
 		service.updateAddress(address);
 		
+		return "include/mapboard";
+	}
+	
+	//삭제
+	@PostMapping("/deleteMapBoard")
+	public String deleteMapBoard(int adrNo, int catNo) {
+		service.deleteAddress(adrNo);
+		service.deleteCateGory(catNo);
+		
+		return "include/mapboard";
+	}
+	
+	@GetMapping("/catNameList")
+	public String catNameList(String catName,Model model) {
+		System.out.println(catName);
+		int userNo=1;
+		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
+		//userNo도 받아야함
+		model.addAttribute("mapBoardList", service.getCatNameList(catName));
 		return "include/mapboard";
 	}
 	

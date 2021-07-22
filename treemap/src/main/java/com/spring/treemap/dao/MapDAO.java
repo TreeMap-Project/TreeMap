@@ -19,5 +19,13 @@ public interface MapDAO {
 	void updateAddress(AddressVO address);
 
 	void updateCategory(CategoryVO category);
+
+	void deleteAddress(int adrNo);
+
+	void deleteCategory(int catNo);
+
+	List<CategoryVO> getMapBoardCateNameList(int userNo);
+
+	List<MapVO> getCatNameList(String catName);
 	
 }

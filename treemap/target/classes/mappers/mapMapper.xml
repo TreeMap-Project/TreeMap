@@ -42,7 +42,7 @@
 		parameterType="com.spring.treemap.domain.AddressVO">
 		insert into
 		board.Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo)
-		values(1,1,#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
+		values(1,(select max(catNo) from board.category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
 	</insert>
 
 	<insert id="insertCategory"
@@ -58,6 +58,17 @@
 		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>
 	
+	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="int">
+		select catName from board.category where userNo=#{userNo}
+	</select>
+	
+	<select id="getCatNameList" resultMap="MapVO" parameterType="String">
+		 select
+		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
+		board.Address a, board.Category b 
+        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1 and b.catName=#{catName}; 
+	</select>
+	
 	<update id="updateAddress" parameterType="com.spring.treemap.domain.AddressVO">
 	 	UPDATE board.address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
 	</update>
@@ -65,5 +76,13 @@
 	<update id="updateCategory" parameterType="com.spring.treemap.domain.CategoryVO">
 	 	 UPDATE board.category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
 	</update>
+	
+	<delete id="deleteAddress" parameterType="int">
+		DELETE from board.address where adrNo=#{adrNo}
+	</delete>
+	
+	<delete id="deleteCategory" parameterType="int">
+		DELETE from board.category where catNo=#{catNo}
+	</delete>
 
 </mapper>
