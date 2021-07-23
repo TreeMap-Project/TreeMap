@@ -52,47 +52,22 @@
 			<div class="modalBox">
 				<label class="modalLabel">마커 선택</label>
 				<div class="markerBtnDiv">
-					<div class="markerBtnDiv2">
-						<button class="markerBtn" id="food"
-							onclick="markerSelect('food','../../../../resources/imgs/food.png')">
-							<img style="width: 50px;"
-								src="../../../../resources/imgs/food.png">
-						</button>
-						<button class="markerBtn" id="bank"
-							onclick="markerSelect('bank','../../../../resources/imgs/bank.png')">
-							<img style="width: 50px;"
-								src="../../../../resources/imgs/bank.png">
-						</button>
-						<button class="markerBtn" id="hospital"
-							onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')">
-							<img style="width: 50px;"
-								src="../../../../resources/imgs/hospital.png">
-						</button>
-					</div>
-					<div class="markerBtnDiv2">
-						<button class="markerBtn" id="mart"
-							onclick="markerSelect('mart','../../../../resources/imgs/mart.png')">
-							<img style="width: 50px;"
-								src="../../../../resources/imgs/mart.png">
-						</button>
-						<button class="markerBtn" id="shopping"
-							onclick="markerSelect('shopping','../../../../resources/imgs/shopping.png')">
-							<img style="width: 50px;"
-								src="../../../../resources/imgs/shopping.png">
-						</button>
-						<button class="markerBtn" id="home"
-							onclick="markerSelect('home','../../../../resources/imgs/home.png')">
-							<img style="width: 50px;"
-								src="../../../../resources/imgs/home.png">
-						</button>
+						<div class="markerBtnDiv2">
+							<button class="markerBtn" id="default" onclick="markerSelect('default','../../../../resources/imgs/default.png')"> <img style="width: 50px; "src="../../../../resources/imgs/default.png"> </button>
+							<button class="markerBtn" id="food" onclick="markerSelect('food','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
+							<button class="markerBtn" id="bank" onclick="markerSelect('bank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
+						</div>
+						<div class="markerBtnDiv2">
+							<button class="markerBtn" id="mart" onclick="markerSelect('mart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
+							<button class="markerBtn" id="home"onclick="markerSelect('home','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
+							<button class="markerBtn" id="hospital" onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
+						</div>
 					</div>
 				</div>
-			</div>
 			<p>
 				<br />
 			</p>
-			<div
-				style="width: 100%; display: flex; align-items: center; justify-content: center;">
+			<div style="width: 100%; display: flex; align-items: center; justify-content: center;">
 				<div style="width: 40%">
 					<button class="fBtn" onClick="setFavorites();">
 						<span class="pop_bt" style="font-size: 10pt;"> 등록 </span>
@@ -138,7 +113,7 @@
 		//지번주소
 		let address;
 
-		let iconUrl;
+		let iconUrl = '../../../../resources/imgs/default.png';
 		let check = true;
 		let icon = [];
 
@@ -168,7 +143,7 @@
 				},
 				success : function(res) {
 					reloadMapList();
-					iconUrl = '';
+					iconUrl = '../../../../resources/imgs/default.png';
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
@@ -198,6 +173,7 @@
 					}
 				});
 			}
+			
 		}
 
 		//마커 선택
@@ -228,7 +204,7 @@
 					marker.style.background = "rgb(230,230,230)";
 					check = true;
 					icon.pop();
-					iconUrl = '';
+					iconUrl = '../../../../resources/imgs/default.png';
 				}
 			}
 			
@@ -261,44 +237,61 @@
 				data : params,
 				success : function(res) {
 					reloadMapList();
-					iconUrl = '';
+					iconUrl = '../../../../resources/imgs/default.png';
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
 							+ request.responseText + "\n" + "error:" + error);
 				}
 			});
-
+			marker.setMap(null);
+			infowindow.open(null,null);
+			
 			$('#myModal').hide();
 		}
 
 		function reloadMapList() {
-			$.ajax({
-				type : "GET",
-				url : "/treeMap/reloadBoard",
-				dataType : 'html',
-				success : function(res) {
-					$('#include').html(res);
-				}
-			});
+			let keyword = document.querySelector(".boardSearch");
+			console.log(keyword.value);
+			if(keyword.value===''){
+				$.ajax({
+					type : "GET",
+					url : "/treeMap/reloadBoard?num="+${number},
+					dataType : 'html',
+					success : function(res) {
+						$('#include').html(res);
+					}
+				});
+			}else{
+				$.ajax({
+					type : "GET",
+					url : "/treeMap/reloadBoard?num="+${number}+"&keyword="+keyword.value,
+					dataType : 'html',
+					success : function(res) {
+						$('#include').html(res);
+					}
+				});
+			}
+			marker.setMap(null);
+			infowindow.open(null,null);
 		}
 		
 		function closeModal() {
 			document.querySelector('#myModal').style = "display:none";
 			document.querySelector('#modifyModal').style = "display:none";
-			iconUrl = '';
+			iconUrl = '../../../../resources/imgs/default.png';
 			icon = [];
 			check = true;
 		}
-
-		function addrmarker(lat, lng, rowaddress, address, adrName, adrNo,
-				catNo, iconUrl) {
+		
+		//db에서 가져온 마커 표시
+		function addrmarker(lat, lng, rowaddress, address, adrName, adrNo,catNo, iconUrl) {
 
 			// 마커가 표시될 위치입니다 
 			var markerPosition = new kakao.maps.LatLng(lat, lng);
 
 			var imageSrc = iconUrl, // 마커이미지의 주소입니다    
-			imageSize = new kakao.maps.Size(40, 60), // 마커이미지의 크기입니다
+			imageSize = new kakao.maps.Size(40, 55), // 마커이미지의 크기입니다
 			imageOption = {
 				offset : new kakao.maps.Point(20, 43)
 			}; // 마커이미지의 옵션입니다.	 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
@@ -322,16 +315,7 @@
 			// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
 
-			/*
-			var iwContent = '<div style="padding:7px;"> <h4>'+adrName+'</h4> <div>'+rowaddress+'</div>'+address+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-			iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
 			
-			// 인포윈도우를 생성합니다
-			var infowindow = new kakao.maps.InfoWindow({
-			    position : iwPosition, 
-			    content : iwContent 
-			});
-			 */
 			let iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
 			// 커스텀 오버레이에 표시할 컨텐츠 입니다
 			// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
@@ -355,7 +339,8 @@
 
 			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
 			overlay.setMap(map);
-
+			
+			//상세보기
 			$.ajax({
 				type : 'GET',
 				url : "/treeMap/mapBoardDetail",
@@ -367,15 +352,7 @@
 					$('#include').html(res);
 				}
 			});
-			/*
-			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-			function closeOverlay() {
-				overlay.setMap(null);
-			}
-			 */
-
-			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-			//infowindow.open(map, marker);
+			
 		}
 
 		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
@@ -507,7 +484,6 @@
 		        map: map,
 		        position: new kakao.maps.LatLng(place.y, place.x) 
 		    });
-			console.log(place);
 			
 		    // 마커에 클릭이벤트를 등록합니다
 		    kakao.maps.event.addListener(marker, 'click', function() {
@@ -518,12 +494,8 @@
 						+ place.road_address_name
 						+ '</div>'
 						: '';
-				detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '
-						+ place.address_name
-						+ '</div>';
+				detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '+ place.address_name+ '</div>';
 						
-						//console.log(result[0].road_address.address_name);
-						//console.log(result[0].address.address_name);
 				
 				var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
 						+ '    <div class="info">'

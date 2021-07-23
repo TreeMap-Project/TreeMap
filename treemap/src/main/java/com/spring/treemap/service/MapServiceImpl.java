@@ -1,6 +1,7 @@
 package com.spring.treemap.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,6 @@ import com.spring.treemap.dao.MapDAO;
 import com.spring.treemap.domain.AddressVO;
 import com.spring.treemap.domain.CategoryVO;
 import com.spring.treemap.domain.MapVO;
-import com.spring.treemap.domain.MemberVO;
 
 @Service
 public class MapServiceImpl implements MapService {
@@ -26,9 +26,15 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<MapVO> getMapBoardList(int userNo) {
+	public List<MapVO> getMapBoardList(int userNo,int displayPost, int postNum,String keyword) {
+		
+			HashMap<String, Object> data = new HashMap<>();
+			data.put("userNo", userNo);
+			data.put("displayPost", displayPost);
+			data.put("postNum", postNum);
+			data.put("keyword", keyword);
 			
-		return dao.getMapBoardList(userNo);
+		return dao.getMapBoardList(data);
 	}
 
 	
@@ -77,6 +83,12 @@ public class MapServiceImpl implements MapService {
 	public List<MapVO> getCatNameList(String catName) {
 		
 		return dao.getCatNameList(catName);
+	}
+
+	@Override
+	public int getAddressCount(String keyword) {
+		
+		return dao.getAddressCount(keyword);
 	}
 
 }

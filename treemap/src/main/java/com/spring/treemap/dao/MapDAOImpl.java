@@ -1,5 +1,6 @@
 package com.spring.treemap.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,8 +22,9 @@ public class MapDAOImpl implements MapDAO {
 
 	
 	@Override
-	public List<MapVO> getMapBoardList(int userNo) {
-		return sql.selectList(namespace+".getMapBoardList",userNo);
+	public List<MapVO> getMapBoardList(HashMap<String, Object> data) {
+		
+		return sql.selectList(namespace+".getMapBoardList",data);
 	}
 
 
@@ -78,5 +80,11 @@ public class MapDAOImpl implements MapDAO {
 	@Override
 	public List<MapVO> getCatNameList(String catName) {
 		return sql.selectList(namespace+".getCatNameList",catName);
+	}
+
+
+	@Override
+	public int getAddressCount(String keyword) {
+		return sql.selectOne(namespace+".getAddressCount",keyword);
 	}
 }

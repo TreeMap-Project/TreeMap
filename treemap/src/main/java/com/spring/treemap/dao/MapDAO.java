@@ -1,5 +1,6 @@
 package com.spring.treemap.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.spring.treemap.domain.AddressVO;
@@ -8,8 +9,8 @@ import com.spring.treemap.domain.MapVO;
 
 public interface MapDAO {
 
-	List<MapVO> getMapBoardList(int userNo);
-
+	List<MapVO> getMapBoardList(HashMap<String, Object> data);
+	
 	void insertCategory(CategoryVO vo);
 
 	void insertAddress(AddressVO vo);
@@ -27,5 +28,7 @@ public interface MapDAO {
 	List<CategoryVO> getMapBoardCateNameList(int userNo);
 
 	List<MapVO> getCatNameList(String catName);
+
+	int getAddressCount(String keyword);
 	
 }

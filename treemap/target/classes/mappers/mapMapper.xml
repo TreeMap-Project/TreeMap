@@ -29,13 +29,25 @@
 		<collection property="address" resultMap="AddressVO" />
 		<collection property="category" resultMap="CategoryVO" />
 	</resultMap>
-
-	<select id="getMapBoardList" resultMap="MapVO">
+	
+	<select id="getAddressCount" resultType="int" parameterType="String">
+		select count(adrNo) from board.address
+		 <if test = '!keyword.equals("")'>
+        	and a.adrName like concat('%',#{keyword},'%')
+        </if>
+	</select>
+	
+	<select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
 		select
 		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
 		board.Address a, board.Category b 
-        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1
+        where a.userNo=b.userNo and a.catNo = b.catNo 
+        and a.userNo=1 and b.userNo=1
+        <if test = '!keyword.equals("")'>
+        	and a.adrName like concat('%',#{keyword},'%')
+        </if>
         order by a.adrNo
+        limit #{displayPost}, #{postNum}
 	</select>
 
 	<insert id="insertAddress"

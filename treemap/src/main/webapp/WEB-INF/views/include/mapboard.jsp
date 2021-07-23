@@ -19,7 +19,8 @@
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
-				<input class="boardSearch" placeholder="검색" />
+				<input class="boardSearch" placeholder="검색" value="${keyword}"/>
+				<button class="SearchBtn" onclick="reloadMapList()"><img class="searchImg" src="../../../../resources/imgs/search2.png"></button>
 			</div>
 			<c:choose>
 				<c:when test="${address.detail}">
@@ -64,8 +65,32 @@
 								<span>${list.address.adrName}</span>
 							</button>
 							<p class="address">${list.address.address}</p>
-						</div>
+						</div> 
 					</c:forEach>
+					<div>
+					 <c:if test="${page.prev}">
+						 <button onclick="reloadMapListKeyword(${page.startPageNum - 1},'${page.keyword}')">이전</button>
+					</c:if>
+						
+					<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+						 <span>
+						  
+						  <c:if test="${select != num}">
+						   <button onclick="reloadMapListKeyword(${num},'${page.keyword}')">${num}</button>
+						  </c:if>    
+						  
+						  <c:if test="${select == num}">
+						   <b>${num}</b>
+						  	<c:set var="number" value="${num}"> </c:set>
+						  </c:if>
+						    
+						 </span>
+						</c:forEach>
+						
+						<c:if test="${page.next}">
+						 <button onclick="reloadMapListKeyword(${page.endPageNum + 1},'${page.keyword}')">다음</button> 
+						</c:if>
+					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -91,14 +116,14 @@
 				<label class="modalLabel">마커 선택</label> 
 				<div class="markerBtnDiv">
 					<div class="markerBtnDiv2">
+						<button class="markerBtn" id="Mdefault" onclick="markerSelect('Mdefault','../../../../resources/imgs/default.png')"> <img style="width: 50px; "src="../../../../resources/imgs/default.png"> </button>
 						<button class="markerBtn" id="Mfood" onclick="markerSelect('Mfood','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
 						<button class="markerBtn" id="Mbank" onclick="markerSelect('Mbank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
-						<button class="markerBtn" id="Mhospital" onclick="markerSelect('Mhospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
 					</div>
 					<div class="markerBtnDiv2">
 						<button class="markerBtn" id="Mmart" onclick="markerSelect('Mmart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
-						<button class="markerBtn" id="Mshopping" onclick="markerSelect('Mshopping','../../../../resources/imgs/shopping.png')"> <img style="width: 50px; "src="../../../../resources/imgs/shopping.png"> </button>
 						<button class="markerBtn" id="Mhome"onclick="markerSelect('Mhome','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
+						<button class="markerBtn" id="Mhospital" onclick="markerSelect('Mhospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
 					</div>
 				</div>
 			</div>
@@ -138,5 +163,19 @@
 			}
 		});
 	}
+	
+	function reloadMapListKeyword(num,keyword) {
+		console.log(num,keyword);
+			$.ajax({
+				type : "GET",
+				url : "/treeMap/reloadBoard?num="+num+keyword,
+				dataType : 'html',
+				success : function(res) {
+					$('#include').html(res);
+				}
+			});
+		}
+		//marker.setMap(null);
+		//infowindow.open(null,null);
 </script>
 </html>
