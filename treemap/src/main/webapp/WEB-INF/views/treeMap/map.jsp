@@ -251,10 +251,9 @@
 		}
 
 		function reloadMapList() {
-			let keyword = document.querySelector(".boardSearch");
-			console.log(keyword.value);
-			if(keyword.value===''){
-				$.ajax({
+			let num = ""
+			console.log(${number});
+			$.ajax({
 					type : "GET",
 					url : "/treeMap/reloadBoard?num="+${number},
 					dataType : 'html',
@@ -262,16 +261,7 @@
 						$('#include').html(res);
 					}
 				});
-			}else{
-				$.ajax({
-					type : "GET",
-					url : "/treeMap/reloadBoard?num="+${number}+"&keyword="+keyword.value,
-					dataType : 'html',
-					success : function(res) {
-						$('#include').html(res);
-					}
-				});
-			}
+			
 			marker.setMap(null);
 			infowindow.open(null,null);
 		}
@@ -431,8 +421,6 @@
 			}
 		}
 
-		// 마커를 담을 배열입니다
-		var markers = [];
 
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
@@ -442,8 +430,6 @@
 			zIndex : 1
 		});
 
-		// 키워드로 장소를 검색합니다
-		//searchPlaces();
 
 		// 키워드 검색을 요청하는 함수입니다
 		function searchPlaces() {
@@ -454,7 +440,7 @@
 				alert('키워드를 입력해주세요!');
 				return false;
 			}
-
+			//displayMarker(null);
 			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 			ps.keywordSearch(keyword, placesSearchCB);
 		}
@@ -469,7 +455,7 @@
 		        for (var i=0; i<data.length; i++) {
 		            displayMarker(data[i]);    
 		            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-		        }       
+		        }
 
 		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 		        map.setBounds(bounds);
@@ -480,15 +466,16 @@
 		function displayMarker(place) {
 		    
 		    // 마커를 생성하고 지도에 표시합니다
+		   
 		    var marker = new kakao.maps.Marker({
 		        map: map,
 		        position: new kakao.maps.LatLng(place.y, place.x) 
 		    });
-			
+		    
+		    
 		    // 마커에 클릭이벤트를 등록합니다
 		    kakao.maps.event.addListener(marker, 'click', function() {
 		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-		        //let content = '<div style="padding:5px;font-size:12px;">' +  + '</div>';
 		        
 		        var detailAddr = !!place.road_address ? '<div class="ellipsis">도로명주소 : '
 						+ place.road_address_name

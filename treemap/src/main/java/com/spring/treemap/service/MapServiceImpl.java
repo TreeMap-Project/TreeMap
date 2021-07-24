@@ -26,12 +26,13 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<MapVO> getMapBoardList(int userNo,int displayPost, int postNum,String keyword) {
+	public List<MapVO> getMapBoardList(int userNo,int displayPost, int postNum, String searchType, String keyword) {
 		
 			HashMap<String, Object> data = new HashMap<>();
 			data.put("userNo", userNo);
 			data.put("displayPost", displayPost);
 			data.put("postNum", postNum);
+			data.put("searchType", searchType);
 			data.put("keyword", keyword);
 			
 		return dao.getMapBoardList(data);
@@ -80,15 +81,25 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<MapVO> getCatNameList(String catName) {
+	public List<MapVO> getCatNameList(int userNo,int displayPost, int postNum,String keyword) {
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("userNo", userNo);
+		data.put("displayPost", displayPost);
+		data.put("postNum", postNum);
+		data.put("keyword", keyword);
 		
-		return dao.getCatNameList(catName);
+		return dao.getCatNameList(data);
 	}
 
 	@Override
 	public int getAddressCount(String keyword) {
 		
 		return dao.getAddressCount(keyword);
+	}
+
+	@Override
+	public int getCategoryCount(String catName) {
+		return dao.getCategoryCount(catName);
 	}
 
 }

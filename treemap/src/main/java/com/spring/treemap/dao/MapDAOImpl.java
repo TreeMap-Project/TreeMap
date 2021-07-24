@@ -30,7 +30,6 @@ public class MapDAOImpl implements MapDAO {
 
 	@Override
 	public void insertCategory(CategoryVO vo) {
-		System.out.println(vo);
 		sql.insert(namespace+".insertCategory",vo);
 	}
 
@@ -78,13 +77,19 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public List<MapVO> getCatNameList(String catName) {
-		return sql.selectList(namespace+".getCatNameList",catName);
+	public List<MapVO> getCatNameList(HashMap<String, Object> data) {
+		return sql.selectList(namespace+".getCatNameList",data);
 	}
 
 
 	@Override
 	public int getAddressCount(String keyword) {
 		return sql.selectOne(namespace+".getAddressCount",keyword);
+	}
+
+
+	@Override
+	public int getCategoryCount(String keyword) {
+		return sql.selectOne(namespace+".getCategoryCount",keyword);
 	}
 }

@@ -32,10 +32,14 @@
 	
 	<select id="getAddressCount" resultType="int" parameterType="String">
 		select count(adrNo) from board.address
-		 <if test = '!keyword.equals("")'>
-        	and a.adrName like concat('%',#{keyword},'%')
+		 <if test = '!_parameter.equals("")'>
+        	where adrName like concat('%',#{keyword},'%')
         </if>
 	</select>
+	
+	<select id="getCategoryCount" resultType="int" parameterType="String">
+		select count(catNo) from board.category where catName =#{keyword}
+    </select>
 	
 	<select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
 		select
@@ -43,10 +47,14 @@
 		board.Address a, board.Category b 
         where a.userNo=b.userNo and a.catNo = b.catNo 
         and a.userNo=1 and b.userNo=1
-        <if test = '!keyword.equals("")'>
+        <if test = 'searchType.equals("adrName")'>
         	and a.adrName like concat('%',#{keyword},'%')
         </if>
-        order by a.adrNo
+        
+        <if test = 'searchType.equals("catName")'>
+        	and b.catName like concat('%',#{keyword},'%')
+        </if>
+        order by a.adrNo desc
         limit #{displayPost}, #{postNum}
 	</select>
 
@@ -74,11 +82,13 @@
 		select catName from board.category where userNo=#{userNo}
 	</select>
 	
-	<select id="getCatNameList" resultMap="MapVO" parameterType="String">
+	<select id="getCatNameList" resultMap="MapVO" parameterType="hashMap">
 		 select
 		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
 		board.Address a, board.Category b 
-        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1 and b.catName=#{catName}; 
+        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1 and b.catName=#{keyword}
+        order by a.adrNo desc
+        limit #{displayPost}, #{postNum} 
 	</select>
 	
 	<update id="updateAddress" parameterType="com.spring.treemap.domain.AddressVO">

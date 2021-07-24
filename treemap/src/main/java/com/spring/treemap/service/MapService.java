@@ -10,7 +10,7 @@ import com.spring.treemap.domain.MemberVO;
 public interface MapService {
 
 	// 사용자가 처음 켰을시 보여줄 리스트
-	List<MapVO> getMapBoardList(int userNo, int displayPost, int postNum, String keyword);
+	List<MapVO> getMapBoardList(int userNo, int displayPost, int postNum, String searchType, String keyword);
 
 	// 사용자가 처음 켰을시 보여줄 리스트
 	List<CategoryVO> getMapBoardCateNameList(int userNo);
@@ -36,7 +36,9 @@ public interface MapService {
 	// 카테고리삭제
 	void deleteCateGory(int catNo);
 
-	List<MapVO> getCatNameList(String catName);
+	List<MapVO> getCatNameList(int userNo,  int displayPost, int postNum, String keyword);
 	
 	int getAddressCount(String keyword);
+
+	int getCategoryCount(String catName);
 }

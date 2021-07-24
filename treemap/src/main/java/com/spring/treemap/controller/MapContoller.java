@@ -33,17 +33,18 @@ public class MapContoller {
 	// 처음 들어올시
 	@GetMapping("/map")
 	public String openMap(Model model,@RequestParam("num") int num
-			,@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
+			,@RequestParam(value="searchType",required = false,defaultValue = "")String searchType
+		,@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
 		
 		int userNo = 1;
-		System.out.println(keyword);
 		Page page = new Page();
 		page.setNum(num);
+		
 		page.setCount(service.getAddressCount(keyword));
 		
+		page.setSearchType(searchType);
 		page.setKeyword(keyword);
-		
-		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),keyword));
+		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),searchType,keyword));
 		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
 		model.addAttribute("page", page);
 		model.addAttribute("select", num);
@@ -54,16 +55,25 @@ public class MapContoller {
 	// 이벤트 발생시 다시 받음
 	@GetMapping("/reloadBoard")
 	public String getMapBoard(Model model,@RequestParam("num") int num,
+			@RequestParam(value="searchType",required = false,defaultValue = "")String searchType,
 			@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
 		int userNo = 1;
 		Page page = new Page();
 		page.setNum(num);
-		page.setCount(service.getAddressCount(keyword));
 		
+		System.out.println(searchType);
+		System.out.println(keyword);
+		
+		if(searchType.equals("catName")) {
+			page.setCount(service.getCategoryCount(keyword));
+		}else {
+			page.setCount(service.getAddressCount(keyword));
+			
+		}
+		page.setSearchType(searchType);
 		page.setKeyword(keyword);
-		System.out.println(page.getKeyword());
 		
-		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),keyword));
+		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),searchType,keyword));
 		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
 		model.addAttribute("page", page);
 		model.addAttribute("select", num);
@@ -111,15 +121,5 @@ public class MapContoller {
 		
 		return "include/mapboard";
 	}
-	
-	@GetMapping("/catNameList")
-	public String catNameList(String catName,Model model) {
-		System.out.println(catName);
-		int userNo=1;
-		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
-		//userNo도 받아야함
-		model.addAttribute("mapBoardList", service.getCatNameList(catName));
-		return "include/mapboard";
-	}
-	
+
 }

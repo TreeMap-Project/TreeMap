@@ -21,7 +21,7 @@
 				<p>나만의 지도를</p>
 				<p>만들어 보세요</p>
 			</div>
-			<a class="start" href="/treeMap/map?num=1">시작하기</a>
+			<a class="start" href='/treeMap/map?num=1'>시작하기</a>
 		</div>
 	</div>
 </body>

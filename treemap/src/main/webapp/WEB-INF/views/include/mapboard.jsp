@@ -13,14 +13,14 @@
 		</div>
 			<ul>
 				<c:forEach items="${catName}" var="list" varStatus="status">
-					<li class="catName" onclick="catNameList('${list.catName}')">${list.catName}</li>
+					<li class="catName" onclick="reloadMapListKeyword(1,'catName','${list.catName}')">${list.catName}</li>
 				</c:forEach>
 			</ul>
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
 				<input class="boardSearch" placeholder="검색" value="${keyword}"/>
-				<button class="SearchBtn" onclick="reloadMapList()"><img class="searchImg" src="../../../../resources/imgs/search2.png"></button>
+				<button class="SearchBtn" onclick="reloadMapListKeyword(1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/search2.png"></button>
 			</div>
 			<c:choose>
 				<c:when test="${address.detail}">
@@ -69,26 +69,26 @@
 					</c:forEach>
 					<div>
 					 <c:if test="${page.prev}">
-						 <button onclick="reloadMapListKeyword(${page.startPageNum - 1},'${page.keyword}')">이전</button>
+						 <button onclick="reloadMapListKeyword(${page.startPageNum - 1},'${page.searchType}','${page.keyword}')">이전</button>
 					</c:if>
 						
 					<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
 						 <span>
 						  
 						  <c:if test="${select != num}">
-						   <button onclick="reloadMapListKeyword(${num},'${page.keyword}')">${num}</button>
+						   <button onclick="reloadMapListKeyword(${num},'${page.searchType}','${page.keyword}')">${num}</button>
 						  </c:if>    
 						  
 						  <c:if test="${select == num}">
 						   <b>${num}</b>
-						  	<c:set var="number" value="${num}"> </c:set>
+						   <c:set var="number" value="${num}"></c:set>
 						  </c:if>
 						    
 						 </span>
 						</c:forEach>
 						
 						<c:if test="${page.next}">
-						 <button onclick="reloadMapListKeyword(${page.endPageNum + 1},'${page.keyword}')">다음</button> 
+						 <button onclick="reloadMapListKeyword(${page.endPageNum + 1},'${page.searchType}','${page.keyword}')">다음</button> 
 						</c:if>
 					</div>
 				</c:otherwise>
@@ -148,27 +148,16 @@
 	</div>
 </body>
 <script type="text/javascript">
-	function catNameList(catName){
-		console.log(catName);
-		$.ajax({
-			type:"GET",
-			url:'/treeMap/catNameList',
-			data:{'catName':catName},
-			success : function(res) {
-				$('#include').html(res);
-			},
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:" + error);
-			}
-		});
-	}
 	
-	function reloadMapListKeyword(num,keyword) {
-		console.log(num,keyword);
+	function reloadMapListKeyword(num,searchType,keyword) {
+		let boardSearch = document.querySelector('.boardSearch');
+		if(keyword==''){
+			keyword = boardSearch.value;
+		} 
+		  
 			$.ajax({
 				type : "GET",
-				url : "/treeMap/reloadBoard?num="+num+keyword,
+				url : "/treeMap/reloadBoard?num="+num+"&searchType="+searchType+"&keyword="+keyword,
 				dataType : 'html',
 				success : function(res) {
 					$('#include').html(res);
