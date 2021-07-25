@@ -29,11 +29,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("roleName: "+roleNames);
 		
 		if(roleNames.contains("ROLE_MEMBER")) {
-			response.sendRedirect("/treemap/map");
-			return;
+			response.sendRedirect("/treeMap/map");
 		}
-		
-		response.sendRedirect("/");
 
 	}
 

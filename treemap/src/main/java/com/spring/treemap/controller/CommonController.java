@@ -25,7 +25,7 @@ public class CommonController {
 		log.info("error: "+error);
 			
 		if(error != null){
-			model.addAttribute("error","Login Error Check Your Account");
+			model.addAttribute("error",error);
 		}
 			
 	}
@@ -57,7 +57,7 @@ public class CommonController {
 		log.info("logout: "+logout);
 		
 		if(error != null){
-			model.addAttribute("error","Login Error Check Your Account");
+			log.info("error: "+error);
 		}
 		if(logout !=null) {
 			model.addAttribute("logout","로그아웃이 완료되었습니다.");

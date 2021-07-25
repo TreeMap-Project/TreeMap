@@ -24,7 +24,7 @@
 	<form method="post" action="/login">
 		<fieldset>
 			<div>
-				<label>Email</label> <input type="email" name="username"
+				<label>Email</label> <input type="email" name="userEmail"
 					placeholder="이메일을 입력해주세요." autofocus>
 			</div>
 			<div>

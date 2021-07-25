@@ -13,10 +13,12 @@
 		<security:http auto-config="true" use-expressions="true">
 			<security:intercept-url pattern="/sample/all" access="permitAll"/>
 			<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
-			<security:intercept-url pattern="/treeMap/map" access="hasRole('ROLE_MEMBER')"/>
 			
 		<security:access-denied-handler error-page="/accessError"/>				
-		<security:form-login login-page="/member/customLogin" authentication-success-handler-ref="loginSuccess"/>		
+		<security:form-login 
+			username-parameter="userEmail" 
+			password-parameter="userPW"
+			login-page="/member/customLogin" authentication-success-handler-ref="loginSuccess"/>		
 		 
 		<!-- 로그아웃 시에 세션,쿠키 삭제 -->
 		<security:logout logout-url="/member/logout" 
@@ -27,8 +29,7 @@
 		<security:csrf disabled="true"/>		
 		</security:http>
 		
-		<security:authentication-manager>
-		
+		<security:authentication-manager>	
 			<security:authentication-provider user-service-ref="userDetailsService">
 			<security:password-encoder ref="bcryptPasswordEncoder"/>
 			</security:authentication-provider>

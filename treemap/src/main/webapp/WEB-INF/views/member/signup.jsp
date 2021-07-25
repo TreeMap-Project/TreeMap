@@ -9,8 +9,6 @@
 </head>
 <body>
 <h1>회원가입 화면</h1>
-
-	<h1>Login</h1>
 	<h2>
 		<c:out value="${error}" />
 	</h2>
@@ -48,13 +46,12 @@ $(".chkEmail").on("click", function(e){
 	e.preventDefault();
 	$.ajax({
         type : "POST",
-        url : "/member/chkEmail",
+        url : "/chkEmail",
         data : userEmail,
         success : function(res) {        	
           	console.log("아이디중복검사 완료");
-          	if(res){
-          		alert("사용 하실 수 있는 이메일입니다.");
-          		
+          	if(res=="true"){
+          		alert("사용 하실 수 있는 이메일입니다.");         		
           	}else{
           		alert("이미 사용중인 이메일입니다.");
           		userEmail.value='';
