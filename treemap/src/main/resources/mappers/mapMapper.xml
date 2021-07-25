@@ -78,8 +78,9 @@
 		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>
 	
-	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="int">
+	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="com.spring.treemap.domain.CategoryVO">
 		select catName from board.category where userNo=#{userNo}
+		limit #{startNum}, #{endNum} 
 	</select>
 	
 	<select id="getCatNameList" resultMap="MapVO" parameterType="hashMap">

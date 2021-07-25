@@ -9,4 +9,9 @@ public class CategoryVO {
 	private String iconUrl;
 	private String catName;
 	private String createdAt;
+	
+	
+	private int startNum=0;
+	
+	private int endNum=4;
 }

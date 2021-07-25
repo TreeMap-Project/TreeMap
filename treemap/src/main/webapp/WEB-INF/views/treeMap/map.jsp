@@ -28,6 +28,9 @@
 			<div class="hAddr">
 				<span class="title">지도중심기준 행정동 주소정보</span> <span id="centerAddr"></span>
 			</div>
+			<div class="mark" onclick ='markerClick()'>
+			<span style="font-size:13px;">마커 표시하기 </span>
+			</div>
 		</div>
 	</div>
 
@@ -116,66 +119,12 @@
 		let iconUrl = '../../../../resources/imgs/default.png';
 		let check = true;
 		let icon = [];
-
-		//수정 모달 오픈
-		function modifyModel() {
-			document.querySelector('#modifyModal').style = "display:block";
-		}
-
-		//수정
-		function modifyFavorites(adrNo, catNo) {
-
-			let addressname = document.querySelector('#Maddressname');
-			let memo = document.querySelector('#Mmemo');
-			let category = document.querySelector('#Mcategory');
-
-			$.ajax({
-				type : "POST",
-				url : "/treeMap/modifyMapBoard",
-				//dataType : 'json', 받아올 데이터 타입
-				data : {
-					'adrNo' : adrNo,
-					'catNo' : catNo,
-					'catName' : category.value,
-					'adrName' : addressname.value,
-					'memo' : memo.value,
-					'iconUrl' : iconUrl
-				},
-				success : function(res) {
-					reloadMapList();
-					iconUrl = '../../../../resources/imgs/default.png';
-				},
-				error : function(request, status, error) {
-					alert("code:" + request.status + "\n" + "message:"
-							+ request.responseText + "\n" + "error:" + error);
-				}
-			});
-			document.querySelector('#modifyModal').style = "display:none";
-		}
-		//삭제
-		function deleteMapboard(adrNo, catNo) {
-			if (confirm("정말 삭제하시겠습니까 ?")) {
-				$.ajax({
-					type : "POST",
-					url : "/treeMap/deleteMapBoard",
-					//dataType : 'json', 받아올 데이터 타입
-					data : {
-						'adrNo' : adrNo,
-						'catNo' : catNo
-					},
-					success : function(res) {
-						reloadMapList();
-					},
-					error : function(request, status, error) {
-						alert("code:" + request.status + "\n" + "message:"
-								+ request.responseText + "\n" + "error:"
-								+ error);
-					}
-				});
-			}
-			
-		}
-
+		
+		let markers = [];
+		
+		//페이지 넘버 저장
+		let number=1;
+		
 		//마커 선택
 		function markerSelect(icons, url) {
 
@@ -190,11 +139,13 @@
 			//배열에 더함
 			icon.push(icons);
 
+			//만약 icon배열이 1보다 크면
 			if (icon.length > 1) {
 				icon.pop();
 				alert("한가지만 선택해주세요!");
 			}
-
+			
+			//파라미터로 들어온 값과 icon에 저장되어있는 값이 같을떄
 			if (icon[0] === icons) {
 				if (check) {
 					marker.style.backgroundColor = "rgb(200,200,200)";
@@ -249,23 +200,43 @@
 			
 			$('#myModal').hide();
 		}
-
+		
+		//게시판을 다시 받아옴
 		function reloadMapList() {
-			let num = ""
-			console.log(${number});
 			$.ajax({
 					type : "GET",
-					url : "/treeMap/reloadBoard?num="+${number},
+					url : "/treeMap/reloadBoard?num="+number,
 					dataType : 'html',
 					success : function(res) {
 						$('#include').html(res);
 					}
 				});
-			
+			//현재마커 인포위도우 초기화
 			marker.setMap(null);
 			infowindow.open(null,null);
 		}
 		
+		//키워드로 페이징 처리
+		function reloadMapListKeyword(num,searchType,keyword) {
+			number = num;
+			let boardSearch = document.querySelector('.boardSearch');
+			if(keyword==''){
+				keyword = boardSearch.value;
+			} 
+			  
+				$.ajax({
+					type : "GET",
+					url : "/treeMap/reloadBoard?num="+num+"&searchType="+searchType+"&keyword="+keyword,
+					dataType : 'html',
+					success : function(res) {
+						$('#include').html(res);
+					}
+				});
+			}
+			//marker.setMap(null);
+			//infowindow.open(null,null);
+		
+		//모달 취소
 		function closeModal() {
 			document.querySelector('#myModal').style = "display:none";
 			document.querySelector('#modifyModal').style = "display:none";
@@ -273,6 +244,8 @@
 			icon = [];
 			check = true;
 		}
+		
+		let overlay;
 		
 		//db에서 가져온 마커 표시
 		function addrmarker(lat, lng, rowaddress, address, adrName, adrNo,catNo, iconUrl) {
@@ -285,9 +258,9 @@
 			imageOption = {
 				offset : new kakao.maps.Point(20, 43)
 			}; // 마커이미지의 옵션입니다.	 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
-					imageOption);
+			
+			//마거 이미지
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,imageOption);
 
 			// 마커를 생성합니다
 			var marker = new kakao.maps.Marker({
@@ -304,24 +277,31 @@
 
 			// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
-
+			
+			//길찾기에 등록할 url
+			let latLng = 'https://map.kakao.com/link/to/도착,'+lat+','+lng;
 			
 			let iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
+			
 			// 커스텀 오버레이에 표시할 컨텐츠 입니다
 			// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 			// 별도의 이벤트 메소드를 제공하지 않습니다 
 			var content = '<div class="wrap">' + '    <div class="info">'
 					+ '        <div class="title">' + adrName
-					+ '        </div>' + '        <div class="body">'
+					+ '          <span class="find" onclick="window.open(\''+latLng+'\')"> 길찾기 </span>'
+					+ '        </div>' 
+					+ '        <div class="body">'
 					+ '            <div class="desc">'
 					+ '                <div class="ellipsis">' + rowaddress
 					+ '</div>' + '                <div class="jibun ellipsis">'
-					+ address + '</div>' + '            </div>'
+					+ address 
+					+ '</div>' 
+					+ '            </div>'
 					+ '        </div>' + '    </div>' + '</div>';
 
 			// 마커 위에 커스텀오버레이를 표시합니다
 			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
-			var overlay = new kakao.maps.CustomOverlay({
+			overlay = new kakao.maps.CustomOverlay({
 				content : content,
 				map : map,
 				position : iwPosition
@@ -344,13 +324,89 @@
 			});
 			
 		}
+		//수정 모달 오픈
+		function modifyModel() {
+			document.querySelector('#modifyModal').style = "display:block";
+		}
 
+		//수정
+		function modifyFavorites(adrNo, catNo) {
+
+			let addressname = document.querySelector('#Maddressname');
+			let memo = document.querySelector('#Mmemo');
+			let category = document.querySelector('#Mcategory');
+
+			$.ajax({
+				type : "POST",
+				url : "/treeMap/modifyMapBoard",
+				//dataType : 'json', 받아올 데이터 타입
+				data : {
+					'adrNo' : adrNo,
+					'catNo' : catNo,
+					'catName' : category.value,
+					'adrName' : addressname.value,
+					'memo' : memo.value,
+					'iconUrl' : iconUrl
+				},
+				success : function(res) {
+					reloadMapList();
+					iconUrl = '../../../../resources/imgs/default.png';
+				},
+				error : function(request, status, error) {
+					alert("code:" + request.status + "\n" + "message:"
+							+ request.responseText + "\n" + "error:" + error);
+				}
+			});
+			document.querySelector('#modifyModal').style = "display:none";
+		}
+		
+		//삭제
+		function deleteMapboard(adrNo, catNo) {
+			if (confirm("정말 삭제하시겠습니까 ?")) {
+				$.ajax({
+					type : "POST",
+					url : "/treeMap/deleteMapBoard",
+					//dataType : 'json', 받아올 데이터 타입
+					data : {
+						'adrNo' : adrNo,
+						'catNo' : catNo
+					},
+					success : function(res) {
+						reloadMapList();
+					},
+					error : function(request, status, error) {
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "error:"
+								+ error);
+					}
+				});
+			}
+			window.location.reload();
+		//	closeOverlay();
+		//	removeMarker();
+		//	setMarkers(map);
+		}
+		/*
+		function setMarkers(map) {
+			console.log(map);
+		    for (var i = 0; i < markers.length; i++) {
+		        markers[i].setMap(map);
+		    }            
+		}
+		
+		function removeMarker() {
+			markers.pop();
+		}
+		//오버레이 삭제
+		function closeOverlay() {
+		    overlay.setMap(null);     
+		}*/
 		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
 		searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-
+		
 		// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
 		kakao.maps.event.addListener(map,'click',function(mouseEvent) {
-							searchDetailAddrFromCoords(mouseEvent.latLng,function(result, status) {
+			searchDetailAddrFromCoords(mouseEvent.latLng,function(result, status) {
 										if (status === kakao.maps.services.Status.OK) {
 											//marker.setMap(null);
 											var detailAddr = !!result[0].road_address ? '<div class="ellipsis">도로명주소 : '
@@ -390,7 +446,7 @@
 										}
 									});
 						});
-
+		
 		// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
 		kakao.maps.event.addListener(map, 'idle', function() {
 			searchAddrFromCoords(map.getCenter(), displayCenterInfo);

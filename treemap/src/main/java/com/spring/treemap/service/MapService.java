@@ -13,7 +13,7 @@ public interface MapService {
 	List<MapVO> getMapBoardList(int userNo, int displayPost, int postNum, String searchType, String keyword);
 
 	// 사용자가 처음 켰을시 보여줄 리스트
-	List<CategoryVO> getMapBoardCateNameList(int userNo);
+	List<CategoryVO> getMapBoardCateNameList(CategoryVO category);
 
 	// 사용자가 등록한 지도 상세보기
 	MapVO getMapBoardDetail(int addressNo, int catNo);

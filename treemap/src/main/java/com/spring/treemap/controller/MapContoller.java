@@ -33,7 +33,8 @@ public class MapContoller {
 	// 처음 들어올시
 	@GetMapping("/map")
 	public String openMap(Model model,@RequestParam("num") int num
-			,@RequestParam(value="searchType",required = false,defaultValue = "")String searchType
+			,@RequestParam(value="catNum",required = false,defaultValue = "0")int catNum
+		,@RequestParam(value="searchType",required = false,defaultValue = "")String searchType
 		,@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
 		
 		int userNo = 1;
@@ -42,12 +43,16 @@ public class MapContoller {
 		
 		page.setCount(service.getAddressCount(keyword));
 		
+		CategoryVO category = new CategoryVO();
+		category.setStartNum(category.getStartNum()+catNum);
+		category.setUserNo(userNo);
 		page.setSearchType(searchType);
 		page.setKeyword(keyword);
 		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),searchType,keyword));
-		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
+		model.addAttribute("catName", service.getMapBoardCateNameList(category));
 		model.addAttribute("page", page);
 		model.addAttribute("select", num);
+		model.addAttribute("keyword", keyword);
 		
 		return "treeMap/map";
 	}
@@ -55,28 +60,32 @@ public class MapContoller {
 	// 이벤트 발생시 다시 받음
 	@GetMapping("/reloadBoard")
 	public String getMapBoard(Model model,@RequestParam("num") int num,
+			@RequestParam(value="catNum",required = false,defaultValue = "0")int catNum,
 			@RequestParam(value="searchType",required = false,defaultValue = "")String searchType,
 			@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
 		int userNo = 1;
 		Page page = new Page();
 		page.setNum(num);
 		
-		System.out.println(searchType);
-		System.out.println(keyword);
-		
+	
 		if(searchType.equals("catName")) {
 			page.setCount(service.getCategoryCount(keyword));
 		}else {
 			page.setCount(service.getAddressCount(keyword));
 			
 		}
+		
+		CategoryVO category = new CategoryVO();
+		category.setStartNum(category.getStartNum()+catNum);
+		category.setUserNo(userNo);
 		page.setSearchType(searchType);
 		page.setKeyword(keyword);
-		
 		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),searchType,keyword));
-		model.addAttribute("catName", service.getMapBoardCateNameList(userNo));
+		model.addAttribute("catName", service.getMapBoardCateNameList(category));
 		model.addAttribute("page", page);
 		model.addAttribute("select", num);
+		model.addAttribute("keyword", keyword);
+		
 		return "include/mapboard";
 	}
 

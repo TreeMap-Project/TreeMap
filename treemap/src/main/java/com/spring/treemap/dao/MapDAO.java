@@ -25,7 +25,7 @@ public interface MapDAO {
 
 	void deleteCategory(int catNo);
 
-	List<CategoryVO> getMapBoardCateNameList(int userNo);
+	List<CategoryVO> getMapBoardCateNameList(CategoryVO category);
 
 	List<MapVO> getCatNameList(HashMap<String, Object> data);
 

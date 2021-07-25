@@ -71,8 +71,9 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public List<CategoryVO> getMapBoardCateNameList(int userNo) {
-		return sql.selectList(namespace+".getMapBoardCategoryList",userNo);
+	public List<CategoryVO> getMapBoardCateNameList(CategoryVO category) {
+		System.out.println(category);
+		return sql.selectList(namespace+".getMapBoardCategoryList",category);
 	}
 
 

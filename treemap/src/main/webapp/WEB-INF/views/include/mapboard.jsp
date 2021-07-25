@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<link href="../../../../resources/css/mapboardNav.css" rel="stylesheet"
-	type="text/css">
+<link href="../../../../resources/css/mapboardNav.css" rel="stylesheet" type="text/css">
+
 <html>
 <meta charset="UTF-8">
 <body>
@@ -12,15 +12,22 @@
 			<span style="font-size:13px; color:white;">전체보기</span>
 		</div>
 			<ul>
-				<c:forEach items="${catName}" var="list" varStatus="status">
-					<li class="catName" onclick="reloadMapListKeyword(1,'catName','${list.catName}')">${list.catName}</li>
+ 				<c:forEach items="${catName}" begin="${list.startNum}" end="${list.endNum}" var="list">
+						${list.startNum},${list.endNum}
+						<c:if test="${keyword != list.catName}">
+							<li class="catName" onclick="reloadMapListKeyword(1,'catName','${list.catName}')">${list.catName}</li>
+						</c:if>
+						<c:if test="${keyword == list.catName}">
+							<li class="catName" style="color:white;">${list.catName}</li>
+						</c:if>
 				</c:forEach>
+						
 			</ul>
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
-				<input class="boardSearch" placeholder="검색" value="${keyword}"/>
-				<button class="SearchBtn" onclick="reloadMapListKeyword(1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/search2.png"></button>
+				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}"/>
+				<button class="SearchBtn" onclick="reloadMapListKeyword(1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
 			</div>
 			<c:choose>
 				<c:when test="${address.detail}">
@@ -60,35 +67,34 @@
 				<c:otherwise>
 					<c:forEach items="${mapBoardList}" var="list" varStatus="status">
 						<div class="boardList">
-							<button class="addrName"
-								onclick="addrmarker(${list.address.lat},${list.address.lng},'${list.address.rowaddress}','${list.address.address}','${list.address.adrName}',${list.address.adrNo},${list.address.catNo},'${list.category.iconUrl}');">
+							<button class="addrName" onclick="addrmarker(${list.address.lat},${list.address.lng},'${list.address.rowaddress}','${list.address.address}','${list.address.adrName}',${list.address.adrNo},${list.address.catNo},'${list.category.iconUrl}');">
 								<span>${list.address.adrName}</span>
 							</button>
 							<p class="address">${list.address.address}</p>
 						</div> 
 					</c:forEach>
-					<div>
+					<div class="pageBox">
 					 <c:if test="${page.prev}">
-						 <button onclick="reloadMapListKeyword(${page.startPageNum - 1},'${page.searchType}','${page.keyword}')">이전</button>
+						 <button class ="pageNumBtn" onclick="reloadMapListKeyword(${page.startPageNum - 1},'${page.searchType}','${page.keyword}')"><</button>
 					</c:if>
 						
 					<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
 						 <span>
 						  
 						  <c:if test="${select != num}">
-						   <button onclick="reloadMapListKeyword(${num},'${page.searchType}','${page.keyword}')">${num}</button>
+						   <button class="pageNumBtn" onclick="reloadMapListKeyword(${num},'${page.searchType}','${page.keyword}')">${num}</button>
 						  </c:if>    
 						  
 						  <c:if test="${select == num}">
-						   <b>${num}</b>
-						   <c:set var="number" value="${num}"></c:set>
+						    <button class="pageNumBtn" style="background-color:rgb(0,50,150); color:white;">${num}</button>
+						  	<c:set var="number" value='${num}'></c:set>
 						  </c:if>
 						    
 						 </span>
 						</c:forEach>
 						
 						<c:if test="${page.next}">
-						 <button onclick="reloadMapListKeyword(${page.endPageNum + 1},'${page.searchType}','${page.keyword}')">다음</button> 
+						 <button class ="pageNumBtn" onclick="reloadMapListKeyword(${page.endPageNum + 1},'${page.searchType}','${page.keyword}')">></button> 
 						</c:if>
 					</div>
 				</c:otherwise>
@@ -148,23 +154,8 @@
 	</div>
 </body>
 <script type="text/javascript">
-	
-	function reloadMapListKeyword(num,searchType,keyword) {
-		let boardSearch = document.querySelector('.boardSearch');
-		if(keyword==''){
-			keyword = boardSearch.value;
-		} 
-		  
-			$.ajax({
-				type : "GET",
-				url : "/treeMap/reloadBoard?num="+num+"&searchType="+searchType+"&keyword="+keyword,
-				dataType : 'html',
-				success : function(res) {
-					$('#include').html(res);
-				}
-			});
-		}
-		//marker.setMap(null);
-		//infowindow.open(null,null);
+
+
+
 </script>
 </html>

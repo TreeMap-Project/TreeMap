@@ -50,13 +50,13 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<CategoryVO> getMapBoardCateNameList(int userNo) {
-		List<CategoryVO> category=dao.getMapBoardCateNameList(userNo);
+	public List<CategoryVO> getMapBoardCateNameList(CategoryVO category) {
+		List<CategoryVO> categoryvo=dao.getMapBoardCateNameList(category);
 		//중복제거
-		Set<CategoryVO> set = new HashSet<>(category);
+		Set<CategoryVO> set = new HashSet<>(categoryvo);
 
 		List<CategoryVO> list = new ArrayList<>(set);
-
+		System.out.println(list);
 		return list;
 	}
 

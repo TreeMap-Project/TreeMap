@@ -7,7 +7,7 @@
 <title>Main</title>
 </head>
 <link href="../../../../resources/css/main.css" rel="stylesheet"
-	type="text/css">
+type="text/css">
 
 <body>
 	<div class="startMainWapper">
