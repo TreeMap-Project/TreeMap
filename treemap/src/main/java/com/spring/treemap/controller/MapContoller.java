@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.treemap.domain.AddressVO;
+import com.spring.treemap.domain.CategoryPage;
 import com.spring.treemap.domain.CategoryVO;
 import com.spring.treemap.domain.MapVO;
 import com.spring.treemap.domain.Page;
@@ -32,60 +33,82 @@ public class MapContoller {
 
 	// 처음 들어올시
 	@GetMapping("/map")
-	public String openMap(Model model,@RequestParam("num") int num
-			,@RequestParam(value="catNum",required = false,defaultValue = "0")int catNum
-		,@RequestParam(value="searchType",required = false,defaultValue = "")String searchType
-		,@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
-		
+	public String openMap(Model model, @RequestParam("num") int num,
+			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
+			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
+
 		int userNo = 1;
 		Page page = new Page();
 		page.setNum(num);
-		
+
 		page.setCount(service.getAddressCount(keyword));
-		
-		CategoryVO category = new CategoryVO();
-		category.setStartNum(category.getStartNum()+catNum);
-		category.setUserNo(userNo);
 		page.setSearchType(searchType);
 		page.setKeyword(keyword);
-		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),searchType,keyword));
-		model.addAttribute("catName", service.getMapBoardCateNameList(category));
-		model.addAttribute("page", page);
-		model.addAttribute("select", num);
-		model.addAttribute("keyword", keyword);
 		
+		CategoryPage categoryPage = new CategoryPage();
+		categoryPage.setNum(catNum);
+		List<CategoryVO> category = service.getMapBoardCateNameList(userNo, categoryPage.getStartNum(),categoryPage.getEndNum());
+	
+		
+		// 현재 페이지에 해당하는 리스트
+		model.addAttribute("mapBoardList",
+				service.getMapBoardList(userNo, page.getDisplayPost(), page.getPostNum(), searchType, keyword));
+		// 카테고리 이름 표시
+		model.addAttribute("categoryName", category);
+		// 페이징처리
+		model.addAttribute("page", page);
+		// 현재 페이지가 몇인지 표시
+		model.addAttribute("select", num);
+		// 현재키워드가 뭔지 알려줌 페이지 이동할떄 알고있어야함
+		model.addAttribute("keyword", keyword);
+		// 카테고리 페이지
+		model.addAttribute("categoryPage", categoryPage);
+		// 카테고리가 몇개인지
+		model.addAttribute("categorylength", service.getMapBoardCateNameList(userNo, 0, 0).size());
 		return "treeMap/map";
 	}
 
 	// 이벤트 발생시 다시 받음
 	@GetMapping("/reloadBoard")
-	public String getMapBoard(Model model,@RequestParam("num") int num,
-			@RequestParam(value="catNum",required = false,defaultValue = "0")int catNum,
-			@RequestParam(value="searchType",required = false,defaultValue = "")String searchType,
-			@RequestParam(value="keyword",required = false,defaultValue = "")String keyword) {
+	public String getMapBoard(Model model, @RequestParam("num") int num,
+			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
+			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
+
 		int userNo = 1;
+
 		Page page = new Page();
 		page.setNum(num);
-		
-	
-		if(searchType.equals("catName")) {
+
+		if (searchType.equals("catName")) {
 			page.setCount(service.getCategoryCount(keyword));
-		}else {
+		} else {
 			page.setCount(service.getAddressCount(keyword));
-			
+
 		}
-		
-		CategoryVO category = new CategoryVO();
-		category.setStartNum(category.getStartNum()+catNum);
-		category.setUserNo(userNo);
 		page.setSearchType(searchType);
 		page.setKeyword(keyword);
-		model.addAttribute("mapBoardList", service.getMapBoardList(userNo,page.getDisplayPost(),page.getPostNum(),searchType,keyword));
-		model.addAttribute("catName", service.getMapBoardCateNameList(category));
+
+		CategoryPage categoryPage = new CategoryPage();
+		categoryPage.setNum(catNum);
+		List<CategoryVO> category = service.getMapBoardCateNameList(userNo, categoryPage.getStartNum(),categoryPage.getEndNum());
+
+		// 현재 페이지에 해당하는 리스트
+		model.addAttribute("mapBoardList",service.getMapBoardList(userNo, page.getDisplayPost(), page.getPostNum(), searchType, keyword));
+		// 카테고리 이름 표시
+		model.addAttribute("categoryName", category);
+		// 페이징처리
 		model.addAttribute("page", page);
+		// 현재 페이지가 몇인지 표시
 		model.addAttribute("select", num);
+		// 현재키워드가 뭔지 알려줌 페이지 이동할떄 알고있어야함
 		model.addAttribute("keyword", keyword);
-		
+		// 카테고리 페이지
+		model.addAttribute("categoryPage", categoryPage);
+		// 카테고리가 몇개인지
+		model.addAttribute("categorylength", service.getMapBoardCateNameList(userNo, 0, 0).size());
+
 		return "include/mapboard";
 	}
 
@@ -93,17 +116,19 @@ public class MapContoller {
 	@ResponseBody
 	@PostMapping("/favorites")
 	public void insertMap(AddressVO address, CategoryVO category) {
+		// 사용자 입력값 카테고리테이블 인서트
 		service.insertCategory(category);
+		// 사용자 입력값 주소테이블 인서트
 		service.insertAddress(address);
 	}
 
 	// 상세보기
 	@GetMapping("/mapBoardDetail")
-	public String getMapBoardDetail(int adrNo,int catNo,Model model) {
-		MapVO mapBoardDetail = service.getMapBoardDetail(adrNo,catNo);
+	public String getMapBoardDetail(int adrNo, int catNo, Model model) {
+		MapVO mapBoardDetail = service.getMapBoardDetail(adrNo, catNo);
 		AddressVO address = mapBoardDetail.getAddress();
 		CategoryVO category = mapBoardDetail.getCategory();
-		
+
 		// detail이 true면 include가 바뀜
 		address.setDetail(true);
 		model.addAttribute("address", address);
@@ -111,23 +136,27 @@ public class MapContoller {
 
 		return "include/mapboard";
 	}
-	
-	//수정
+
+	// 수정
 	@ResponseBody
 	@PostMapping("/modifyMapBoard")
 	public String modifyMapBoard(AddressVO address, CategoryVO category) {
+		// 사용자 입력값 카테고리테이블 업데이트
 		service.updateCategory(category);
+		// 사용자 입력값 주소테이블 업데이트
 		service.updateAddress(address);
-		
+
 		return "include/mapboard";
 	}
-	
-	//삭제
+
+	// 삭제
 	@PostMapping("/deleteMapBoard")
 	public String deleteMapBoard(int adrNo, int catNo) {
+		// 해당 값을 가진 주소 테이블 삭제
 		service.deleteAddress(adrNo);
+		// 해당 값을 가진 카테고리 테이블 컬럼 삭제
 		service.deleteCateGory(catNo);
-		
+
 		return "include/mapboard";
 	}
 

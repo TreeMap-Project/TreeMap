@@ -1,10 +1,7 @@
 package com.spring.treemap.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,19 +23,18 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<MapVO> getMapBoardList(int userNo,int displayPost, int postNum, String searchType, String keyword) {
-		
-			HashMap<String, Object> data = new HashMap<>();
-			data.put("userNo", userNo);
-			data.put("displayPost", displayPost);
-			data.put("postNum", postNum);
-			data.put("searchType", searchType);
-			data.put("keyword", keyword);
-			
+	public List<MapVO> getMapBoardList(int userNo, int displayPost, int postNum, String searchType, String keyword) {
+		// 데이터를 한번에 넘길려고 map에 저장
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("userNo", userNo);
+		data.put("displayPost", displayPost);
+		data.put("postNum", postNum);
+		data.put("searchType", searchType);
+		data.put("keyword", keyword);
+
 		return dao.getMapBoardList(data);
 	}
 
-	
 	@Override
 	public void insertCategory(CategoryVO vo) {
 		dao.insertCategory(vo);
@@ -50,14 +46,16 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<CategoryVO> getMapBoardCateNameList(CategoryVO category) {
-		List<CategoryVO> categoryvo=dao.getMapBoardCateNameList(category);
-		//중복제거
-		Set<CategoryVO> set = new HashSet<>(categoryvo);
+	public List<CategoryVO> getMapBoardCateNameList(int userNo, int startNum, int endNum) {
+		// 데이터를 한번에 넘길려고 map에 저장
+		HashMap<String, Integer> data = new HashMap<>();
+		data.put("userNo", userNo);
+		data.put("startNum", startNum);
+		data.put("endNum", endNum);
 
-		List<CategoryVO> list = new ArrayList<>(set);
-		System.out.println(list);
-		return list;
+		List<CategoryVO> category = dao.getMapBoardCateNameList(data);
+
+		return category;
 	}
 
 	@Override
@@ -81,19 +79,20 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<MapVO> getCatNameList(int userNo,int displayPost, int postNum,String keyword) {
+	public List<MapVO> getCatNameList(int userNo, int displayPost, int postNum, String keyword) {
+		// 데이터를 한번에 넘길려고 map에 저장
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("userNo", userNo);
 		data.put("displayPost", displayPost);
 		data.put("postNum", postNum);
 		data.put("keyword", keyword);
-		
+
 		return dao.getCatNameList(data);
 	}
 
 	@Override
 	public int getAddressCount(String keyword) {
-		
+
 		return dao.getAddressCount(keyword);
 	}
 

@@ -25,12 +25,13 @@ public interface MapDAO {
 
 	void deleteCategory(int catNo);
 
-	List<CategoryVO> getMapBoardCateNameList(CategoryVO category);
+	List<CategoryVO> getMapBoardCateNameList(HashMap<String, Integer> data);
 
 	List<MapVO> getCatNameList(HashMap<String, Object> data);
 
 	int getAddressCount(String keyword);
 
 	int getCategoryCount(String catName);
-	
+
+
 }

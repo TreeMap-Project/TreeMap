@@ -71,9 +71,8 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public List<CategoryVO> getMapBoardCateNameList(CategoryVO category) {
-		System.out.println(category);
-		return sql.selectList(namespace+".getMapBoardCategoryList",category);
+	public List<CategoryVO> getMapBoardCateNameList(HashMap<String, Integer> data) {
+		return sql.selectList(namespace+".getMapBoardCategoryList",data);
 	}
 
 
@@ -93,4 +92,5 @@ public class MapDAOImpl implements MapDAO {
 	public int getCategoryCount(String keyword) {
 		return sql.selectOne(namespace+".getCategoryCount",keyword);
 	}
+
 }

@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <link href="../../../../resources/css/mapboardNav.css" rel="stylesheet" type="text/css">
-
 <html>
 <meta charset="UTF-8">
 <body>
@@ -12,22 +11,29 @@
 			<span style="font-size:13px; color:white;">전체보기</span>
 		</div>
 			<ul>
- 				<c:forEach items="${catName}" begin="${list.startNum}" end="${list.endNum}" var="list">
-						${list.startNum},${list.endNum}
-						<c:if test="${keyword != list.catName}">
-							<li class="catName" onclick="reloadMapListKeyword(1,'catName','${list.catName}')">${list.catName}</li>
+			
+				<c:if test="${categoryPage.startNum>3}">
+						<li class="catName" style="color:white;" onclick="reloadMapListKeyword(1,${categoryPage.num-1},'${page.searchType}','${page.keyword}')"><</li>
+				</c:if>
+ 				<c:forEach items="${categoryName}" var="list" varStatus="status">
+ 				
+ 						<c:if test="${keyword != list.catName}">
+							<li class="catName" onclick="reloadMapListKeyword(1,${categoryPage.num},'catName','${list.catName}')">${list.catName}</li>
 						</c:if>
 						<c:if test="${keyword == list.catName}">
 							<li class="catName" style="color:white;">${list.catName}</li>
 						</c:if>
 				</c:forEach>
-						
+				
+				<c:if test="${categorylength > categoryPage.startNum+2}">
+					 <li class="catName" style="color:white;" onclick="reloadMapListKeyword(1,${categoryPage.num+1},'${page.searchType}','${page.keyword}')">></li>
+				</c:if>
 			</ul>
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
 				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}"/>
-				<button class="SearchBtn" onclick="reloadMapListKeyword(1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
+				<button class="SearchBtn" onclick="reloadMapListKeyword(1,1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
 			</div>
 			<c:choose>
 				<c:when test="${address.detail}">
@@ -75,14 +81,14 @@
 					</c:forEach>
 					<div class="pageBox">
 					 <c:if test="${page.prev}">
-						 <button class ="pageNumBtn" onclick="reloadMapListKeyword(${page.startPageNum - 1},'${page.searchType}','${page.keyword}')"><</button>
+						 <button class ="pageNumBtn" onclick="reloadMapListKeyword(${page.startPageNum - 1},${categoryPage.num},'${page.searchType}','${page.keyword}')"><</button>
 					</c:if>
 						
 					<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
 						 <span>
 						  
 						  <c:if test="${select != num}">
-						   <button class="pageNumBtn" onclick="reloadMapListKeyword(${num},'${page.searchType}','${page.keyword}')">${num}</button>
+						   <button class="pageNumBtn" onclick="reloadMapListKeyword(${num},${categoryPage.num},'${page.searchType}','${page.keyword}')">${num}</button>
 						  </c:if>    
 						  
 						  <c:if test="${select == num}">
@@ -94,7 +100,7 @@
 						</c:forEach>
 						
 						<c:if test="${page.next}">
-						 <button class ="pageNumBtn" onclick="reloadMapListKeyword(${page.endPageNum + 1},'${page.searchType}','${page.keyword}')">></button> 
+						 <button class ="pageNumBtn" onclick="reloadMapListKeyword(${page.endPageNum + 1},${categoryPage.num},'${page.searchType}','${page.keyword}')">></button> 
 						</c:if>
 					</div>
 				</c:otherwise>

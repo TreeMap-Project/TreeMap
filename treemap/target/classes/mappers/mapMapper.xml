@@ -40,8 +40,8 @@
 	<select id="getCategoryCount" resultType="int" parameterType="String">
 		select count(catNo) from board.category where catName =#{keyword}
     </select>
-	
-	<select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
+    
+    <select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
 		select
 		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
 		board.Address a, board.Category b 
@@ -78,13 +78,16 @@
 		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>
 	
-	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="com.spring.treemap.domain.CategoryVO">
-		select catName from board.category where userNo=#{userNo}
-		limit #{startNum}, #{endNum} 
+	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="hashMap">
+		select catName from board.category where userNo=#{userNo} 
+		group by catName
+		<if test = 'endNum!=0'>
+			limit #{startNum}, #{endNum} 
+		</if>
 	</select>
 	
 	<select id="getCatNameList" resultMap="MapVO" parameterType="hashMap">
-		 select
+		select
 		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
 		board.Address a, board.Category b 
         where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1 and b.catName=#{keyword}

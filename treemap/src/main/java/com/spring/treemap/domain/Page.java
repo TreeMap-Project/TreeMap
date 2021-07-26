@@ -35,18 +35,6 @@ public class Page {
 	private String searchType;
 	private String keyword;
 
-	
-
-	/*
-	 * private String keyword;
-	 * 
-	 * public void setKeyword(String keyword) { System.out.println(keyword);
-	 * if(keyword.equals("")) { this.keyword = ""; }else { this.keyword =
-	 * "&keyword="+keyword; } }
-	 * 
-	 * public String getKeyword() { return keyword; }
-	 */
-
 	public void setCount(int count) {
 		this.count = count;
 		dataCalc();
@@ -66,8 +54,7 @@ public class Page {
 		if (endPageNum > endPageNum_tmp) {
 			endPageNum = endPageNum_tmp;
 		}
-		System.out.println(endPageNum_tmp);
-		System.out.println(endPageNum);
+		
 
 		// 다음
 		prev = startPageNum == 1 ? false : true;

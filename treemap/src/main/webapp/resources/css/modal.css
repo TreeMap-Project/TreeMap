@@ -16,7 +16,7 @@
 /* Modal Content/Box */
 .modal-content {
 	background-color: #fefefe;
-	margin: 15% auto; /* 15% from the top and centered */
+	margin: 8% 20% 7% 20%; /* 15% from the top and centered */
 	padding: 10px;
 	border: 1px solid #888;
 	border-radius: 10px;
@@ -63,11 +63,11 @@
 .modalInput {
 	width: 200px;
 	height: 20px;
-	border: 0.5px solid gray;
-	padding: 3px;
+	border: 1px solid rgb(210,210,210);
+	padding: 5px;
 }
 .modalInput:focus {
-	border: solid 1px lightblue;
+	outline: 1px solid blue;
 }
 
 .modalLabel {
@@ -80,7 +80,7 @@
 	width: 300px;
 	display: flex;
 	justify-content: space-between;
-	margin: 5px;
+	margin: 10px;
 }
 
 .modalTitle {
@@ -90,7 +90,11 @@
 	width: 200px;
 	height: 100px;
 	resize:none;
-	padding: 3px;
+	padding: 5px;
+	border: 1px solid rgb(210,210,210);
+}
+.modalmemo:focus{
+	outline: 1px solid blue;
 }
 .makerSelect{
 	width: 200px;

@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="utf-8">
 <title>트리맵</title>
 
@@ -28,9 +27,6 @@
 			<div class="hAddr">
 				<span class="title">지도중심기준 행정동 주소정보</span> <span id="centerAddr"></span>
 			</div>
-			<div class="mark" onclick ='markerClick()'>
-			<span style="font-size:13px;">마커 표시하기 </span>
-			</div>
 		</div>
 	</div>
 
@@ -41,8 +37,11 @@
 				<h3 style="color: darkslategray">즐겨찾기 등록</h3>
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">카테고리</label> <input class="modalInput"
+				<label class="modalLabel">카테고리</label> 
+				<div class="id"> 
+				<input class="modalInput"
 					id="category" type="text" placeholder="예) 맛집, 쇼핑" />
+				</div>
 			</div>
 			<div class="modalBox">
 				<label class="modalLabel">별칭</label><input class="modalInput"
@@ -67,10 +66,8 @@
 						</div>
 					</div>
 				</div>
-			<p>
-				<br />
-			</p>
-			<div style="width: 100%; display: flex; align-items: center; justify-content: center;">
+			
+			<div style="width: 100%; margin-bottom:10px; display: flex; align-items: center; justify-content: center;">
 				<div style="width: 40%">
 					<button class="fBtn" onClick="setFavorites();">
 						<span class="pop_bt" style="font-size: 10pt;"> 등록 </span>
@@ -81,7 +78,9 @@
 						<span class="pop_bt" style="font-size: 10pt;"> 취소 </span>
 					</button>
 				</div>
-
+				<p>
+				<br />
+				</p>
 			</div>
 		</div>
 	</div>
@@ -115,8 +114,11 @@
 		let rowaddress;
 		//지번주소
 		let address;
-
-		let iconUrl = '../../../../resources/imgs/default.png';
+		
+		//아이콘 url
+		let iconUrl = '';
+		
+		//아이콘 url check
 		let check = true;
 		let icon = [];
 		
@@ -124,10 +126,12 @@
 		
 		//페이지 넘버 저장
 		let number=1;
+		//사용자가 게시판 틀릭시 보여줄 오버레이인포위도우
+		let overlay;
 		
 		//마커 선택
 		function markerSelect(icons, url) {
-
+			
 			let marker = document.querySelector('#' + icons);
 
 			//중복제거
@@ -155,7 +159,7 @@
 					marker.style.background = "rgb(230,230,230)";
 					check = true;
 					icon.pop();
-					iconUrl = '../../../../resources/imgs/default.png';
+					iconUrl = '';
 				}
 			}
 			
@@ -169,7 +173,17 @@
 			let addressname = document.querySelector("#addressname");
 			let catName = document.querySelector("#category");
 			let memo = document.querySelector("#memo");
-
+			
+			if(addressname.value.trim()=='' || memo.value.trim()==''||category.value.trim()==''){
+				alert("빈칸이 있는지 확인해주세요");
+				return false;
+			}
+			
+			if(iconUrl==""){
+				alert("아이콘을 선택해주세요");
+				return false;
+			}
+			
 			let params = {
 				"lat" : lat,
 				"lng" : lng,
@@ -180,7 +194,8 @@
 				"memo" : memo.value,
 				"iconUrl" : iconUrl
 			};
-
+			
+			//return 값으로 html을 받아옴
 			$.ajax({
 				type : "POST",
 				url : "/treeMap/favorites",
@@ -188,7 +203,7 @@
 				data : params,
 				success : function(res) {
 					reloadMapList();
-					iconUrl = '../../../../resources/imgs/default.png';
+					iconUrl = '';
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
@@ -217,7 +232,8 @@
 		}
 		
 		//키워드로 페이징 처리
-		function reloadMapListKeyword(num,searchType,keyword) {
+		function reloadMapListKeyword(num,catNum,searchType,keyword) {
+			console.log(catNum);
 			number = num;
 			let boardSearch = document.querySelector('.boardSearch');
 			if(keyword==''){
@@ -226,9 +242,10 @@
 			  
 				$.ajax({
 					type : "GET",
-					url : "/treeMap/reloadBoard?num="+num+"&searchType="+searchType+"&keyword="+keyword,
+					url : "/treeMap/reloadBoard?num="+num+"&catNum="+catNum+"&searchType="+searchType+"&keyword="+keyword,
 					dataType : 'html',
 					success : function(res) {
+						console.log(res);
 						$('#include').html(res);
 					}
 				});
@@ -240,12 +257,12 @@
 		function closeModal() {
 			document.querySelector('#myModal').style = "display:none";
 			document.querySelector('#modifyModal').style = "display:none";
-			iconUrl = '../../../../resources/imgs/default.png';
+			iconUrl = '';
 			icon = [];
 			check = true;
 		}
 		
-		let overlay;
+		let DBmarker;
 		
 		//db에서 가져온 마커 표시
 		function addrmarker(lat, lng, rowaddress, address, adrName, adrNo,catNo, iconUrl) {
@@ -263,7 +280,7 @@
 			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,imageOption);
 
 			// 마커를 생성합니다
-			var marker = new kakao.maps.Marker({
+			DBmarker = new kakao.maps.Marker({
 				position : markerPosition,
 				image : markerImage
 			});
@@ -276,7 +293,7 @@
 			map.panTo(moveLatLon);
 
 			// 마커가 지도 위에 표시되도록 설정합니다
-			marker.setMap(map);
+			DBmarker.setMap(map);
 			
 			//길찾기에 등록할 url
 			let latLng = 'https://map.kakao.com/link/to/도착,'+lat+','+lng;
@@ -288,17 +305,19 @@
 			// 별도의 이벤트 메소드를 제공하지 않습니다 
 			var content = '<div class="wrap">' + '    <div class="info">'
 					+ '        <div class="title">' + adrName
-					+ '          <span class="find" onclick="window.open(\''+latLng+'\')"> 길찾기 </span>'
+					+ '          <span class="find" onclick="openKaKao(\''+latLng+'\')"> 길찾기 </span>'
 					+ '        </div>' 
 					+ '        <div class="body">'
 					+ '            <div class="desc">'
-					+ '                <div class="ellipsis">' + rowaddress
-					+ '</div>' + '                <div class="jibun ellipsis">'
-					+ address 
-					+ '</div>' 
+					+ '                <div class="ellipsis">' 
+					+								 rowaddress
+					+ '					</div>' 
+					+ '                <div class="jibun ellipsis">'
+					+ 						address 
+					+ '					</div>' 
 					+ '            </div>'
 					+ '        </div>' + '    </div>' + '</div>';
-
+			
 			// 마커 위에 커스텀오버레이를 표시합니다
 			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
 			overlay = new kakao.maps.CustomOverlay({
@@ -323,19 +342,37 @@
 				}
 			});
 			
+			marker.setMap(null);
+			infowindow.open(null,null);
+		}
+		
+		function openKaKao(url){
+			
+			window.open(url)
+			//현재마커 인포위도우 초기화
+			
+			
 		}
 		//수정 모달 오픈
 		function modifyModel() {
 			document.querySelector('#modifyModal').style = "display:block";
 		}
 
-		//수정
+		//수정완료시
 		function modifyFavorites(adrNo, catNo) {
 
-			let addressname = document.querySelector('#Maddressname');
+			let addressname = document.querySelector('#Maddressname');	
 			let memo = document.querySelector('#Mmemo');
 			let category = document.querySelector('#Mcategory');
-
+			if(addressname.value.trim()=='' || memo.value.trim()==''||category.value.trim()==''){
+				alert("빈칸이 있는지 확인해주세요");
+				return false;
+			}
+			if(iconUrl==""){
+				alert("아이콘을 선택해주세요");
+				return false;
+			}
+			
 			$.ajax({
 				type : "POST",
 				url : "/treeMap/modifyMapBoard",
@@ -350,7 +387,7 @@
 				},
 				success : function(res) {
 					reloadMapList();
-					iconUrl = '../../../../resources/imgs/default.png';
+					iconUrl = '';
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
@@ -432,7 +469,6 @@
 											// 마커를 클릭한 위치에 표시합니다 
 											marker.setPosition(mouseEvent.latLng);
 											marker.setMap(map);
-											console.log(mouseEvent.latLng);
 
 											// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
 											infowindow.setContent(content);
@@ -523,15 +559,19 @@
 		    
 		    // 마커를 생성하고 지도에 표시합니다
 		   
-		    var marker = new kakao.maps.Marker({
+		    var placeMarker = new kakao.maps.Marker({
 		        map: map,
 		        position: new kakao.maps.LatLng(place.y, place.x) 
 		    });
 		    
 		    
 		    // 마커에 클릭이벤트를 등록합니다
-		    kakao.maps.event.addListener(marker, 'click', function() {
-		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+		    kakao.maps.event.addListener(placeMarker, 'click', function() {
+		    	
+		    	marker.setMap(null);
+				infowindow.open(null,null);
+		        
+				// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 		        
 		        var detailAddr = !!place.road_address ? '<div class="ellipsis">도로명주소 : '
 						+ place.road_address_name
@@ -543,8 +583,7 @@
 				var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
 						+ '    <div class="info">'
 						+ '        <div class="title">'
-						+ '			<button type="button" class="favoritesBtn" onclick="openModal();">'+place.place_name+' 즐겨찾기 등록하기</button>'
-						+ '			<img src="../../../../resources/imgs/위치.png" style="width:20px; float:right;margin-right:10px;margin-top:5px;"/>'
+						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;" onclick="openModal();">'+place.place_name+' 즐겨찾기 등록하기</button>'
 						+ '        </div>'
 						+ '        <div class="body">'
 						+ '            <div class="desc">'
@@ -559,7 +598,7 @@
 						address = place.address_name;
 				        
 						infowindow.setContent(content);
-				        infowindow.open(map, marker);
+				        infowindow.open(map, placeMarker);
 		    });
 		}
 		

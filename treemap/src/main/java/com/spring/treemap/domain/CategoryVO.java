@@ -11,7 +11,4 @@ public class CategoryVO {
 	private String createdAt;
 	
 	
-	private int startNum=0;
-	
-	private int endNum=4;
 }
