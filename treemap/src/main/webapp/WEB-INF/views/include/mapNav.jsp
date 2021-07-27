@@ -23,19 +23,25 @@
 	</div>
 	<div>
 		<sec:authorize access="isAnonymous()">
-			<p>
-				<a href="/member/signup">회원가입</a>
-				<a href="/member/customLogin">로그인</a>
+			<p><!-- 
+				<a href="<%=request.getContextPath()%>?subpage=../member/signup">회원가입</a>
+				<a href="<%=request.getContextPath()%>?subpage=../member/customLogin">로그인</a>
+			-->
+			<button onclick="login();">로그인</button>
+			<button onclick="signup();">회원가입</button>
+			
 			</p>
 		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
-		<sec:authentication property="principal.username" var="userName"/>
+			<sec:authentication property="principal.username" var="userName" />
 			<p>
-				<a href="/member/logout">${userName }로그아웃</a>
+				<a href="/logout">${userName }로그아웃</a>
 			</p>
 		</sec:authorize>
 	</div>
 </div>
+<script type="text/javascript">
 
+</script>
 </html>

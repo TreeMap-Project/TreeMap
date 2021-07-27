@@ -11,8 +11,6 @@
 <bean id="userDetailsService" class="com.spring.treemap.service.CustomUserDetailsService"></bean>	
 		<!-- 페이지 접근 권한 관리 -->
 		<security:http auto-config="true" use-expressions="true">
-			<security:intercept-url pattern="/sample/all" access="permitAll"/>
-			<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
 			
 		<security:access-denied-handler error-page="/accessError"/>				
 		<security:form-login 
@@ -21,8 +19,8 @@
 			login-page="/member/customLogin" authentication-success-handler-ref="loginSuccess"/>		
 		 
 		<!-- 로그아웃 시에 세션,쿠키 삭제 -->
-		<security:logout logout-url="/member/logout" 
-			invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/>
+		<security:logout 
+			invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" logout-success-url="/treeMap/map"/>
 			
 		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>	
 		

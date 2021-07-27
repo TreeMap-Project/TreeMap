@@ -4,7 +4,7 @@ import com.spring.treemap.domain.MemberVO;
 
 public interface MemberService {
 	//아이디 중복확인
-	boolean checkEmail(String userEmail);
+	int checkEmail(String userEmail);
 	
 	//회원가입
 	boolean getSignUp(MemberVO member);

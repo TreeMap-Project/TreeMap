@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.treemap.domain.MemberVO;
 import com.spring.treemap.service.MemberService;
@@ -22,7 +24,7 @@ public class CommonController {
 	@GetMapping("/member/signup")
 	public void showSignin(String error, Model model) {
 		log.info("회원가입 페이지");
-		log.info("error: "+error);
+		log.info("error: "+"입력값을 다시 확인해주세요.");
 			
 		if(error != null){
 			model.addAttribute("error",error);
@@ -34,41 +36,36 @@ public class CommonController {
     public String signUp(MemberVO member,Model model) {
     	
     	if(service.getSignUp(member)) {
-    		model.addAttribute("msg",member.getUserName()+"님 환영합니다.");
+    		model.addAttribute("msg",member.getUserName()+"님 로그인 해주세요.");
     	}else {
     		log.info("회원가입오류");
     	}            
-        return "redirect:/member/customLogin";
+        return "redirect:/treeMap/map";
     }
     
+    @ResponseBody
     @PostMapping("/chkEmail")
-	public boolean checkEmail(String userEmail) {
+	public Integer checkEmail(String userEmail) {
 		log.info("이메일 중복체크");
-		if(service.checkEmail(userEmail)) return true;
-		else return false;
-		
+
+		return service.checkEmail(userEmail);
     }
 	
 	
 	@GetMapping("/member/customLogin")
-	public void showLogin(String error, String logout, Model model) {
+	public String showLogin(String error, String logout, Model model) {
 		log.info("로그인 페이지");
 		log.info("error: "+error);
 		log.info("logout: "+logout);
 		
 		if(error != null){
-			log.info("error: "+error);
+			log.info("error: "+"입력값을 다시 확인해주세요.");
 		}
 		if(logout !=null) {
 			model.addAttribute("logout","로그아웃이 완료되었습니다.");
-		}		
+		}	
+		return "member/customLogin";
 	}
-	
-	@GetMapping("/member/logout")
-	public void logoutGet() {
-		log.info("custom logout");
-	}
-	
 	
 	@GetMapping("/accessError")
 	public void accessDenied(Authentication auth, Model model) {

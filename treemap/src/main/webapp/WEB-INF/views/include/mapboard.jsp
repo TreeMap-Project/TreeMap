@@ -9,15 +9,7 @@
 <meta charset="UTF-8">
 <body>
 	<div class="boardNav">
-
 		<div class="category">
-			<sec:authorize access="isAnonymous()">
-				<p>
-					<a href="/member/signup">회원가입</a>
-				</p>
-		</div>
-		</sec:authorize>
-		<sec:authorize access="isAuthenticated()">
 			<ul>
 				<li>맛집</li>
 				<li>쇼핑</li>
@@ -39,7 +31,6 @@
 		</c:forEach>
 		
 	</div>
-	</sec:authorize>
 	</div>
 </body>
 </html>

@@ -12,7 +12,7 @@
 <h1>Logout Page</h1>
 </div>
 <div>
-<form action="/member/logout" method="post">
+<form action="/logout" method="post">
 <fieldset>
 <button>Logout</button>
 </fieldset>

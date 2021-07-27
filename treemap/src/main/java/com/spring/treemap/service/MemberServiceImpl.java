@@ -26,8 +26,10 @@ public class MemberServiceImpl implements MemberService{
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 
-	public boolean checkEmail(String userEmail) {
-		return mapper.emailCnt(userEmail)==0;
+	public int checkEmail(String userEmail) {
+		int cnt = mapper.emailCnt(userEmail);
+		System.out.println(cnt);
+		return cnt;
 	}
 
 	public boolean getSignUp(MemberVO member) {
