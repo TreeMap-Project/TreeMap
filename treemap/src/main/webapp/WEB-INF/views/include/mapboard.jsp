@@ -18,7 +18,7 @@
  				<c:forEach items="${categoryName}" var="list" varStatus="status">
  				
  						<c:if test="${keyword != list.catName}">
-							<li class="catName" onclick="reloadMapListKeyword(1,${categoryPage.num},'catName','${list.catName}')">${list.catName}</li>
+ 							<li class="catName" onclick="reloadMapListKeyword(1,${categoryPage.num},'catName','${list.catName}')">${list.catName}</li>
 						</c:if>
 						<c:if test="${keyword == list.catName}">
 							<li class="catName" style="color:white;">${list.catName}</li>
@@ -66,7 +66,7 @@
 							</div>
 						</div>
 						<div style="margin-top:20px;">
-							<button type="button" class="modifyBtn" onclick="reloadMapList()">돌아가기</button>
+							<button type="button" class="modifyBtn" onclick="reloadMapCategoryList()">돌아가기</button>
 						</div>
 					</div>
 				</c:when>

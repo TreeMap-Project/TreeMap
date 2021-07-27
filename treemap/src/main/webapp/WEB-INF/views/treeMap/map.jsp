@@ -204,6 +204,8 @@
 				success : function(res) {
 					reloadMapList();
 					iconUrl = '';
+					icon = [];
+					check = true;
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
@@ -216,8 +218,9 @@
 			$('#myModal').hide();
 		}
 		
-		//게시판을 다시 받아옴
 		function reloadMapList() {
+			type = "";
+			 kw="";
 			$.ajax({
 					type : "GET",
 					url : "/treeMap/reloadBoard?num="+number,
@@ -229,12 +232,34 @@
 			//현재마커 인포위도우 초기화
 			marker.setMap(null);
 			infowindow.open(null,null);
+			console.log(type,kw);
 		}
 		
+		//게시판을 카테고리로 다시 받아옴
+		function reloadMapCategoryList() {
+			$.ajax({
+					type : "GET",
+					url : "/treeMap/reloadBoard?num="+number+"&searchType="+type+"&keyword="+kw,
+					dataType : 'html',
+					success : function(res) {
+						$('#include').html(res);
+					}
+				});
+			//현재마커 인포위도우 초기화
+			marker.setMap(null);
+			infowindow.open(null,null);
+			console.log(type,kw);
+		}
+		let type="";
+		let kw="";
 		//키워드로 페이징 처리
 		function reloadMapListKeyword(num,catNum,searchType,keyword) {
 			console.log(catNum);
 			number = num;
+			if(searchType==="catName"){
+				type=searchType;
+			}
+			kw = keyword;
 			let boardSearch = document.querySelector('.boardSearch');
 			if(keyword==''){
 				keyword = boardSearch.value;
@@ -245,7 +270,6 @@
 					url : "/treeMap/reloadBoard?num="+num+"&catNum="+catNum+"&searchType="+searchType+"&keyword="+keyword,
 					dataType : 'html',
 					success : function(res) {
-						console.log(res);
 						$('#include').html(res);
 					}
 				});
@@ -364,6 +388,7 @@
 			let addressname = document.querySelector('#Maddressname');	
 			let memo = document.querySelector('#Mmemo');
 			let category = document.querySelector('#Mcategory');
+			
 			if(addressname.value.trim()=='' || memo.value.trim()==''||category.value.trim()==''){
 				alert("빈칸이 있는지 확인해주세요");
 				return false;
@@ -388,6 +413,8 @@
 				success : function(res) {
 					reloadMapList();
 					iconUrl = '';
+					icon = [];
+					check = true;
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
@@ -410,6 +437,9 @@
 					},
 					success : function(res) {
 						reloadMapList();
+						iconUrl = '';
+						icon = [];
+						check = true;
 					},
 					error : function(request, status, error) {
 						alert("code:" + request.status + "\n" + "message:"
