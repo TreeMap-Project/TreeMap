@@ -4,18 +4,16 @@ import lombok.Data;
 
 @Data
 public class AddressVO extends MemberVO{
+	private int adrNo;			//주소번호
+	private int userNo;			//유저번호
+	private int catNo;			//카테고리번호
+	private String adrName;		//주소별칭
+	private String lat;			//위도
+	private String lng;			//경도
+	private String rowaddress;	//도로명
+	private String address;		//지번
+	private String memo;		//메모
+	private String createdAt;	//생성일
+	private boolean detail;
 	
-	private int adrNo;
-	private int userNo;
-	private int catNo;
-	private String lat;
-	private String lng;
-	private String adrName;
-	private String category;
-	private String rowaddress;
-	private String address;
-	private String memo;
-	private String IconUrl;
-	private String createdAt;
-
 }

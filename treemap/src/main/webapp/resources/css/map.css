@@ -1,15 +1,18 @@
 @charset "UTF-8";
 
-*{
-	margin:0px;
+* {
+	margin: 0px;
 }
-.navs{
+
+.navs {
 	width: 70%;
 }
-.mapboardWrap{
-	display:flex;
+
+.mapboardWrap {
+	display: flex;
 	width: 70%;
 }
+
 .map_wrap {
 	position: relative;
 	width: 100%;
@@ -18,7 +21,6 @@
 .title {
 	font-weight: bold;
 	display: block;
-	
 }
 
 .hAddr {
@@ -32,6 +34,18 @@
 	padding: 5px;
 }
 
+.mark {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	border-radius: 2px;
+	background: rgb(0,130,240);
+	color:white;
+	z-index: 1;
+	padding: 5px;
+	cursor: pointer;
+}
+
 #centerAddr {
 	display: block;
 	margin-top: 2px;
@@ -39,8 +53,8 @@
 }
 
 .bAddr {
-	width:300px;
-	height:90px;
+	width: 300px;
+	height: 90px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
@@ -50,40 +64,42 @@
 	flex-direction: column;
 	justify-content: center;
 }
-.favoritesBox{
-	width:100%;
-	padding-top:5px;
-	padding-bottom:5px;
+
+.favoritesBox {
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.favoritesBtn{
+
+.favoritesBtn {
 	border: none;
 	background-color: transparent;
-	color:white;
-	font-size:14px;
+	color: white;
+	font-size: 14px;
 	font-weight: 600;
 	position: relative;
 }
 
-.favoritesBtn:after{
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 0px;
-  height: 2px;
-  margin: 1px 0 0;
-  transition: all 0.2s ease-in-out;
-  transition-duration: 0.3s;
-  opacity: 0;
-  background-color: white;
+.favoritesBtn:after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -3px;
+	width: 0px;
+	height: 2px;
+	margin: 1px 0 0;
+	transition: all 0.2s ease-in-out;
+	transition-duration: 0.3s;
+	opacity: 0;
+	background-color: white;
 }
 
-.favoritesBtn:hover:after{
-  	width: 100%;
-   opacity: 1;
+.favoritesBtn:hover:after {
+	width: 100%;
+	opacity: 1;
 }
 
 .wrap {
@@ -123,13 +139,16 @@
 .info .title {
 	padding: 5px 0 0 10px;
 	height: 30px;
-	background: rgb(35,140,250);
+	background: rgb(35, 140, 250);
 	border-bottom: 1px solid #ddd;
 	font-size: 16px;
 	font-weight: 600;
 	color: white;
 }
-
+.info .find{
+	float:right; margin-right:10px;
+	margin-top:5px;
+}
 .info .close {
 	position: absolute;
 	top: 10px;
@@ -151,7 +170,7 @@
 }
 
 .info .desc {
-	padding:10px;
+	padding: 10px;
 	position: relative;
 }
 
@@ -191,4 +210,3 @@
 .info .link {
 	color: #5085BB;
 }
-
