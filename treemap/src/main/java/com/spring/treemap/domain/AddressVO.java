@@ -3,7 +3,7 @@ package com.spring.treemap.domain;
 import lombok.Data;
 
 @Data
-public class AddressVO extends MemberVO{
+public class AddressVO {
 	
 	private int adrNo;
 	private int userNo;

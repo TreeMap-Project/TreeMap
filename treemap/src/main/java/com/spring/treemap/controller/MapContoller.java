@@ -27,9 +27,9 @@ public class MapContoller {
 	public void openMap(Model model) {
 		System.out.println("접근");
 		int userNo = 1;
-		List<AddressVO> vo = service.getMapBoardList(userNo);
-		
-		model.addAttribute("mapBoardList",vo);
+//		List<AddressVO> vo = service.getMapBoardList(userNo);
+//		
+//		model.addAttribute("mapBoardList",vo);
 	}
 	
 	@PostMapping("/favorites")
