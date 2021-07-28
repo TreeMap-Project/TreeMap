@@ -13,7 +13,7 @@
 <div class="signup-header">
 </div>
 <div class="signup-body">
-<h1>회원가입 화면</h1>
+<h1 style="font-family:Open Sans; color:rgb(75,75,75)">Sign Up</h1>
 	<h2>
 		<c:out value="${error}" />
 	</h2>
@@ -48,13 +48,13 @@
 	</div>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-var csrfHeaderName = "${_csrf.headerName }";
-var csrfTokenValue = "${_csrf.token }";
+/* var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
 
 $(document).ajaxSend(function(e,xhr,option){
 	xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
 });
-
+ */
 let userEmail = document.getElementById('userEmail');
 let userPW = document.getElementById('userEmail');
 function test(){
