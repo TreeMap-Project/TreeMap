@@ -5,6 +5,8 @@
 	position: absolute;
 	top: 0%;
 	right: 0%;
+	min-width: 385px;
+	z-index:2;
 	
 }
 
@@ -17,14 +19,17 @@
 .boardNav ul {
 	width: 100%;
 	margin-right: auto;
-	margin-left: auto;
+	margin-left: 0px;
+	padding: 2px;
 	text-align: center;
 }
 
-.boardNav li {
+.catName {
 	margin-left: 15px;
 	display:inline-block;
-	color:white;
+	color:rgb(220,220,220);
+	font-size :13px;
+	cursor: pointer;
 }
 
 .category {
@@ -39,7 +44,7 @@
 .mapboardListBox{
 	width: 100%;
 	height: 100%;
-	min-height: 600px;
+	min-height: 700px;
 	background-color: rgb(247, 247, 247);
 }
 .mapboardListSearch{
@@ -55,6 +60,7 @@
 	border-radius: 7px;
 	padding:5px;
 	border: 1px solid lightgray;
+	font-size: 11px;
 }
 
 .boardSearch:focus{
@@ -62,15 +68,94 @@
 	outline:none;
 	box-shadow: 5px 5px 5px gray;
 }
-.boardList{
+.boardDetailwapper{
+	padding: 40px 60px;
+	background-color: white;
+	color:rgb(50, 70, 73);
+	min-width: 300px;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+}
+.boardDetail{
+	background-color: white;
+	width: 100%;
+	height: 350px;
+	display: flex;
+	flex-direction: column;
+	border:1px solid #dadce0;
+	border-radius: 8px;
+}
+
+.detailTitle{
+	width: 100%;
+	display:flex;
+	height: 60px;
+	align-items:center;
+	border-bottom: 1px solid #dadce0;
+}
+
+.detailaddress{
 	width: 100%;
 	height: 70px;
+	display:flex;
+	flex-direction:row;
+	border-bottom: 1px solid #dadce0;
+}
+.date{
+	width: 100%;
+	height: 40px;
+	display:flex;
+	border-bottom: 1px solid #dadce0;
+}
+.memoBox{
+	width: 100%;
+	height: 110px;
+	display:flex;
+	border-bottom: 1px solid #dadce0;
+}
+.memo{
+	width:200px;
+	height:80px;
+	resize:none;
+	margin-top:10px;
+}
+
+.detailLabel{
+	margin-top:10px;
+	margin-left:10px;
+	width: 70px;
+	font-size: 13px;
+	font-weight: bold;
+}
+.MapChange{
+	width:100%;
+	height:60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modifyBtn{
+	border:none;
+	background-color:rgb(35,140,250);
+	width: 100px;
+	color:white;
+	margin:10px;
+	padding:5px;
+	cursor: pointer;
+}
+
+.boardList{
+	width: 100%;
+	height: 65px;
 	background-color:white;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	border-bottom: 1px solid gray; 
 }
+
 .addressname{
 	margin-left:20%;
 	margin-bottom: 3px;
@@ -90,7 +175,7 @@
 }
 .boardList span{
 	font-weight: 600;
-	font-size: 14px;
+	font-size: 13px;
 	color:rgb(50, 70, 73);
 	position: relative;
 }
@@ -111,4 +196,19 @@
 .boardList span:hover:after{
   width: 100%;
    opacity: 1;
+}
+.pageBox{
+	width:100%;
+	height:50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.pageNumBtn{
+	border: 1px solid gray;
+	background-color: transparent;
+	margin-top:5px;
+	cursor: pointer;
+	margin: 2px;
 }

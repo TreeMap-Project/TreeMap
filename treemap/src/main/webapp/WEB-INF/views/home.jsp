@@ -1,27 +1,27 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ page session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <html>
 <head>
-	<title>Home</title>
+<title>Main</title>
 </head>
+<link href="../../../../resources/css/main.css" rel="stylesheet"
+type="text/css">
+
 <body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
-<p><a href="/treeMap/map">지도보러가기</a></p>
-<p><a href="/member/signup">회원가입</a></p>
-<sec:authorize access="isAnonymous()">
-<p><a href="/member/customlogin">로그인</a></p>
-</sec:authorize>
-
-<sec:authorize access="isAuthenticated()">
-<p><a href="/member/logout">로그아웃</a></p>
-</sec:authorize>
-
+	<div class="startMainWapper">
+		<div class="styleBox">
+			<div class="logo">
+				<img style="width: 30%"
+					src="../../../../resources/imgs/LogoColor.png" /> <span
+					class="mainTotle">TREE MAP</span>
+			</div>
+			<div class="subTitleBox">
+				<p>나만의 지도를</p>
+				<p>만들어 보세요</p>
+			</div>
+			<a class="start" href='/treeMap/map?num=1'>시작하기</a>
+		</div>
+	</div>
 </body>
 </html>
