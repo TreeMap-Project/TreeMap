@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import lombok.extern.log4j.Log4j;
@@ -25,6 +27,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		authentication.getAuthorities().forEach(authority -> {
 			roleNames.add(authority.getAuthority());
 		});
+
+		User user = (User)authentication.getPrincipal();
+		System.out.println(user.getUsername());
 		
 		log.info("roleName: "+roleNames);
 		if(roleNames.contains("ROLE_MEMBER")) {

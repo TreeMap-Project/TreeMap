@@ -21,23 +21,15 @@
 			</button>
 		</form>
 	</div>
-	<div>
+	<div class="rightBtns">
 		<sec:authorize access="isAnonymous()">
-			<p><!-- 
-				<a href="<%=request.getContextPath()%>?subpage=../member/signup">회원가입</a>
-				<a href="<%=request.getContextPath()%>?subpage=../member/customLogin">로그인</a>
-			-->
-			<button onclick="login();">로그인</button>
-			<button onclick="signup();">회원가입</button>
-			
-			</p>
+			<button id="loginBtn" class="rightBtn" onclick="login();">로그인</button>
+			<button id="signupBtn" class="rightBtn" onclick="signup();">회원가입</button>		
 		</sec:authorize>
 
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal.username" var="userName" />
-			<p>
-				<a href="/logout">${userName }로그아웃</a>
-			</p>
+			<button class="rightBtn" onclick="location.href='/logout'">로그아웃</button>
 		</sec:authorize>
 	</div>
 </div>

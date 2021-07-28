@@ -10,44 +10,46 @@
 	type="text/css">
 </head>
 <body>
-<div class="customLogin">
-<div class="customLogin-header">
-	
-	</div>
-	<div class="customLogin-body">
-	<h1>Login</h1>
-	<h2>
-		<c:out value="${error}" />
-	</h2>
-	<h2>
-		<c:out value="${logout}" />
-	</h2>
-	<h2>
-		<c:out value="${msg}" />
-	</h2>
-	<h3>이메일과 비밀번호를 입력해주세요.</h3>
+	<div class="customLogin">
+		<div class="customLogin-header"></div>
+		<div class="customLogin-body">
+			<h1 style="font-family:Open Sans; color:rgb(75,75,75)">Sign In</h1>
+			<h2>
+				<c:out value="${error}" />
+			</h2>
+			<h2>
+				<c:out value="${logout}" />
+			</h2>
+			<h2>
+				<c:out value="${msg}" />
+				<%=request.getAttribute("msg") %>
+			</h2>
 
-	<form method="post" action="/login" id="loginForm">
-		<fieldset>
-			<div>
-				<label>Email</label> <input type="email" name="userEmail"
-					placeholder="이메일을 입력해주세요." autofocus>
-			</div>
-			<div>
-				<label>Password</label> <input type="password" name="userPW"
-					placeholder="비밀번호를 입력해주세요.">
-			</div>
-			<div>
-				<input type="checkbox" name="remember-me">Remember Me
-			</div>
-			<div>
-				<button class="loginsubmit">확인</button>
-			</div>
-		</fieldset>
-		<input type="hidden" name="${_csrf.parameterName }"
-			value="${_csrf.token }" />
-	</form>
-	</div>
+			<form method="post" action="/login" id="loginForm">
+				
+					<div class="loginBoxWrapper">
+						<div class="loginBox">
+							<label class="loginLabels">Email</label> <input
+								class="loginInputs" type="email" name="userEmail"
+								placeholder="이메일을 입력해주세요." autofocus>
+						</div>
+						<div class="loginBox">
+							<label class="loginLabels">Password</label> <input
+								class="loginInputs" type="password" name="userPW"
+								placeholder="비밀번호를 입력해주세요.">
+							<div>
+								<input type="checkbox" name="remember-me"> 자동로그인 저장
+							</div>
+						</div>
+						<div class="loginBox">
+							<button class="loginsubmit">확 인</button>
+						</div>
+					</div>
+			
+				<input type="hidden" name="${_csrf.parameterName }"
+					value="${_csrf.token }" />
+			</form>
+		</div>
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
@@ -55,8 +57,6 @@
 			e.preventDefault();
 			$("#loginForm").submit();
 		});
-		
-		
 	</script>
 </body>
 </html>

@@ -97,22 +97,20 @@
 	<!-- right-header -->
 	<%@ include file="../include/mapNav.jsp"%>
 	<!-- right-body -->
-	<% String subpage = "../include/mapboard"; %>
+	<% String subpage = "../include/mapboard.jsp"; %>
 	<!-- role이 없는 경우(로그인 안한경우) -->
 	<sec:authorize access="isAnonymous()">
-	<% subpage ="../member/customLogin"; %>
+	<% subpage ="../member/customLogin.jsp"; %>
 	</sec:authorize>
-	<%	
+<%-- 	<%	
 	if (request.getParameter("subpage") != null) {
 		subpage = request.getParameter("subpage");
 	}
 	subpage = subpage + ".jsp";
-	%>
+	%> --%>
 	<div id="include">
 		<jsp:include page="<%=subpage%>"></jsp:include>
 	</div>
-	<%-- <%@ include file="../include/mapboard.jsp"%>
- --%>
  
 	<div class="mapboardWrap">
 		<div class="map_wrap">
@@ -611,6 +609,9 @@
 		 }*/
 		 
 		 function login(){
+			 document.querySelector('#signupBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120) ";
+			 document.querySelector('#loginBtn').style="border:1px solid white; color: white ";
+				
 				$.ajax({
 				    type : "GET",
 				    url : "/member/customLogin",
@@ -626,7 +627,9 @@
 				});
 			} 
 		 function signup(){
-				$.ajax({
+			 document.querySelector('#loginBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120) ";
+			 document.querySelector('#signupBtn').style="border:1px solid white; color: white ";
+			 $.ajax({
 				    type : "GET",
 				    url : "/member/signup",
 				    //data : {"userEmail":userEmail.value},

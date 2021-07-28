@@ -1,57 +1,76 @@
 @charset "UTF-8";
 
-.navbar{
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	background-color:rgb(56,198,120);
-	width:70%;
-	height:60px;
-}
-.logoBox{
-	width:150px;
-	
-}
-.mapSearch{
-	width:180px;
-	height:20px;
-	border-radius: 7px;
-	padding:5px;
-	border: none;
-}
-.mapSearch:focus{
-	padding:7px;
-	outline:none;
-	box-shadow: 5px 5px 5px gray;
-}
-.navbar ul{
-	list-style:none;
-}
-
-.logo{
-	width:30px;
-}
-
-.navbar a{
-	color:white;
-}
-
-.mapSearchBox form{
+.navbar {
 	display: flex;
 	align-items: center;
-	justify-content: center;	
+	justify-content: center;
+	background-color: rgb(56, 198, 120);
+	width: 70%;
+	height: 60px;
 }
 
-.mapSearchBox button{
+.logoBox {
+	width: 150px;
+}
+
+.mapSearch {
+	width: 180px;
+	height: 20px;
+	border-radius: 7px;
+	padding: 5px;
+	border: none;
+}
+
+.mapSearch:focus {
+	padding: 7px;
+	outline: none;
+	box-shadow: 5px 5px 5px gray;
+}
+
+.navbar ul {
+	list-style: none;
+}
+
+.logo {
+	width: 30px;
+}
+
+.navbar a {
+	color: white;
+}
+
+.mapSearchBox form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.mapSearchBox button {
 	width: 40px;
 	height: 40px;
 	border: none;
 	background-color: transparent;
-	margin-top:5px;
+	margin-top: 5px;
 	cursor: pointer;
 }
 
-.searchImg{
+.searchImg {
 	width: 20px;
 	height: 20px;
+}
+
+.rightBtn {
+	background-color: transparent;
+	color: white;
+	border: 1px solid white;
+	border-radius: 5px;
+	width: 80px;
+	height: 30px;
+	margin: 5px;
+	box-shadow: 3px 3px 3px rgb(150,150,150);
+}
+
+.rightBtns{
+	position: absolute;
+	right: 33%;
 }
