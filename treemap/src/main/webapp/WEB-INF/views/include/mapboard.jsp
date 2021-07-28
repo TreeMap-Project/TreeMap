@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <link href="../../../../resources/css/mapboardNav.css" rel="stylesheet" type="text/css">
 <html>
 <meta charset="UTF-8">
@@ -49,6 +51,7 @@
 										<c:if test="${address.rowaddress!=null }">
 											<p>도로명 : ${address.rowaddress}</p>
 										</c:if>
+										
 								</div>
 							</div>
 

@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -16,10 +18,23 @@
 	type="text/css">
 </head>
 <body>
-	<%@ include file="../include/mapNav.jsp"%>
-	<div id="include">
-		<%@ include file="../include/mapboard.jsp"%>
-	</div>
+		<!-- right-header -->
+		<%@ include file="../include/mapNav.jsp"%>
+		<!-- right-body -->
+		<% String subpage = "../include/mapboard"; %>
+		<!-- role이 없는 경우(로그인 안한경우) -->
+		<sec:authorize access="isAnonymous()">
+		<% subpage ="../member/customLogin"; %>
+		</sec:authorize>
+		<%	
+		if (request.getParameter("subpage") != null) {
+			subpage = request.getParameter("subpage");
+		}
+		subpage = subpage + ".jsp";
+		%>
+		<div id="include">
+			<jsp:include page="<%=subpage%>"></jsp:include>
+		</div>
 	<div class="mapboardWrap">
 		<div class="map_wrap">
 			<div id="map"
@@ -167,6 +182,7 @@
 		//오픈 모달
 		function openModal() {
 			document.querySelector('#myModal').style = "display:block";
+			console.log(${userNo});
 		}
 		//즐겨찾기
 		function setFavorites() {
@@ -192,7 +208,8 @@
 				"adrName" : addressname.value,
 				"catName" : catName.value,
 				"memo" : memo.value,
-				"iconUrl" : iconUrl
+				"iconUrl" : iconUrl,
+				"userNo" : ${userNo}
 			};
 			
 			//return 값으로 html을 받아옴
@@ -223,7 +240,7 @@
 			 kw="";
 			$.ajax({
 					type : "GET",
-					url : "/treeMap/reloadBoard?num="+number,
+					url : "/treeMap/reloadBoard?num="+number+"&userNo="+${userNo},
 					dataType : 'html',
 					success : function(res) {
 						$('#include').html(res);
@@ -239,7 +256,7 @@
 		function reloadMapCategoryList() {
 			$.ajax({
 					type : "GET",
-					url : "/treeMap/reloadBoard?num="+number+"&searchType="+type+"&keyword="+kw,
+					url : "/treeMap/reloadBoard?num="+number+"&searchType="+type+"&keyword="+kw+"&userNo="+${userNo},
 					dataType : 'html',
 					success : function(res) {
 						$('#include').html(res);
@@ -267,7 +284,7 @@
 			  
 				$.ajax({
 					type : "GET",
-					url : "/treeMap/reloadBoard?num="+num+"&catNum="+catNum+"&searchType="+searchType+"&keyword="+keyword,
+					url : "/treeMap/reloadBoard?num="+num+"&catNum="+catNum+"&searchType="+searchType+"&keyword="+keyword+"&userNo="+${userNo},
 					dataType : 'html',
 					success : function(res) {
 						$('#include').html(res);
@@ -483,7 +500,10 @@
 											detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '
 													+ result[0].address.address_name
 													+ '</div>';
-											var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
+											//if(${userNo}==0){
+											//	var												
+											//}else{
+												var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
 													+ '    <div class="info">'
 													+ '        <div class="title">'
 													+ '			<button type="button" class="favoritesBtn" onclick="openModal();">즐겨찾기 등록하기</button>'
@@ -495,8 +515,8 @@
 													+ '            </div>'
 													+ '        </div>'
 													+ '    </div>' + '</div>';
-
-											// 마커를 클릭한 위치에 표시합니다 
+											//}
+																						// 마커를 클릭한 위치에 표시합니다 
 											marker.setPosition(mouseEvent.latLng);
 											marker.setMap(map);
 
@@ -572,7 +592,7 @@
 
 		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 		        // LatLngBounds 객체에 좌표를 추가합니다
-		        var bounds = new kakao.maps.LatLngBounds();
+		        var bounds = new kakao.maps.LatLngBounds();	
 
 		        for (var i=0; i<data.length; i++) {
 		            displayMarker(data[i]);    
@@ -631,6 +651,40 @@
 				        infowindow.open(map, placeMarker);
 		    });
 		}
+		
+		function login(){
+			 document.querySelector('#signupBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120) ";
+			 document.querySelector('#loginBtn').style="border:1px solid white; color: white ";
+				
+				$.ajax({
+				    type : "GET",
+				    url : "/member/customLogin",
+				    //data : {"userEmail":userEmail.value},
+				    success : function(res) {     
+				    	  $('#include').html(res);
+				    },
+				    error: function(request, status, error) {
+				        alert("code:" + request.status + "\n" + "message:"
+				                + request.responseText + "\n" + "error:" + error);
+				       }
+				});
+			} 
+		 function signup(){
+			 document.querySelector('#loginBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120) ";
+			 document.querySelector('#signupBtn').style="border:1px solid white; color: white ";
+			 $.ajax({
+				    type : "GET",
+				    url : "/member/signup",
+				    //data : {"userEmail":userEmail.value},
+				    success : function(res) {     
+				    	 $('#include').html(res);
+				    },
+				    error: function(request, status, error) {
+				        alert("code:" + request.status + "\n" + "message:"
+				                + request.responseText + "\n" + "error:" + error);
+				       }
+				});
+			}
 		
 	</script>
 </body>

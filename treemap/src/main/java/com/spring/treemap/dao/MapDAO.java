@@ -29,9 +29,11 @@ public interface MapDAO {
 
 	List<MapVO> getCatNameList(HashMap<String, Object> data);
 
-	int getAddressCount(String keyword);
+	int getAddressCount(HashMap<String, Object> data);
 
-	int getCategoryCount(String catName);
+	int getCategoryCount(HashMap<String, Object> data);
+
+	int getUserNo(String userEmail);
 
 
 }

@@ -33,11 +33,13 @@ public class MapContoller {
 
 	// 처음 들어올시
 	@GetMapping("/map")
-	public String openMap(Model model, @RequestParam("num") int num,
+	public String openMap(Model model, @RequestParam(value="num", required = false, defaultValue = "1") int num,
 			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
-			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
-
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,String userEmail) {
+		System.out.println("접근");
+		model.addAttribute("userNo",0);
+		/*
 		int userNo = 1;
 		Page page = new Page();
 		page.setNum(num);
@@ -66,26 +68,64 @@ public class MapContoller {
 		model.addAttribute("categoryPage", categoryPage);
 		// 카테고리가 몇개인지
 		model.addAttribute("categorylength", service.getMapBoardCateNameList(userNo, 0, 0).size());
+		*/
 		return "treeMap/map";
 	}
-
-	// 이벤트 발생시 다시 받음
-	@GetMapping("/reloadBoard")
-	public String getMapBoard(Model model, @RequestParam("num") int num,
+	@GetMapping("/userMapBoard")
+	public String getUserMapBoard(Model model, @RequestParam(value="num", required = false, defaultValue = "1") int num,
 			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
-			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) {
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam("userEmail") String userEmail) {
+		
+		int userNo = service.getUserNo(userEmail);
+		System.out.println(userNo);
+		Page page = new Page();
+		page.setNum(num);
 
-		int userNo = 1;
+		page.setCount(service.getAddressCount(userNo,keyword));
+		
+		page.setSearchType(searchType);
+		page.setKeyword(keyword);
+
+		CategoryPage categoryPage = new CategoryPage();
+		categoryPage.setNum(catNum);
+		List<CategoryVO> category = service.getMapBoardCateNameList(userNo, categoryPage.getStartNum(),categoryPage.getEndNum());
+
+		// 현재 페이지에 해당하는 리스트
+		model.addAttribute("mapBoardList",service.getMapBoardList(userNo, page.getDisplayPost(), page.getPostNum(), searchType, keyword));
+		// 카테고리 이름 표시
+		model.addAttribute("categoryName", category);
+		// 페이징처리
+		model.addAttribute("page", page);
+		// 현재 페이지가 몇인지 표시
+		model.addAttribute("select", num);
+		// 현재키워드가 뭔지 알려줌 페이지 이동할떄 알고있어야함
+		model.addAttribute("keyword", keyword);
+		// 카테고리 페이지
+		model.addAttribute("categoryPage", categoryPage);
+		// 카테고리가 몇개인지
+		model.addAttribute("categorylength", service.getMapBoardCateNameList(userNo, 0, 0).size());
+		
+		model.addAttribute("userNo",userNo);
+
+		return "treeMap/map";
+	}
+	// 이벤트 발생시 다시 받음
+	@GetMapping("/reloadBoard")
+	public String getMapBoard(Model model, @RequestParam(value="num", required = false, defaultValue = "1") int num,
+			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
+			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam("userNo") int userNo) {
 
 		Page page = new Page();
 		page.setNum(num);
 
 		if (searchType.equals("catName")) {
-			page.setCount(service.getCategoryCount(keyword));
+			page.setCount(service.getCategoryCount(userNo,keyword));
 		} else {
-			page.setCount(service.getAddressCount(keyword));
-
+			page.setCount(service.getAddressCount(userNo,keyword));
 		}
 		page.setSearchType(searchType);
 		page.setKeyword(keyword);

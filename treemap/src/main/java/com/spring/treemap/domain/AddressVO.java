@@ -3,7 +3,7 @@ package com.spring.treemap.domain;
 import lombok.Data;
 
 @Data
-public class AddressVO extends MemberVO{
+public class AddressVO {
 	private int adrNo;			//주소번호
 	private int userNo;			//유저번호
 	private int catNo;			//카테고리번호

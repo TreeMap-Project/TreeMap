@@ -30,23 +30,27 @@
 		<collection property="category" resultMap="CategoryVO" />
 	</resultMap>
 	
-	<select id="getAddressCount" resultType="int" parameterType="String">
-		select count(adrNo) from board.address
+	<select id="getAddressCount" resultType="int" parameterType="hashMap">
+		select count(adrNo) from address  where userNo=#{userNo} 
 		 <if test = '!_parameter.equals("")'>
-        	where adrName like concat('%',#{keyword},'%')
+        	and adrName like concat('%',#{keyword},'%')
         </if>
 	</select>
 	
-	<select id="getCategoryCount" resultType="int" parameterType="String">
-		select count(catNo) from board.category where catName =#{keyword}
+	<select id="getCategoryCount" resultType="int" parameterType="hashMap">
+		select count(catNo) from category where userNo=#{userNo} and catName =#{keyword}
+    </select>
+    
+    <select id="getUserNo" resultType="int" parameterType="String">
+    	select userNo from User where userEmail = #{userEmail}
     </select>
     
     <select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
 		select
 		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
-		board.Address a, board.Category b 
+		Address a, Category b 
         where a.userNo=b.userNo and a.catNo = b.catNo 
-        and a.userNo=1 and b.userNo=1
+        and a.userNo=#{userNo} and b.userNo=#{userNo}
         <if test = 'searchType.equals("adrName")'>
         	and a.adrName like concat('%',#{keyword},'%')
         </if>
@@ -61,25 +65,25 @@
 	<insert id="insertAddress"
 		parameterType="com.spring.treemap.domain.AddressVO">
 		insert into
-		board.Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo)
-		values(1,(select max(catNo) from board.category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
+		Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo)
+		values(#{userNo},(select max(catNo) from category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
 	</insert>
 
 	<insert id="insertCategory"
 		parameterType="com.spring.treemap.domain.CategoryVO">
-		insert into board.category(userNo,iconUrl, catName)
-		values(1,#{iconUrl},#{catName})
+		insert into category(userNo,iconUrl, catName)
+		values(#{userNo},#{iconUrl},#{catName})
 	</insert>
 	
 	<select id="getMapBoardDetail" resultMap="MapVO">
 		select
 		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.createdAt,c.catName,c.catNo
-		from board.category c, board.address a
+		from category c, address a
 		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>
 	
 	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="hashMap">
-		select catName from board.category where userNo=#{userNo} 
+		select catName from category where userNo=#{userNo} 
 		group by catName
 		<if test = 'endNum!=0'>
 			limit #{startNum}, #{endNum} 
@@ -89,26 +93,26 @@
 	<select id="getCatNameList" resultMap="MapVO" parameterType="hashMap">
 		select
 		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
-		board.Address a, board.Category b 
-        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=1 and b.catName=#{keyword}
+		Address a, Category b 
+        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=#{userNo} and b.catName=#{keyword}
         order by a.adrNo desc
         limit #{displayPost}, #{postNum} 
 	</select>
 	
 	<update id="updateAddress" parameterType="com.spring.treemap.domain.AddressVO">
-	 	UPDATE board.address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
+	 	UPDATE address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
 	</update>
 	
 	<update id="updateCategory" parameterType="com.spring.treemap.domain.CategoryVO">
-	 	 UPDATE board.category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
+	 	 UPDATE category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
 	</update>
 	
 	<delete id="deleteAddress" parameterType="int">
-		DELETE from board.address where adrNo=#{adrNo}
+		DELETE from address where adrNo=#{adrNo}
 	</delete>
 	
 	<delete id="deleteCategory" parameterType="int">
-		DELETE from board.category where catNo=#{catNo}
+		DELETE from category where catNo=#{catNo}
 	</delete>
 
 </mapper>

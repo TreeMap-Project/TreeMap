@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <link href="../../../../resources/css/mapNav.css" rel="stylesheet" type="text/css">
@@ -16,6 +18,17 @@
 		<input type="text" class="mapSearch" placeholder="키워드로 검색" />
 		<button class="SearchBtn" type="submit"><img class="searchImg" src="../../../../resources/imgs/search2.png"></button>
 		</form>
+	</div>
+	<div class="rightBtns">
+		<sec:authorize access="isAnonymous()">
+			<button id="loginBtn" class="rightBtn" onclick="login();">로그인</button>
+			<button id="signupBtn" class="rightBtn" onclick="signup();">회원가입</button>		
+		</sec:authorize>
+
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal.username" var="userName" />
+			<button class="rightBtn" onclick="location.href='/logout'">로그아웃</button>
+		</sec:authorize>
 	</div>
 </div>
 

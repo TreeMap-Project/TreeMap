@@ -40,8 +40,10 @@ public interface MapService {
 	List<MapVO> getCatNameList(int userNo, int displayPost, int postNum, String keyword);
 
 	// 주소 테이블 데이터 개수
-	int getAddressCount(String keyword);
+	int getAddressCount(int userNo, String keyword);
 
 	// 카테고리 테이블 데이터 개수
-	int getCategoryCount(String catName);
+	int getCategoryCount(int userNo, String catName);
+
+	int getUserNo(String userEmail);
 }

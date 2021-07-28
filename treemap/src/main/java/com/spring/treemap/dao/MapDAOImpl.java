@@ -83,14 +83,20 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public int getAddressCount(String keyword) {
-		return sql.selectOne(namespace+".getAddressCount",keyword);
+	public int getAddressCount(HashMap<String, Object> data) {
+		return sql.selectOne(namespace+".getAddressCount",data);
 	}
 
 
 	@Override
-	public int getCategoryCount(String keyword) {
-		return sql.selectOne(namespace+".getCategoryCount",keyword);
+	public int getCategoryCount(HashMap<String, Object> data) {
+		return sql.selectOne(namespace+".getCategoryCount",data);
+	}
+
+
+	@Override
+	public int getUserNo(String userEmail) {
+		return sql.selectOne(namespace+".getUserNo",userEmail);
 	}
 
 }

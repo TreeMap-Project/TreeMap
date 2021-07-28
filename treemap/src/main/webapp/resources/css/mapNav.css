@@ -61,3 +61,18 @@
 	width: 20px;
 	height: 20px;
 }
+.rightBtn {
+	background-color: transparent;
+	color: white;
+	border: 1px solid white;
+	border-radius: 5px;
+	width: 80px;
+	height: 30px;
+	margin: 5px;
+	box-shadow: 3px 3px 3px rgb(150,150,150);
+}
+
+.rightBtns{
+	position: absolute;
+	right: 33%;
+}

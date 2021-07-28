@@ -91,14 +91,27 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public int getAddressCount(String keyword) {
-
-		return dao.getAddressCount(keyword);
+	public int getAddressCount(int userNo,String keyword) {
+		
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("userNo", userNo);
+		data.put("keyword", keyword);
+		
+		return dao.getAddressCount(data);
 	}
 
 	@Override
-	public int getCategoryCount(String catName) {
-		return dao.getCategoryCount(catName);
+	public int getCategoryCount(int userNo,String catName) {
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("userNo", userNo);
+		data.put("catName", catName);
+		
+		return dao.getCategoryCount(data);
+	}
+
+	@Override
+	public int getUserNo(String userEmail) {
+		return dao.getUserNo(userEmail);
 	}
 
 }
