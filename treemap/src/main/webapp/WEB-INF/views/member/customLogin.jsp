@@ -36,12 +36,13 @@
 							<label class="loginLabels">Password</label> <input
 								class="loginInputs" type="password" name="userPW"
 								placeholder="비밀번호를 입력해주세요.">
+								<span>${requestScope.loginFailMsg}</span>
 							<div>
 								<input type="checkbox" name="remember-me">Remember Me
 							</div>
 						</div>
 						<div class="loginBox">
-							<button class="loginsubmit">확 인</button>
+							<button type="submit" class="loginsubmit">확 인</button>
 						</div>
 					</div>
 			
@@ -52,10 +53,7 @@
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
-		$(".loginsubmit").on("click", function(e) {
-			e.preventDefault();
-			$("#loginForm").submit();
-		});
+		
 	</script>
 </body>
 </html>

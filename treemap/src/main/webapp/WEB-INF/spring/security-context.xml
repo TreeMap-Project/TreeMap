@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 <bean id="loginSuccess" class="com.spring.treemap.security.LoginSuccessHandler"></bean>
-
 		
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 <bean id="userDetailsService" class="com.spring.treemap.service.CustomUserDetailsService"></bean>	
@@ -16,7 +15,9 @@
 		<security:form-login 
 			username-parameter="userEmail" 
 			password-parameter="userPW"
-			login-page="/member/customLogin" authentication-success-handler-ref="loginSuccess"/>		
+			login-page="/member/customLogin" 
+			authentication-success-handler-ref="loginSuccess"
+			/>		
 		 
 		<!-- 로그아웃 시에 세션,쿠키 삭제 -->
 		<security:logout 

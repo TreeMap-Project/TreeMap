@@ -9,7 +9,7 @@
 <div class="navbar">
 	<div class="logoBox" onclick="window.location.reload();">
 		<img class="logo" src="../../../../resources/imgs/treeLogo.png">
-		<span class="mainTotle" style="font-family: Franklin Gothic Heavy; color:white; margin-left:10px;">TREE MAP</span>
+		<span class="mainTotle" >TREE MAP</span>
 	</div>	
 	<div class="mapSearchBox">
 		<form onsubmit="searchPlaces(); return false;">
@@ -30,6 +30,45 @@
 			<button class="rightBtn" onclick="location.href='/logout'">로그아웃</button>
 		</sec:authorize>
 	</div>
+	<div>
+		<button class="menuBtn" onclick="boardOpen()"><img style="width: 30px;"src="../../../../resources/imgs/메뉴버튼.png"></button>
+	</div>
 </div>
+<script type="text/javascript">
+let board = true;
+window.addEventListener('resize', function() {
+	if(window.outerWidth<1100){
+		document.querySelector(".boardNav").style="display:none";
+		document.querySelector(".mapboardWrap").style="display: flex;width: 100%;";
+		document.querySelector(".mapSearchBox").style="position:relative;";
+		document.querySelector(".rightBtns").style="position: absolute;right:5%";
+		document.querySelector(".logoBox").style="display:none;";
+		document.querySelector(".menuBtn").style="display:block;";
+		board=true;
+	}else{
+		document.querySelector(".boardNav").style="display:block";
+		document.querySelector(".mapSearchBox").style="position: absolute; left:30%;";
+		document.querySelector(".navbar").style="width: 100%;";
+		document.querySelector(".rightBtns").style="position: absolute;right:33%;";
+		document.querySelector(".menuBtn").style="display:none;";
+		document.querySelector(".logoBox").style="display:flex;";
+		board=false;
+	
+}
+},true);
 
+function boardOpen(){
+	if (board==true){
+		document.querySelector(".boardNav").style="display:block";
+		document.querySelector(".mapSearchBox").style="position: absolute; left:20%";
+		document.querySelector(".rightBtns").style="left:50%";
+		board=false;
+	}else{
+		document.querySelector(".boardNav").style="display:none";
+		document.querySelector(".mapSearchBox").style="position:relative;";
+		document.querySelector(".rightBtns").style="right:5%";
+		board=true;
+	}
+}
+</script>
 </html>

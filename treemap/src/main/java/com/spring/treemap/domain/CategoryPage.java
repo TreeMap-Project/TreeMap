@@ -18,8 +18,6 @@ public class CategoryPage {
 
 	public void setStartNum(int num) {
 		this.startNum = (num - 1) * endNum;
-		System.out.println(this.startNum);
-		System.out.println(this.endNum);
 	}
 
 }

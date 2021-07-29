@@ -18,23 +18,27 @@
 	type="text/css">
 </head>
 <body>
-		<!-- right-header -->
-		<%@ include file="../include/mapNav.jsp"%>
-		<!-- right-body -->
-		<% String subpage = "../include/mapboard"; %>
-		<!-- role이 없는 경우(로그인 안한경우) -->
-		<sec:authorize access="isAnonymous()">
-		<% subpage ="../member/customLogin"; %>
-		</sec:authorize>
-		<%	
-		if (request.getParameter("subpage") != null) {
-			subpage = request.getParameter("subpage");
-		}
-		subpage = subpage + ".jsp";
+	<!-- right-header -->
+	<%@ include file="../include/mapNav.jsp"%>
+	<!-- right-body -->
+	<%
+	String subpage = "../include/mapboard";
+	%>
+	<!-- role이 없는 경우(로그인 안한경우) -->
+	<sec:authorize access="isAnonymous()">
+		<%
+		subpage = "../member/customLogin";
 		%>
-		<div id="include">
-			<jsp:include page="<%=subpage%>"></jsp:include>
-		</div>
+	</sec:authorize>
+	<%
+	if (request.getParameter("subpage") != null) {
+		subpage = request.getParameter("subpage");
+	}
+	subpage = subpage + ".jsp";
+	%>
+	<div id="include">
+		<jsp:include page="<%=subpage%>"></jsp:include>
+	</div>
 	<div class="mapboardWrap">
 		<div class="map_wrap">
 			<div id="map"
@@ -52,10 +56,10 @@
 				<h3 style="color: darkslategray">즐겨찾기 등록</h3>
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">카테고리</label> 
-				<div class="id"> 
-				<input class="modalInput"
-					id="category" type="text" placeholder="예) 맛집, 쇼핑" />
+				<label class="modalLabel">카테고리</label>
+				<div class="id">
+					<input class="modalInput" id="category" type="text"
+						placeholder="예) 맛집, 쇼핑" />
 				</div>
 			</div>
 			<div class="modalBox">
@@ -69,20 +73,44 @@
 			<div class="modalBox">
 				<label class="modalLabel">마커 선택</label>
 				<div class="markerBtnDiv">
-						<div class="markerBtnDiv2">
-							<button class="markerBtn" id="default" onclick="markerSelect('default','../../../../resources/imgs/default.png')"> <img style="width: 50px; "src="../../../../resources/imgs/default.png"> </button>
-							<button class="markerBtn" id="food" onclick="markerSelect('food','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
-							<button class="markerBtn" id="bank" onclick="markerSelect('bank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
-						</div>
-						<div class="markerBtnDiv2">
-							<button class="markerBtn" id="mart" onclick="markerSelect('mart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
-							<button class="markerBtn" id="home"onclick="markerSelect('home','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
-							<button class="markerBtn" id="hospital" onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
-						</div>
+					<div class="markerBtnDiv2">
+						<button class="markerBtn" id="default"
+							onclick="markerSelect('default','../../../../resources/imgs/default.png')">
+							<img style="width: 50px;"
+								src="../../../../resources/imgs/default.png">
+						</button>
+						<button class="markerBtn" id="food"
+							onclick="markerSelect('food','../../../../resources/imgs/food.png')">
+							<img style="width: 50px;"
+								src="../../../../resources/imgs/food.png">
+						</button>
+						<button class="markerBtn" id="bank"
+							onclick="markerSelect('bank','../../../../resources/imgs/bank.png')">
+							<img style="width: 50px;"
+								src="../../../../resources/imgs/bank.png">
+						</button>
+					</div>
+					<div class="markerBtnDiv2">
+						<button class="markerBtn" id="mart"
+							onclick="markerSelect('mart','../../../../resources/imgs/mart.png')">
+							<img style="width: 50px;" src="../../../../resources/imgs/mart.png">
+						</button>
+						<button class="markerBtn" id="home"
+							onclick="markerSelect('home','../../../../resources/imgs/home.png')">
+							<img style="width: 50px;"
+								src="../../../../resources/imgs/home.png">
+						</button>
+						<button class="markerBtn" id="hospital"
+							onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')">
+							<img style="width: 50px;"
+								src="../../../../resources/imgs/hospital.png">
+						</button>
 					</div>
 				</div>
-			
-			<div style="width: 100%; margin-bottom:10px; display: flex; align-items: center; justify-content: center;">
+			</div>
+
+			<div
+				style="width: 100%; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
 				<div style="width: 40%">
 					<button class="fBtn" onClick="setFavorites();">
 						<span class="pop_bt" style="font-size: 10pt;"> 등록 </span>
@@ -94,7 +122,7 @@
 					</button>
 				</div>
 				<p>
-				<br />
+					<br />
 				</p>
 			</div>
 		</div>
@@ -171,18 +199,16 @@
 					check = false;
 					iconUrl = url;
 				} else {
-					marker.style.background = "rgb(230,230,230)";
+					marker.style.backgroundColor = "rgb(230,230,230)";
 					check = true;
 					icon.pop();
 					iconUrl = '';
 				}
 			}
-			
 		}
 		//오픈 모달
 		function openModal() {
 			document.querySelector('#myModal').style = "display:block";
-			console.log(${userNo});
 		}
 		//즐겨찾기
 		function setFavorites() {
@@ -223,12 +249,19 @@
 					iconUrl = '';
 					icon = [];
 					check = true;
+					addressname.value="";
+					catName.value=""
+					memo.value=""
+					
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
 							+ request.responseText + "\n" + "error:" + error);
 				}
 			});
+			document.querySelectorAll(".markerBtn").forEach((item) => {
+			    item.style.backgroundColor= "rgb(230,230,230)";
+			})
 			marker.setMap(null);
 			infowindow.open(null,null);
 			
@@ -249,7 +282,6 @@
 			//현재마커 인포위도우 초기화
 			marker.setMap(null);
 			infowindow.open(null,null);
-			console.log(type,kw);
 		}
 		
 		//게시판을 카테고리로 다시 받아옴
@@ -267,11 +299,14 @@
 			infowindow.open(null,null);
 			console.log(type,kw);
 		}
+		
+		//검색타입
 		let type="";
+		//키워드
 		let kw="";
+		
 		//키워드로 페이징 처리
 		function reloadMapListKeyword(num,catNum,searchType,keyword) {
-			console.log(catNum);
 			number = num;
 			if(searchType==="catName"){
 				type=searchType;
@@ -296,13 +331,21 @@
 		
 		//모달 취소
 		function closeModal() {
+			document.querySelector("#addressname").value="";
+			document.querySelector("#category").value="";
+			document.querySelector("#memo").value="";
 			document.querySelector('#myModal').style = "display:none";
 			document.querySelector('#modifyModal').style = "display:none";
 			iconUrl = '';
 			icon = [];
 			check = true;
+			//버튼색상 모두변경
+			document.querySelectorAll(".markerBtn").forEach((item) => {
+			    item.style.backgroundColor= "rgb(230,230,230)";
+			})
 		}
 		
+		//db 마커
 		let DBmarker;
 		
 		//db에서 가져온 마커 표시
@@ -382,17 +425,14 @@
 					$('#include').html(res);
 				}
 			});
-			
 			marker.setMap(null);
 			infowindow.open(null,null);
 		}
 		
 		function openKaKao(url){
-			
 			window.open(url)
-			//현재마커 인포위도우 초기화
-			
-			
+			marker.setMap(null);
+			infowindow.open(null,null);
 		}
 		//수정 모달 오픈
 		function modifyModel() {
@@ -438,7 +478,14 @@
 							+ request.responseText + "\n" + "error:" + error);
 				}
 			});
+			//색상모두 변경
+			document.querySelectorAll(".markerBtn").forEach((item) => {
+			    item.style.backgroundColor= "rgb(230,230,230)";
+			})
 			document.querySelector('#modifyModal').style = "display:none";
+			DBmarker.setMap(null);
+			infowindow.open(null,null);
+			overlay.setMap(null);
 		}
 		
 		//삭제
@@ -465,7 +512,10 @@
 					}
 				});
 			}
-			window.location.reload();
+			DBmarker.setMap(null);
+			infowindow.open(null,null);
+			overlay.setMap(null);
+			//window.location.reload();
 		//	closeOverlay();
 		//	removeMarker();
 		//	setMarkers(map);
@@ -500,9 +550,20 @@
 											detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '
 													+ result[0].address.address_name
 													+ '</div>';
-											//if(${userNo}==0){
-											//	var												
-											//}else{
+											if(${userNo}==0){
+												var content ='<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
+												+ '    <div class="info">'
+												+ '        <div class="title">'
+												+ '			<button type="button" class="favoritesBtn">로그인을 해주세요!</button>'
+												+ '			<img src="../../../../resources/imgs/위치.png" style="width:20px; float:right;margin-right:10px;margin-top:5px;"/>'
+												+ '        </div>'
+												+ '        <div class="body">'
+												+ '            <div class="desc">'
+												+ detailAddr
+												+ '            </div>'
+												+ '        </div>'
+												+ '    </div>' + '</div>';
+											}else{
 												var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
 													+ '    <div class="info">'
 													+ '        <div class="title">'
@@ -515,7 +576,7 @@
 													+ '            </div>'
 													+ '        </div>'
 													+ '    </div>' + '</div>';
-											//}
+											}
 																						// 마커를 클릭한 위치에 표시합니다 
 											marker.setPosition(mouseEvent.latLng);
 											marker.setMap(map);
@@ -603,7 +664,7 @@
 		        map.setBounds(bounds);
 		    } 
 		}
-
+	
 		// 지도에 마커를 표시하는 함수입니다
 		function displayMarker(place) {
 		    

@@ -37,7 +37,6 @@ public class MapContoller {
 			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,String userEmail) {
-		System.out.println("접근");
 		model.addAttribute("userNo",0);
 		/*
 		int userNo = 1;
@@ -79,7 +78,6 @@ public class MapContoller {
 			@RequestParam("userEmail") String userEmail) {
 		
 		int userNo = service.getUserNo(userEmail);
-		System.out.println(userNo);
 		Page page = new Page();
 		page.setNum(num);
 

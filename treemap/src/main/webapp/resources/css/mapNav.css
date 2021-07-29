@@ -17,6 +17,11 @@
 	justify-content:center;
 	cursor: pointer;
 }
+.mainTotle{
+	font-family: Franklin Gothic Heavy;
+	color:white;
+	 margin-left:10px;
+}
 .mapSearch{
 	width:180px;
 	height:20px;
@@ -61,6 +66,7 @@
 	width: 20px;
 	height: 20px;
 }
+
 .rightBtn {
 	background-color: transparent;
 	color: white;
@@ -75,4 +81,13 @@
 .rightBtns{
 	position: absolute;
 	right: 33%;
+}
+.menuBtn{
+	display:none;
+	position: absolute;
+	left: 5%;
+	top:3%;
+	background-color: transparent;
+	cursor: pointer;
+	border:none;
 }

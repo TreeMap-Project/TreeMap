@@ -6,14 +6,12 @@
 	top: 0%;
 	right: 0%;
 	min-width: 385px;
-	z-index:2;
-	
+	z-index: 2;
 }
 
 .boardNav ul li {
 	list-style: none;
 	float: left;
-	
 }
 
 .boardNav ul {
@@ -26,9 +24,9 @@
 
 .catName {
 	margin-left: 15px;
-	display:inline-block;
-	color:rgb(220,220,220);
-	font-size :13px;
+	display: inline-block;
+	color: rgb(220, 220, 220);
+	font-size: 13px;
 	cursor: pointer;
 }
 
@@ -36,179 +34,192 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%; 
-	background-color : rgb( 100, 200, 120);
+	width: 100%;
+	background-color: rgb(100, 200, 120);
 	height: 60px;
-	
 }
-.mapboardListBox{
+
+.mapboardListBox {
 	width: 100%;
 	height: 100%;
 	min-height: 700px;
 	background-color: rgb(247, 247, 247);
 }
-.mapboardListSearch{
+
+.mapboardListSearch {
 	width: 100%;
-	height:70px;
-	display:flex;
+	height: 70px;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.boardSearch{
-	width:180px;
-	height:20px;
+
+.boardSearch {
+	width: 180px;
+	height: 20px;
 	border-radius: 7px;
-	padding:5px;
+	padding: 5px;
 	border: 1px solid lightgray;
 	font-size: 11px;
 }
 
-.boardSearch:focus{
-	padding:7px;
-	outline:none;
+.boardSearch:focus {
+	padding: 7px;
+	outline: none;
 	box-shadow: 5px 5px 5px gray;
 }
-.boardDetailwapper{
+
+.boardDetailwapper {
 	padding: 40px 60px;
 	background-color: white;
-	color:rgb(50, 70, 73);
+	color: rgb(50, 70, 73);
 	min-width: 300px;
-	display:flex;
+	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.boardDetail{
+
+.boardDetail {
 	background-color: white;
 	width: 100%;
 	height: 350px;
 	display: flex;
 	flex-direction: column;
-	border:1px solid #dadce0;
+	border: 1px solid #dadce0;
 	border-radius: 8px;
 }
 
-.detailTitle{
+.detailTitle {
 	width: 100%;
-	display:flex;
+	display: flex;
 	height: 60px;
-	align-items:center;
+	align-items: center;
 	border-bottom: 1px solid #dadce0;
 }
 
-.detailaddress{
+.detailaddress {
 	width: 100%;
 	height: 70px;
-	display:flex;
-	flex-direction:row;
+	display: flex;
+	flex-direction: row;
 	border-bottom: 1px solid #dadce0;
-}
-.date{
-	width: 100%;
-	height: 40px;
-	display:flex;
-	border-bottom: 1px solid #dadce0;
-}
-.memoBox{
-	width: 100%;
-	height: 110px;
-	display:flex;
-	border-bottom: 1px solid #dadce0;
-}
-.memo{
-	width:200px;
-	height:80px;
-	resize:none;
-	margin-top:10px;
 }
 
-.detailLabel{
-	margin-top:10px;
-	margin-left:10px;
+.date {
+	width: 100%;
+	height: 40px;
+	display: flex;
+	border-bottom: 1px solid #dadce0;
+}
+
+.memoBox {
+	width: 100%;
+	height: 110px;
+	display: flex;
+	border-bottom: 1px solid #dadce0;
+}
+
+.memo {
+	width: 200px;
+	height: 80px;
+	resize: none;
+	margin-top: 10px;
+}
+
+.detailLabel {
+	margin-top: 10px;
+	margin-left: 10px;
 	width: 70px;
 	font-size: 13px;
 	font-weight: bold;
 }
-.MapChange{
-	width:100%;
-	height:60px;
+
+.MapChange {
+	width: 100%;
+	height: 60px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.modifyBtn{
-	border:none;
-	background-color:rgb(35,140,250);
+.modifyBtn {
+	border: none;
+	background-color: rgb(35, 140, 250);
 	width: 100px;
-	color:white;
-	margin:10px;
-	padding:5px;
+	color: white;
+	margin: 10px;
+	padding: 5px;
 	cursor: pointer;
 }
 
-.boardList{
+.boardList {
 	width: 100%;
 	height: 65px;
-	background-color:white;
+	background-color: white;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	border-bottom: 1px solid gray; 
+	border-bottom: 1px solid gray;
 }
 
-.addressname{
-	margin-left:20%;
+.addressname {
+	margin-left: 20%;
 	margin-bottom: 3px;
 }
-.address{
+
+.address {
 	font-size: 13px;
-	margin-left:20%;
-	color:rgb(50, 70, 73);
+	margin-left: 20%;
+	color: rgb(50, 70, 73);
 }
-.addrName{
-	border:none;
+
+.addrName {
+	border: none;
 	margin-left: 20%;
 	text-align: left;
-	background-color:  white;
+	background-color: white;
 	padding: 0px;
 	margin-bottom: 3px;
 }
-.boardList span{
+
+.boardList span {
 	font-weight: 600;
 	font-size: 13px;
-	color:rgb(50, 70, 73);
+	color: rgb(50, 70, 73);
 	position: relative;
 }
 
-.boardList span:after{
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 0px;
-  height: 2px;
-  margin: 1px 0 0;
-  transition: all 0.2s ease-in-out;
-  transition-duration: 0.3s;
-  opacity: 0;
-  background-color: black;
+.boardList span:after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -3px;
+	width: 0px;
+	height: 2px;
+	margin: 1px 0 0;
+	transition: all 0.2s ease-in-out;
+	transition-duration: 0.3s;
+	opacity: 0;
+	background-color: black;
 }
-.boardList span:hover:after{
-  width: 100%;
-   opacity: 1;
+
+.boardList span:hover:after {
+	width: 100%;
+	opacity: 1;
 }
-.pageBox{
-	width:100%;
-	height:50px;
+
+.pageBox {
+	width: 100%;
+	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.pageNumBtn{
+.pageNumBtn {
 	border: 1px solid gray;
 	background-color: transparent;
-	margin-top:5px;
+	margin-top: 5px;
 	cursor: pointer;
 	margin: 2px;
 }
