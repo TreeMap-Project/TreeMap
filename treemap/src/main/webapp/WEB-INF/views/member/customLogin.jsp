@@ -40,6 +40,7 @@
 							<div>
 								<input type="checkbox" name="remember-me">Remember Me
 							</div>
+							<a href="/member/findPw">비밀번호 찾기</a>
 						</div>
 						<div class="loginBox">
 							<button class="loginsubmit">확 인</button>

@@ -12,9 +12,8 @@ SELECT count(*) FROM User WHERE userEmail = #{userEmail}
 <!-- 회원가입 -->
 <insert id="insertUser">
 INSERT
-INTO User(userEmail,userName,userPW) VALUE(#{userEmail},#{userName},#{userPW})
+INTO User(userEmail,userName,userPW,birthday) VALUE(#{userEmail},#{userName},#{userPW},#{birthday})
 </insert>
-
 <insert id="insertAuth">
 INSERT INTO user_auth VALUES((select userNo from User where userEmail=#{userEmail}),'ROLE_MEMBER')
 </insert>
@@ -56,4 +55,9 @@ SELECT mem.userNo, userEmail, userName, userPW,createdAt, auth
 FROM User mem LEFT OUTER JOIN User_auth auth ON mem.userNo = auth.userNo
 WHERE mem.userEmail = #{userEmail}
  </select>
+ 
+<!--  임시 비밀번호 지급 -->
+ <update id ="updatePw"  parameterType="com.spring.treemap.domain.MemberVO">
+ 	update user set userPW = #{userPW} where userEmail=#{userEmail}
+</update>
  </mapper>
