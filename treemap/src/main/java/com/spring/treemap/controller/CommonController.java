@@ -1,12 +1,14 @@
 package com.spring.treemap.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.treemap.domain.MemberVO;
 import com.spring.treemap.service.MemberService;
@@ -20,17 +22,18 @@ public class CommonController {
 	@Autowired
 	MemberService service;
 	
+	//회원가입 페이지
 	@GetMapping("/member/signup")
 	public void showSignin(String error, Model model) {
 		log.info("회원가입 페이지");
-		log.info("error: "+"입력값을 다시 확인해주세요.");
 			
 		if(error != null){
+			log.info("error: "+"입력값을 다시 확인해주세요.");
 			model.addAttribute("error",error);
-		}
-			
+		}		
 	}
 	
+	//회원가입
     @PostMapping("/signUp")
     public String signUp(MemberVO member,Model model) {
     	
@@ -42,6 +45,7 @@ public class CommonController {
         return "redirect:/treeMap/map";
     }
     
+    //이메일 중복 체크
     @ResponseBody
     @PostMapping("/chkEmail")
 	public Integer checkEmail(String userEmail) {
@@ -50,13 +54,13 @@ public class CommonController {
 		return service.checkEmail(userEmail);
     }
 	
-	
+    //로그인 페이지
 	@GetMapping("/member/customLogin")
 	public String showLogin(String error, String logout, Model model) {
 		log.info("로그인 페이지");
 		log.info("error: "+error);
 		log.info("logout: "+logout);
-		
+	
 		if(error != null){
 			log.info("error: "+"입력값을 다시 확인해주세요.");
 		}
@@ -66,10 +70,26 @@ public class CommonController {
 		return "member/customLogin";
 	}
 	
+	//탈퇴
+	@PostMapping("/deleteMember")
+	public String deleteMember (MemberVO member,
+								RedirectAttributes redirectAttr) {
+	                            
+		int result = service.deleteUser(member);
+
+		if(result>0) {
+			redirectAttr.addFlashAttribute("msg", "성공적으로 회원정보를 삭제했습니다.");
+			SecurityContextHolder.clearContext();
+		}
+		else 
+			redirectAttr.addFlashAttribute("msg", "회원정보삭제에 실패했습니다.");
+
+		return "redirect:/treeMap/map";
+	}
+	
 	@GetMapping("/accessError")
 	public void accessDenied(Authentication auth, Model model) {
 		log.info("access Denied: "+auth);
-		
 		model.addAttribute("msg", "Access Denied");
 	}
 

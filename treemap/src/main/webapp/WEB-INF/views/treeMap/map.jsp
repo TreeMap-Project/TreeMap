@@ -21,10 +21,10 @@
 		<!-- right-header -->
 		<%@ include file="../include/mapNav.jsp"%>
 		<!-- right-body -->
-		<% String subpage = "../include/mapboard"; %>
-		<!-- role이 없는 경우(로그인 안한경우) -->
-		<sec:authorize access="isAnonymous()">
-		<% subpage ="../member/customLogin"; %>
+		<% String subpage = "../member/customLogin"; %>
+		<!-- role이 없는 경우(로그인 한경우) -->
+		<sec:authorize access="isAuthenticated()">
+		<% subpage =  "../include/mapboard";%>
 		</sec:authorize>
 		<%	
 		if (request.getParameter("subpage") != null) {

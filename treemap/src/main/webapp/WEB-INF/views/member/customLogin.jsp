@@ -15,14 +15,15 @@
 		<div class="customLogin-body">
 			<h1 style="font-family:Open Sans; color:rgb(75,75,75)">Sign In</h1>
 			<h2>
-				<c:out value="${error}" />
+				<c:out value="${msg}" />
+				${msg}
 			</h2>
 			<h2>
 				<c:out value="${logout}" />
 			</h2>
-			<h2>
-				<c:out value="${msg}" />
-			</h2>
+			<h3>
+				<c:out value="${loginFailMsg}" />
+			</h3>
 
 			<form method="post" action="/login" id="loginForm">
 				

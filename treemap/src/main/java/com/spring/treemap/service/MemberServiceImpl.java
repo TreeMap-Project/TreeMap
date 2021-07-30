@@ -38,9 +38,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
-	public boolean deleteAccount(MemberVO member) {
-		return mapper.deleteUser(member) ==1 ;
-		
+	public int deleteUser(MemberVO member) {
+		return mapper.deleteUser(member);	
 	}
 
 	public String findEmail(MemberVO member) {
@@ -54,10 +53,6 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 
-	
-	public MemberVO getLogin(MemberVO member) {
-		return mapper.getUserByLogin(member);
-	}
 
 
 

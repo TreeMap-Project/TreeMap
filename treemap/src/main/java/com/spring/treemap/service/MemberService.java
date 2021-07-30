@@ -9,9 +9,6 @@ public interface MemberService {
 	//회원가입
 	boolean getSignUp(MemberVO member);
 	
-	//로그인
-	MemberVO getLogin(MemberVO member);
-	
 	//아이디 찾기
 	String findEmail(MemberVO member);
 	
@@ -19,6 +16,6 @@ public interface MemberService {
 	String findPW(MemberVO member);	
 	
 	//회원 탈퇴 처리
-	boolean deleteAccount(MemberVO member);
+	int deleteUser(MemberVO member);
 
 }

@@ -11,13 +11,12 @@ public interface MemberMapper {
 	public int emailCnt(String userEmail); 
 	//회원가입
 	public int insertUser(MemberVO vo); 
-	//인증 추가
-	public int insertAuth(MemberVO vo);
-	//로그인
-	public MemberVO getUserByLogin(MemberVO vo);	
+	//회원가입 인증 추가
+	public int insertAuth(MemberVO vo);	
 	//회원탈퇴
 	public int deleteUser(MemberVO vo);
-	
+	//로그인
 	public MemberVO read(String userEmail);
+	
 
 }
