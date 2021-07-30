@@ -13,8 +13,7 @@ public class MemberVO {
 	private String userEmail;
 	private String userName;
 	private String userPW;
-	
-	private char isDeleted;
+	private String birthday;
 	private Date createdAt;
 	
 	private List<AuthVO> authList;

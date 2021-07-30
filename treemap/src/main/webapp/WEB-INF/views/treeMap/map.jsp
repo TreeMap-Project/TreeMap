@@ -742,7 +742,15 @@
 				       }
 				});
 			}
-		
+		 function myPage(){
+				$.ajax({
+					url:'/member/myPage',
+					type:'GET',
+					success : function(res) {
+						$('#include').html(res);
+					}
+				})
+			}
 	</script>
 </body>
 </html>
