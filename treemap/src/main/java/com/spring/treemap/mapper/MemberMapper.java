@@ -19,5 +19,9 @@ public interface MemberMapper {
 	public int deleteUser(MemberVO vo);
 	
 	public MemberVO read(String userEmail);
-
+	
+	//비밀번호변경
+	public void updatePw(MemberVO vo);
+	
+	
 }

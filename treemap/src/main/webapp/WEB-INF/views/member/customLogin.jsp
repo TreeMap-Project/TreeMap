@@ -15,14 +15,15 @@
 		<div class="customLogin-body">
 			<h1 style="font-family:Open Sans; color:rgb(75,75,75)">Sign In</h1>
 			<h2>
-				<c:out value="${error}" />
+				<c:out value="${msg}" />
+				${msg}
 			</h2>
 			<h2>
 				<c:out value="${logout}" />
 			</h2>
-			<h2>
-				<c:out value="${msg}" />
-			</h2>
+			<h3>
+				<c:out value="${loginFailMsg}" />
+			</h3>
 
 			<form method="post" action="/login" id="loginForm">
 				
@@ -36,16 +37,17 @@
 							<label class="loginLabels">Password</label> <input
 								class="loginInputs" type="password" name="userPW"
 								placeholder="비밀번호를 입력해주세요.">
-								<span>${requestScope.loginFailMsg}</span>
 							<div>
 								<input type="checkbox" name="remember-me">Remember Me
 							</div>
+								<a href="/member/findPw">비밀번호 찾기</a>
+					
 						</div>
 						<div class="loginBox">
-							<button type="submit" class="loginsubmit">확 인</button>
+							<button class="loginsubmit">확 인</button>
 						</div>
 					</div>
-			
+					
 				<input type="hidden" name="${_csrf.parameterName }"
 					value="${_csrf.token }" />
 			</form>
@@ -53,7 +55,19 @@
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
-		
+		$(".loginsubmit").on("click", function(e) {
+			e.preventDefault();
+			$("#loginForm").submit();
+		});
+		function find(){
+			$.ajax({
+				url:'/member/findPw',
+				type:'GET',
+				success : function(result) {
+					alert("성공");
+				}
+			})
+		}
 	</script>
 </body>
 </html>

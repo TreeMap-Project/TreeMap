@@ -14,33 +14,33 @@
 </div>
 <div class="signup-body">
 <h1 style="font-family:Open Sans; color:rgb(75,75,75)">Sign Up</h1>
-	<h2>
+	<h3>
 		<c:out value="${error}" />
-	</h2>
-	<h3>이메일과 비밀번호를 입력해주세요.</h3>
-
-	<form id="form1" method="post" action="/signUp">
-	<fieldset>
-		<div>
-			<label>Email</label> 
-			<input type="email" name="userEmail" id="userEmail"
-				placeholder="이메일을 입력해주세요." autofocus>
-				<input type="button"  class="chkEmail" onclick="test();" value="이메일 중복 확인">
-				<input type="hidden" id="emailChecked"> 
+	</h3>
+	<form method="post" action="/signUp" id="signupForm">
+	<div  class="signupBoxWrapper">
+		<div class="signupBox">
+		<div id="emailSet">
+			<label class="signupLabels">Email</label> 
+			<input type="button"  class="chkEmail" onclick="emailChk();" value="이메일 중복 확인">
+			</div>
+			<input type="email" name="userEmail" id="userEmail" autofocus
+				placeholder="이메일을 입력해주세요." class="signupInputs">
+				
 		</div>
-		<div>
-			<label>Password</label> 
-			<input type="password" name="userPW" id="userPW"
+		<div class="signupBox">
+			<label class="signupLabels">Password</label> 
+			<input type="password" name="userPW" id="userPW" class="signupInputs"
 				placeholder="비밀번호를 입력해주세요.">
 		</div>
-		<div>
-		<label>사용자 이름</label>
-		<input type="text" name="userName" id="userName">
+		<div class="signupBox">
+		<label class="signupLabels">사용자 이름</label>
+		<input type="text" name="userName" id="userName" class="signupInputs">
 		</div>
-		<div>
-			<button class="signupBtn">확인</button>
+		<div class="signupBox">
+			<button class="signupBtn">확 인</button>
 		</div>
-		</fieldset>
+		</div>
 		<input type="hidden" name="${_csrf.parameterName }"
 			value="${_csrf.token }" />			
 	</form>
@@ -50,14 +50,13 @@
 <script>
 /* var csrfHeaderName = "${_csrf.headerName}";
 var csrfTokenValue = "${_csrf.token}";
-
 $(document).ajaxSend(function(e,xhr,option){
 	xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
 });
  */
 let userEmail = document.getElementById('userEmail');
-let userPW = document.getElementById('userEmail');
-function test(){
+let userChk = false;
+function emailChk(){
 	console.log(userEmail.value);
 	$.ajax({
         type : "POST",
@@ -65,12 +64,14 @@ function test(){
         data : {"userEmail":userEmail.value},
         //dataType : "text",
         success : function(res) {        	
-          	if(res==0){
+          	if(userEmail.value.includes('@') && res==0){
           		alert("사용 가능한 아이디입니다.");
-          		//$("#emailChecked").val()="체크완료";
+          		userChk =true;
+          		console.log("이메일 체크 완료");
           	}
           	else{
-          		alert("다른 아이디를 사용해주세요.");
+          		alert("다른 이메일를 사용해주세요.");
+          		userChk = false;
           	}
           	},
         error: function(request, status, error) {
@@ -78,36 +79,13 @@ function test(){
                     + request.responseText + "\n" + "error:" + error);
            }
 });}
-
-
-
-/*
-$(".chkEmail").on("click", function(e){
-	e.preventDefault();
-	$.ajax({
-        type : "POST",
-        url : "/chkEmail",
-        data : {"userEmail":userEmail.value},
-        success : function(res) {        	
-          	console.log("아이디중복검사 완료");
-          	if(res=="true"){
-          		alert("사용 하실 수 있는 이메일입니다.");         		
-          	}else{
-          		alert("이미 사용중인 이메일입니다.");
-          		userEmail.value='';
-          		}
-          	}
-        },
-        error: function(){
-        	alert("다시 시도해주시기 바랍니다.");
-     });
-});
-*/
  $(".signupBtn").on("click",function(e){
 	e.preventDefault();
-	$("#form1").submit();
+	if(userChk){
+		$("#signupForm").submit();	
+	}
+	else{alert("이메일 중복 확인해주세요.");}	
 });
-
 </script>
 </body>
 </html>

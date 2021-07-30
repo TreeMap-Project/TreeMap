@@ -7,15 +7,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.treemap.domain.AddressVO;
 import com.spring.treemap.domain.CategoryPage;
@@ -32,12 +29,18 @@ public class MapContoller {
 	MapService service;
 
 	// 처음 들어올시
-	@GetMapping("/map")
-	public String openMap(Model model, @RequestParam(value="num", required = false, defaultValue = "1") int num,
+	@RequestMapping(value = "/map", method= {RequestMethod.GET, RequestMethod.POST})
+	public String openMap(Model model,
+			@RequestParam(value="status", required = false, defaultValue = "") String status,
+			@RequestParam(value="num", required = false, defaultValue = "1") int num,
 			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,String userEmail) {
 		model.addAttribute("userNo",0);
+		System.out.println(status);
+		if(status.equals("fail")) {
+			model.addAttribute("status",status);
+		}
 		/*
 		int userNo = 1;
 		Page page = new Page();

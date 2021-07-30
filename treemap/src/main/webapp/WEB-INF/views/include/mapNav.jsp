@@ -20,6 +20,12 @@
 		</form>
 	</div>
 	<div class="rightBtns">
+	
+		<c:if test="${status eq 'fail'}">
+			<button id="loginBtn" class="rightBtn" onclick="login();">로그인</button>
+			<button id="signupBtn" class="rightBtn" onclick="signup();">회원가입</button>		
+		</c:if>
+		
 		<sec:authorize access="isAnonymous()">
 			<button id="loginBtn" class="rightBtn" onclick="login();">로그인</button>
 			<button id="signupBtn" class="rightBtn" onclick="signup();">회원가입</button>		

@@ -19,26 +19,22 @@
 </head>
 <body>
 	<!-- right-header -->
-	<%@ include file="../include/mapNav.jsp"%>
-	<!-- right-body -->
-	<%
-	String subpage = "../include/mapboard";
-	%>
-	<!-- role이 없는 경우(로그인 안한경우) -->
-	<sec:authorize access="isAnonymous()">
-		<%
-		subpage = "../member/customLogin";
+		<%@ include file="../include/mapNav.jsp"%>
+		<!-- right-body -->
+		<% String subpage = "../member/customLogin"; %>
+		<!-- role이 없는 경우(로그인 한경우) -->
+		<sec:authorize access="isAuthenticated()">
+		<% subpage =  "../include/mapboard";%>
+		</sec:authorize>
+		<%	
+		if (request.getParameter("subpage") != null) {
+			subpage = request.getParameter("subpage");
+		}
+		subpage = subpage + ".jsp";
 		%>
-	</sec:authorize>
-	<%
-	if (request.getParameter("subpage") != null) {
-		subpage = request.getParameter("subpage");
-	}
-	subpage = subpage + ".jsp";
-	%>
-	<div id="include">
-		<jsp:include page="<%=subpage%>"></jsp:include>
-	</div>
+		<div id="include">
+			<jsp:include page="<%=subpage%>"></jsp:include>
+		</div>
 	<div class="mapboardWrap">
 		<div class="map_wrap">
 			<div id="map"
