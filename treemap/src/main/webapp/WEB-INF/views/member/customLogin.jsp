@@ -10,6 +10,7 @@
 	type="text/css">
 </head>
 <body>
+<div class='login'>
 	<div class="customLogin">
 		<div class="customLogin-header"></div>
 		<div class="customLogin-body">
@@ -40,8 +41,7 @@
 							<div>
 								<input type="checkbox" name="remember-me">Remember Me
 							</div>
-								<a href="/member/findPw">비밀번호 찾기</a>
-					
+								<input type="button" id="findPasswordBtn" value="비밀번호 찾기"/>
 						</div>
 						<div class="loginBox">
 							<button class="loginsubmit">확 인</button>
@@ -53,21 +53,26 @@
 			</form>
 		</div>
 	</div>
+</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
+		
 		$(".loginsubmit").on("click", function(e) {
 			e.preventDefault();
 			$("#loginForm").submit();
 		});
-		function find(){
+		
+		$("#findPasswordBtn").on("click",function(e){
 			$.ajax({
 				url:'/member/findPw',
 				type:'GET',
 				success : function(result) {
-					alert("성공");
+					$('#include').html(result);
 				}
-			})
-		}
+			});
+		
+		});
+	
 	</script>
 </body>
 </html>

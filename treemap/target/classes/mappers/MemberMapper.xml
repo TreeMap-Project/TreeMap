@@ -60,4 +60,8 @@ WHERE mem.userEmail = #{userEmail}
  <update id ="updatePw"  parameterType="com.spring.treemap.domain.MemberVO">
  	update user set userPW = #{userPW} where userEmail=#{userEmail}
 </update>
+
+<update id="updateName" parameterType="com.spring.treemap.domain.MemberVO">
+	update user set userName=#{userName} where userNo=#{userNo}
+</update>
  </mapper>

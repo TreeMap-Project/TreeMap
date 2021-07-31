@@ -34,10 +34,11 @@
 <!-- 
 		<button class="rightBtn" onclick="location.href='/member/myPage'">내 정보</button>
  -->
-		<button class="rightBtn" onclick="myPage()">내 정보</button>
+		
 			
 		<sec:authorize access="isAuthenticated()">
-			<sec:authentication property="principal.username" var="userName" />
+			<sec:authentication property="principal.username" var="userEmail" />
+			<button class="rightBtn" onclick="myPage('${userEmail}')">내 정보</button>
 			<button class="rightBtn" onclick="location.href='/logout'">로그아웃</button>
 		</sec:authorize>
 	</div>
@@ -47,6 +48,7 @@
 </div>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+/*
 let board = true;
 window.addEventListener('resize', function() {
 	if(window.outerWidth<1100){
@@ -82,6 +84,6 @@ function boardOpen(){
 		board=true;
 	}
 }
-
+*/
 </script>
 </html>

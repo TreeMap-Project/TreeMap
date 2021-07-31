@@ -95,5 +95,30 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO read(MemberVO member) {
 		return mapper.read(member.getUserEmail());
 	}
+	//이름 변경
+	@Override
+	public void updateName(MemberVO vo) {
+		mapper.updateName(vo);
+	}
+
+	@Override
+	public int passwordChk(MemberVO vo) {
+		String password = vo.getUserPW();
+		MemberVO member = mapper.read(vo.getUserEmail());
+		if(bcryptPasswordEncoder.matches(password,member.getUserPW())) {
+			return 1;
+		}else {
+			return 0;
+		}
+		
+	}
+
+	@Override
+	public void updatePassword(MemberVO vo) {
+		vo.setUserPW(bcryptPasswordEncoder.encode(vo.getUserPW()));
+		mapper.updatePw(vo);
+	}
+
+
 
 }

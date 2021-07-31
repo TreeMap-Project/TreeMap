@@ -37,7 +37,6 @@ public class MapContoller {
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,String userEmail) {
 		model.addAttribute("userNo",0);
-		System.out.println(status);
 		if(status.equals("fail")) {
 			model.addAttribute("status",status);
 		}

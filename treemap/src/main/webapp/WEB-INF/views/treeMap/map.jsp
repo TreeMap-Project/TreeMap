@@ -742,10 +742,11 @@
 				       }
 				});
 			}
-		 function myPage(){
-				$.ajax({
+		 function myPage(userEmail){
+			 $.ajax({
 					url:'/member/myPage',
 					type:'GET',
+					data:{'userEmail':userEmail},
 					success : function(res) {
 						$('#include').html(res);
 					}

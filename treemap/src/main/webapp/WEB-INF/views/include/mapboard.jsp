@@ -162,5 +162,12 @@
 		</div>
 	</div>
 </body>
-
+<script type="text/javascript">
+/*
+history.pushState(null, null, location.href); 
+window.onpopstate=function(e){
+	console.log('리스트 뒤로가기')
+	reloadMapCategoryList();
+}*/
+</script>
 </html>

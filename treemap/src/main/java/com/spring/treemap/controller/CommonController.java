@@ -103,7 +103,31 @@ public class CommonController {
 		
 		return "member/myPage";
 	}
-
+	
+	@PostMapping("/member/myPage/modifyName")
+	public String updateName(Model model, MemberVO vo) {
+		log.info("updateName 접근");
+		service.updateName(vo);
+		model.addAttribute("member",service.read(vo));
+		return "member/myPage";
+	}
+	
+	@ResponseBody
+	@GetMapping("/member/myPage/passwordChk")
+	public int passwordChk(MemberVO vo) {
+		log.info("passwordChk 접근");
+		return service.passwordChk(vo);
+	}
+	
+	@PostMapping("/member/myPage/modifyPassword")
+	public String updatePassword(Model model, MemberVO vo) {
+		log.info("updatePassword 접근");
+		service.updatePassword(vo);
+		model.addAttribute("member",service.read(vo));
+		return "member/myPage";
+	}
+	
+	
 	@RequestMapping(value = "/member/findPw", method = RequestMethod.GET)
 	public String findPwGET() throws Exception {
 		return "member/findPw";

@@ -23,5 +23,8 @@ public interface MemberMapper {
 	//비밀번호변경
 	public void updatePw(MemberVO vo);
 	
+	//이름 변경
+	public void updateName(MemberVO vo);
+	
 	
 }
