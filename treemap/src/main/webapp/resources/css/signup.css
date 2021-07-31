@@ -19,7 +19,7 @@
 .signup-body {
 	width: 100%;
 	height: 100%;
-	min-height: 600px;
+	min-height: 700px;
 	background-color: rgb(247, 247, 247);
 	display: flex;
 	flex-direction: column;
@@ -29,7 +29,7 @@
 
 .signupBoxWrapper {
 	width: 300px;
-	height: 400px;
+	height: 500px;
 }
 
 .signupBox{
@@ -37,7 +37,7 @@
 	flex-direction: column;
 	justify-content: center;
 	margin-left: 25px;
-	margin-top: 20px;
+	margin-top: 12px;
 }
 
 #signupForm {
@@ -49,7 +49,8 @@
 
 .signupLabels {
 	font-size: 18px;
-	margin-bottom: 10px;
+	margin-top: 8px;
+	margin-bottom: 5px;
 }
 
 .signupBtn {
@@ -64,12 +65,12 @@
 }
 
 .signupInputs {
-	height: 28px;
+	height: 26px;
 	width: 240px;
 	padding: 5px;
 	background-color: white;
 	border: 1px solid rgb(210, 210, 210);
-	margin-bottom: 10px;
+	margin-bottom: 1px;
 }
 
 .signupInputs:focus{
@@ -82,7 +83,7 @@
 }
 .chkEmail{
 	width: 110px;
-	height:27px;
+	height:26px;
 	margin-right: 22px;
 	background-color: #beaefc;	
 	border:none;

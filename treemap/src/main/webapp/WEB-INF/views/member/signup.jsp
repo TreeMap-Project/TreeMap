@@ -41,6 +41,12 @@
 							required="required" placeholder="이름을 입력해주세요.">
 					</div>
 					<div class="signupBox">
+						<label class="signupLabels">Phone</label> <input type="text"
+							name="phoneNum" id="phoneNum" class="signupInputs"
+							required="required"
+							placeholder="휴대폰 번호를 -없이 입력해주세요 (ex:01012341234)">
+					</div>
+					<div class="signupBox">
 						<label class="signupLabels">Birthday</label> <input type="text"
 							name="birthday" id="birthday" class="signupInputs"
 							required="required"
@@ -63,10 +69,11 @@
 		 xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
 		 });
 		 */
-		/* let userEmail = document.getElementById('userEmail'); */
+		
 		let userEmail = document.getElementById('userEmail');
 		let userPW = document.getElementById('userPW');
 		let userName = document.getElementById('userName');
+		let phoneNum = document.getElementById('phoneNum');
 		let birthday = document.getElementById('birthday');
 		let userChk = false;
 		function emailChk() {
@@ -99,24 +106,24 @@
 				}
 			});
 		}
-		$(".signupBtn").on(
-				"click",
+		$(".signupBtn").on("click",
 				function(e) {
 					e.preventDefault();
-					var regexp = /^[0-9]*$/
+					if(checkForm()){
 					if (userChk == false) {
 						alert("이메일 중복 확인해주세요.");
 						return;
-					}
-					if (birthday.value.length == 8
-							&& regexp.test(birthday.value) != null) {
-						$("#signupForm").submit();
 					} else {
-						alert("생년월일의 연월일을 -없이 입력해주세요 (ex:20010101)");
+						$("#signupForm").submit();
+					}
+					}else{
+						return;
 					}
 				});
-		var checkForm = function() {
-			if (userEmail.value == '') {
+	function checkForm() {
+			var regexpBirth = /^[0-9]{8}$/;
+			var regexpPhone = /^[0-9]{10,11}$/;
+	 		if (userEmail.value == '') {
 				alert("이메일을 입력해주세요.");
 				return false;
 			}
@@ -125,17 +132,25 @@
 				userPW.focus();
 				return false;
 			}
-			if (userName.value == '') {
+			if (userName.value == '' ) {
 				alert("이름을 입력해주세요.");
 				userName.focus();
 				return false;
 			}
-			if (birthday.value == '' || !birthday.value.length == 8) {
-				alert("생년월일을 입력해주세요.");
+			if (phoneNum.value == ''|| !(regexpPhone.test(phoneNum.value))) {
+				alert("휴대폰 번호를 입력값을 확인 해주세요.");
+				
+				phoneNum.focus();
+				return false;
+			}
+			if (birthday.value =='' || !(regexpBirth.test(birthday.value))) {
+				alert("생년월일의 연월일을 -없이 입력해주세요 (ex:20010101)");
+				console.log(regexpBirth.test(birthday.value));
 				birthday.focus();
 				return false;
 			}
-		}
+			else return true;
+		} 
 	</script>
 </body>
 </html>

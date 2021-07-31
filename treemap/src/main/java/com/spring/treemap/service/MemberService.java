@@ -17,8 +17,6 @@ public interface MemberService {
 	// 비밀번호찾기
 	public void findPw(HttpServletResponse resp, MemberVO vo) throws Exception;
 
-	// 회원 탈퇴 처리
-	int deleteUser(MemberVO member);
 	// 회원 정보 불러오기
 	MemberVO read(MemberVO member);
 	

@@ -45,15 +45,11 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.insertUser(member) == 1 && mapper.insertAuth(member) == 1;
 	}
 
-	public int deleteUser(MemberVO member) {
-		return mapper.deleteUser(member);
-	}
-
+	// 아이디 찾기
 	public String findEmail(MemberVO member) {
-
-		return null;
+		return mapper.getUserEmail(member);
 	}
-	
+
 	@Override
 	public void findPw(HttpServletResponse response, MemberVO vo) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
@@ -70,20 +66,25 @@ public class MemberServiceImpl implements MemberService {
 			out.close();
 		} else {
 			// 임시 비밀번호 생성
-			String pw = "";
+			StringBuffer pw = new StringBuffer();
 			for (int i = 0; i < 12; i++) {
-				pw += (char) ((Math.random() * 26) + 97);
+				pw.append((char) ((Math.random() * 26) + 97));
 			}
-			vo.setUserPW(pw);
-			// 비밀번호 변경
-			mapper.updatePw(vo);
-			String a = "whrudgns13@naver.com";
-			// 비밀번호 변경 메일 발송
-			//EmailSender es = new EmailSender();
-			if(a.contains("naver.com")){
-				//es.naverMailSend(vo);
-			}else {
-				//es.gmailSend(vo);
+			vo.setUserPW(pw.toString());
+
+			try {
+				// 비밀번호 변경 메일 발송
+				if (vo.getUserEmail().contains("naver.com")) {
+					EmailSender.naverMailSend(vo);
+				} else {
+					EmailSender.gmailSend(vo);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				// 비밀번호 변경
+				vo.setUserPW(bcryptPasswordEncoder.encode(pw));
+				mapper.updatePw(vo);
 			}
 			out.print("이메일로 임시 비밀번호를 발송하였습니다.");
 			out.close();
@@ -95,7 +96,8 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO read(MemberVO member) {
 		return mapper.read(member.getUserEmail());
 	}
-	//이름 변경
+
+	// 이름 변경
 	@Override
 	public void updateName(MemberVO vo) {
 		mapper.updateName(vo);
@@ -105,12 +107,12 @@ public class MemberServiceImpl implements MemberService {
 	public int passwordChk(MemberVO vo) {
 		String password = vo.getUserPW();
 		MemberVO member = mapper.read(vo.getUserEmail());
-		if(bcryptPasswordEncoder.matches(password,member.getUserPW())) {
+		if (bcryptPasswordEncoder.matches(password, member.getUserPW())) {
 			return 1;
-		}else {
+		} else {
 			return 0;
 		}
-		
+
 	}
 
 	@Override
@@ -118,7 +120,5 @@ public class MemberServiceImpl implements MemberService {
 		vo.setUserPW(bcryptPasswordEncoder.encode(vo.getUserPW()));
 		mapper.updatePw(vo);
 	}
-
-
 
 }

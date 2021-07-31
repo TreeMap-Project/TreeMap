@@ -1,8 +1,6 @@
 package com.spring.treemap.controller;
 
 import java.util.List;
-import java.util.Locale.Category;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +35,7 @@ public class MapContoller {
 			@RequestParam(value = "searchType", required = false, defaultValue = "") String searchType,
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,String userEmail) {
 		model.addAttribute("userNo",0);
+		System.out.println(status);
 		if(status.equals("fail")) {
 			model.addAttribute("status",status);
 		}

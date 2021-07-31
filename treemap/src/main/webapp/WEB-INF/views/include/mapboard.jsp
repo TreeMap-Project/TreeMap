@@ -26,16 +26,15 @@
 							<li class="catName" style="color:white;">${list.catName}</li>
 						</c:if>
 				</c:forEach>
-				
-				<c:if test="${categorylength > categoryPage.startNum+2}">
-					 <li class="catName" style="color:white;" onclick="reloadMapListKeyword(1,${categoryPage.num+1},'${page.searchType}','${page.keyword}')">></li>
-				</c:if>
+				    <c:if test="${categorylength > categoryPage.startNum+categoryPage.endNum}">
+						 <li class="catName" style="color:white;" onclick="reloadMapListKeyword(1,${categoryPage.num+1},'${page.searchType}','${page.keyword}')">></li>
+					</c:if>
 			</ul>
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
-				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}"/>
-				<button class="SearchBtn" onclick="reloadMapListKeyword(1,1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
+				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}" onkeyup="enterkey()"/>
+				<button class="SearchBtn"  onclick="reloadMapListKeyword(1,1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
 			</div>
 			<c:choose>
 				<c:when test="${address.detail}">
@@ -163,6 +162,13 @@
 	</div>
 </body>
 <script type="text/javascript">
+function enterkey() {
+    if (window.event.keyCode == 13) {
+    	 // 엔터키가 눌렸을 때 실행할 내용
+        reloadMapListKeyword(1,1,'adrName','');
+    }
+    
+}
 /*
 history.pushState(null, null, location.href); 
 window.onpopstate=function(e){

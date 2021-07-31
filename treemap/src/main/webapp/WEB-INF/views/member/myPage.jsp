@@ -29,7 +29,7 @@
 			</div>
 			<div class="myPageBox">
 					<label class="myPageLabels">Birthday</label>
-					<span class="myPageInfo" id="birthday" >${member.birthday}950804</span>
+					<span class="myPageInfo" id="birthday" >${member.birthday}</span>
 			</div>
 			<div class="myPageBox">
 					<label class="myPageLabels">Email</label>
@@ -46,7 +46,7 @@
 		<div class="myPageModal-content">
 			<div class="myPageModalTitle">
 				<h3 style="color: darkslategray">이름 변경</h3>
-				<input type="text" class="changeInput" id="changeName" value="${member.userName}"/>
+				<input type="text" class="changeInput" id="changeName" value="${member.userName}"  onkeyup="enterkeyName()"/>
 			</div>
 			<div class="myPageBtnBox" style="width: 100%; margin-top:20px;">
 				<div class="myPageBtnBox">
@@ -91,7 +91,7 @@
 				<h3 style="color: darkslategray">비밀번호 확인</h3>
 			</div>
 			<div class="myPagePasswordBox">
-				<input type="password" class="changeInput" id="passwordCheck" placeholder="비밀번호 확인"/>
+				<input type="password" class="changeInput" id="passwordCheck" onkeyup="enterkeyPasswordChk();" placeholder="비밀번호 확인"/>
 			</div>
 			<span class="passwordErr" id="passwordChkErr">비밀번호가 같지 않습니다.</span>
 			<div class="myPageBtnBox" style="width: 100%; margin-top:20px;">
@@ -116,10 +116,10 @@
 				<h3 style="color: darkslategray">비밀번호 변경</h3>
 			</div>
 			<div class="myPagePasswordBox">
-				<input type="password" class="changeInput" id="myPagePw" placeholder="비밀번호"/>
-				<input type="password" class="changeInput" id="myPagePwChk" placeholder="비밀번호 재확인"/>
+				<input type="password" class="changeInput" id="myPagePw" placeholder="비밀번호" onkeyup="enterkeyPassword();"/>
+				<input type="password" class="changeInput" id="myPagePwChk" placeholder="비밀번호 재확인" onkeyup="enterkeyPassword();"/>
 			</div>
-			<span class="passwordErr">비밀번호가 같지 않습니다.</span>
+			<span class="passwordErr" id="passwordErr">비밀번호가 같지 않거나 빈칸이 있습니다.</span>
 			<div class="myPageBtnBox" style="width: 100%; margin-top:20px;">
 				<div class="myPageBtnBox">
 					<button class="myPageBtn" onclick="passwordChange();">
@@ -146,6 +146,11 @@ window.onpopstate=function(e){
 }
 function modifyName(){
 	let name = document.querySelector("#changeName");
+	if(name.value===''){
+		alert('이름을 확인해주세요');
+		name.focus();
+		return false;
+	}
 	$.ajax({
 		url:'/member/myPage/modifyName',
 		type:'POST',
@@ -168,6 +173,11 @@ function modifyName(){
 //비밀번호 체크
 function pwChk(){
 	let password = document.querySelector("#passwordCheck");
+	if(password===""){
+		alert('비밀번호를 확인해주세요');
+		password.focus();
+		return false;
+	}
 	$.ajax({
 		url:'/member/myPage/passwordChk',
 		type:'GET',
@@ -196,8 +206,8 @@ function passwordChange(){
 	let password = document.querySelector("#myPagePw");
 	let passwordChk = document.querySelector("#myPagePwChk");
 	
-	if(password.value!==passwordChk.value){
-		document.querySelector(".passwordErr").style="display:block";
+	if(password.value!==passwordChk.value||password.value==''||passwordChk.value==''){
+		document.querySelector("#passwordErr").style="display:block";
 		return false;
 	}
 	
@@ -216,6 +226,25 @@ function passwordChange(){
 		        alert("code:" + request.status + "\n" + "message:"+ request.responseText + "\n" + "error:" + error);
 		}
 	});
+}
+
+function enterkeyName() {
+    if (window.event.keyCode === 13) {
+    	 // 엔터키가 눌렸을 때 실행할 내용
+    	modifyName();
+    }
+}
+function enterkeyPasswordChk() {
+    if (window.event.keyCode === 13) {
+    	 // 엔터키가 눌렸을 때 실행할 내용
+    	pwChk();
+    }
+}
+function enterkeyPassword() {
+    if (window.event.keyCode === 13) {
+    	 // 엔터키가 눌렸을 때 실행할 내용
+    	passwordChange();
+    }
 }
 </script>
 </html>

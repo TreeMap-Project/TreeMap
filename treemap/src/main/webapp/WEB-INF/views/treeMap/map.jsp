@@ -686,11 +686,11 @@
 						: '';
 				detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '+ place.address_name+ '</div>';
 						
-				
-				var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
+				if(${userNo}==0){
+					var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
 						+ '    <div class="info">'
 						+ '        <div class="title">'
-						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;" onclick="openModal();">'+place.place_name+' 즐겨찾기 등록하기</button>'
+						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;">'+place.place_name+' 로그인을 해주세요!</button>'
 						+ '        </div>'
 						+ '        <div class="body">'
 						+ '            <div class="desc">'
@@ -706,7 +706,28 @@
 				        
 						infowindow.setContent(content);
 				        infowindow.open(map, placeMarker);
-		    });
+				}else{
+					var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
+							+ '    <div class="info">'
+							+ '        <div class="title">'
+							+ '			<button type="button" class="favoritesBtn" style="font-size:11px;" onclick="openModal();">'+place.place_name+' 즐겨찾기 등록하기</button>'
+							+ '        </div>'
+							+ '        <div class="body">'
+							+ '            <div class="desc">'
+							+ detailAddr
+							+ '            </div>'
+							+ '        </div>'
+							+ '    </div>' + '</div>';
+							
+							lat = place.y;
+							lng =  place.x;
+							rowaddress = !!place.road_address ? place.road_address_name: '';
+							address = place.address_name;
+					        
+							infowindow.setContent(content);
+					        infowindow.open(map, placeMarker);
+				}
+			});
 		}
 		
 		function login(){

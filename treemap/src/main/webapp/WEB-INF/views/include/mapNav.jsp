@@ -34,7 +34,6 @@
 <!-- 
 		<button class="rightBtn" onclick="location.href='/member/myPage'">내 정보</button>
  -->
-		
 			
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal.username" var="userEmail" />

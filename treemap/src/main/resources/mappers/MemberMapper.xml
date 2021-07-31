@@ -12,15 +12,15 @@ SELECT count(*) FROM User WHERE userEmail = #{userEmail}
 <!-- 회원가입 -->
 <insert id="insertUser">
 INSERT
-INTO User(userEmail,userName,userPW,birthday) VALUE(#{userEmail},#{userName},#{userPW},#{birthday})
+INTO User(userEmail,userName,userPW,phoneNum,birthday) VALUE(#{userEmail},#{userName},#{userPW},#{phoneNum},#{birthday})
 </insert>
 <insert id="insertAuth">
 INSERT INTO user_auth VALUES((select userNo from User where userEmail=#{userEmail}),'ROLE_MEMBER')
 </insert>
 
 <!-- 아이디 찾기 -->
-<select id="getUserEmail" resultType="String">
-SELECT * FROM User WHERE userName=#{userName}
+<select id="getUserEmail" resultType="string">
+SELECT userEmail FROM User WHERE userName=#{userName} and birthday=#{birthday} and phoneNum=#{phoneNum}
 </select>
 
 <!-- 비밀번호 찾기 -->
@@ -39,8 +39,10 @@ UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User
 <result property="userEmail" column="userEmail"/>
 <result property="userName" column="userName"/>
 <result property="userPW" column="userPW"/>
-<result property="isDeleted" column="isDeleted"/>
+<result property="phoneNum" column="phoneNum"/>
+<result property="birthday" column="birthday"/>
 <result property="createdAt" column="createdAt"/>
+<result property="modDate" column="modDate"/>
 <collection property="authList" resultMap="authMap"></collection>
 </resultMap>
 
@@ -51,7 +53,7 @@ UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User
  
  
  <select id="read" resultMap="memberMap">
-SELECT mem.userNo, userEmail, userName, userPW,createdAt, auth 
+SELECT mem.userNo, userEmail, userName, userPW,birthday,createdAt, auth 
 FROM User mem LEFT OUTER JOIN User_auth auth ON mem.userNo = auth.userNo
 WHERE mem.userEmail = #{userEmail}
  </select>
