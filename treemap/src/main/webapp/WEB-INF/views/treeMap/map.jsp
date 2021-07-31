@@ -670,8 +670,8 @@
 				});
 			} 
 		 function signup(){
-			 document.querySelector('#loginBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120) ";
-			 document.querySelector('#signupBtn').style="border:1px solid white; color: white ";
+			 document.querySelector('#loginBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120)";
+			 document.querySelector('#signupBtn').style="border:1px solid white; color: white";
 			 $.ajax({
 				    type : "GET",
 				    url : "/member/signup",

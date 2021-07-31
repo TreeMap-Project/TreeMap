@@ -43,8 +43,7 @@ public class EmailSender {
             message.setSubject("Treemap 임시 비밀번호 입니다."); //메일 제목을 입력
 
             // Text
-            message.setText("임시 비밀번호: "+member.getUserPW() +" 사이트에서 비밀번호를 변경하시기 바랍니다." );    //메일 내용을 입력
-
+            message.setContent("<h1>TreeMap 임시 비밀번호 입니다.</h1><br>"+member.getUserName()+"님의 임시 비밀번호: "+member.getUserPW() +" 사이트에서 비밀번호를 변경하시기 바랍니다.","text/html;charset=utf-8");
             // send the message
             Transport.send(message); ////전송
             System.out.println("message sent successfully...");
@@ -84,7 +83,7 @@ public class EmailSender {
 			// 메일 제목 
 			message.setSubject("Treemap 임시 비밀번호 입니다."); 
 			// 메일 내용 
-			message.setText("임시 비밀번호: "+member.getUserPW() +" 사이트에서 비밀번호를 변경하시기 바랍니다."); 
+			message.setContent("<h1>TreeMap 임시 비밀번호 입니다.</h1><br>"+member.getUserName()+"님의 임시 비밀번호: "+member.getUserPW() +" 사이트에서 비밀번호를 변경하시기 바랍니다.","text/html;charset=utf-8");
 			
 			// send the message 		
 			Transport.send(message); 
@@ -94,6 +93,5 @@ public class EmailSender {
 			e.printStackTrace(); 
 			} 
 		}
-	
 
 }

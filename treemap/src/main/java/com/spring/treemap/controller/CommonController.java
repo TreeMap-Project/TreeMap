@@ -1,5 +1,4 @@
 package com.spring.treemap.controller;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,21 +75,6 @@ public class CommonController {
 		return "member/customLogin";
 	}
 
-	// 탈퇴
-	@PostMapping("/deleteMember")
-	public String deleteMember(MemberVO member, RedirectAttributes redirectAttr) {
-
-		int result = service.deleteUser(member);
-
-		if (result > 0) {
-			redirectAttr.addFlashAttribute("msg", "성공적으로 회원정보를 삭제했습니다.");
-			SecurityContextHolder.clearContext();
-		} else
-			redirectAttr.addFlashAttribute("msg", "회원정보삭제에 실패했습니다.");
-
-		return "redirect:/treeMap/map";
-	}
-
 	@GetMapping("/accessError")
 	public void accessDenied(Authentication auth, Model model) {
 		log.info("access Denied: " + auth);
@@ -105,6 +89,22 @@ public class CommonController {
 	@RequestMapping(value = "/member/findPw", method = RequestMethod.POST)
 	public void findPwPOST(@ModelAttribute MemberVO member, HttpServletResponse response) throws Exception {
 		service.findPw(response, member);
+	}
+	
+	@GetMapping("/member/findEmail")
+	public String showFindEmail() {
+		return "member/findEmail";
+	}
+	
+	//아이디 찾기
+	@ResponseBody
+	@PostMapping("/member/findEmail")
+	public String doFindEmail(MemberVO member, Model model) {
+		log.info("아이디 찾기 시도");
+		String userEmail = service.findEmail(member);
+		log.info(userEmail);
+		model.addAttribute("userEmail",userEmail);
+		return userEmail;
 	}
 
 }

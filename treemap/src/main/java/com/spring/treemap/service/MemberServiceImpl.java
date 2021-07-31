@@ -26,27 +26,26 @@ public class MemberServiceImpl implements MemberService {
 	@Setter(onMethod_ = @Autowired)
 	private MemberMapper mapper;
 
+	//비밀번호 암호화를 위한 Encoder
 	@Autowired
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 
+	//이메일 중복체크
 	public int checkEmail(String userEmail) {
 		int cnt = mapper.emailCnt(userEmail);
 		System.out.println(cnt);
 		return cnt;
 	}
 
+	//회원가입
 	public boolean getSignUp(MemberVO member) {
 		member.setUserPW(bcryptPasswordEncoder.encode(member.getUserPW()));
 		return mapper.insertUser(member) == 1 && mapper.insertAuth(member) == 1;
 	}
-
-	public int deleteUser(MemberVO member) {
-		return mapper.deleteUser(member);
-	}
-
+	
+	//아이디 찾기
 	public String findEmail(MemberVO member) {
-
-		return null;
+		return mapper.getUserEmail(member);
 	}
 
 	@Override

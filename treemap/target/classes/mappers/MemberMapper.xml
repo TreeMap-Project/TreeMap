@@ -12,26 +12,16 @@ SELECT count(*) FROM User WHERE userEmail = #{userEmail}
 <!-- 회원가입 -->
 <insert id="insertUser">
 INSERT
-INTO User(userEmail,userName,userPW,birthday) VALUE(#{userEmail},#{userName},#{userPW},#{birthday})
+INTO User(userEmail,userName,userPW,phoneNum,birthday) VALUE(#{userEmail},#{userName},#{userPW},#{phoneNum},#{birthday})
 </insert>
 <insert id="insertAuth">
 INSERT INTO user_auth VALUES((select userNo from User where userEmail=#{userEmail}),'ROLE_MEMBER')
 </insert>
 
 <!-- 아이디 찾기 -->
-<select id="getUserEmail" resultType="String">
-SELECT * FROM User WHERE userName=#{userName}
+<select id="getUserEmail" resultType="string">
+SELECT userEmail FROM User WHERE userName=#{userName} and birthday=#{birthday} and phoneNum=#{phoneNum}
 </select>
-
-<!-- 비밀번호 찾기 -->
-<select id="getUserPW" resultType="String">
-
-</select>
-
-<!-- 회원탈퇴 -->
-<update id="deleteUser">
-UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User where userEmail=#{userEmail})
-</update>
 
 <resultMap type="com.spring.treemap.domain.MemberVO" id="memberMap">
 <id property="userEmail" column="userEmail"/>
@@ -39,8 +29,10 @@ UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User
 <result property="userEmail" column="userEmail"/>
 <result property="userName" column="userName"/>
 <result property="userPW" column="userPW"/>
-<result property="isDeleted" column="isDeleted"/>
+<result property="phoneNum" column="phoneNum"/>
+<result property="birthday" column="birthday"/>
 <result property="createdAt" column="createdAt"/>
+<result property="modDate" column="modDate"/>
 <collection property="authList" resultMap="authMap"></collection>
 </resultMap>
 
@@ -50,13 +42,14 @@ UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User
 </resultMap>
  
  
+<!--  Security Login -->
  <select id="read" resultMap="memberMap">
 SELECT mem.userNo, userEmail, userName, userPW,createdAt, auth 
 FROM User mem LEFT OUTER JOIN User_auth auth ON mem.userNo = auth.userNo
 WHERE mem.userEmail = #{userEmail}
  </select>
  
-<!--  임시 비밀번호 지급 -->
+<!-- 비밀번호 변경 -->
  <update id ="updatePw"  parameterType="com.spring.treemap.domain.MemberVO">
  	update user set userPW = #{userPW} where userEmail=#{userEmail}
 </update>
