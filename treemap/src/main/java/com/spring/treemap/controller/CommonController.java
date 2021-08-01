@@ -101,28 +101,27 @@ public class CommonController {
 
 	@GetMapping("/member/myPage")
 	public String myPage(Model model, MemberVO vo) {
-		log.info("myPage 접근");
-		System.out.println(service.read(vo));
 		model.addAttribute("member",service.read(vo));
 		
 		return "member/myPage";
 	}
 	
+	//이름 업데이트
 	@PostMapping("/member/myPage/modifyName")
 	public String updateName(Model model, MemberVO vo) {
-		log.info("updateName 접근");
 		service.updateName(vo);
 		model.addAttribute("member",service.read(vo));
 		return "member/myPage";
 	}
 	
+	//패스워드 체크
 	@ResponseBody
 	@GetMapping("/member/myPage/passwordChk")
 	public int passwordChk(MemberVO vo) {
-		log.info("passwordChk 접근");
 		return service.passwordChk(vo);
 	}
 	
+	//패스워드 변경
 	@PostMapping("/member/myPage/modifyPassword")
 	public String updatePassword(Model model, MemberVO vo) {
 		log.info("updatePassword 접근");

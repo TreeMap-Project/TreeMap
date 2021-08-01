@@ -39,38 +39,10 @@ public class MapContoller {
 		if(status.equals("fail")) {
 			model.addAttribute("status",status);
 		}
-		/*
-		int userNo = 1;
-		Page page = new Page();
-		page.setNum(num);
-
-		page.setCount(service.getAddressCount(keyword));
-		page.setSearchType(searchType);
-		page.setKeyword(keyword);
 		
-		CategoryPage categoryPage = new CategoryPage();
-		categoryPage.setNum(catNum);
-		List<CategoryVO> category = service.getMapBoardCateNameList(userNo, categoryPage.getStartNum(),categoryPage.getEndNum());
-	
-		
-		// 현재 페이지에 해당하는 리스트
-		model.addAttribute("mapBoardList",
-				service.getMapBoardList(userNo, page.getDisplayPost(), page.getPostNum(), searchType, keyword));
-		// 카테고리 이름 표시
-		model.addAttribute("categoryName", category);
-		// 페이징처리
-		model.addAttribute("page", page);
-		// 현재 페이지가 몇인지 표시
-		model.addAttribute("select", num);
-		// 현재키워드가 뭔지 알려줌 페이지 이동할떄 알고있어야함
-		model.addAttribute("keyword", keyword);
-		// 카테고리 페이지
-		model.addAttribute("categoryPage", categoryPage);
-		// 카테고리가 몇개인지
-		model.addAttribute("categorylength", service.getMapBoardCateNameList(userNo, 0, 0).size());
-		*/
 		return "treeMap/map";
 	}
+	//유저로그인
 	@GetMapping("/userMapBoard")
 	public String getUserMapBoard(Model model, @RequestParam(value="num", required = false, defaultValue = "1") int num,
 			@RequestParam(value = "catNum", required = false, defaultValue = "1") int catNum,
@@ -155,6 +127,7 @@ public class MapContoller {
 	@ResponseBody
 	@PostMapping("/favorites")
 	public void insertMap(AddressVO address, CategoryVO category) {
+		
 		// 사용자 입력값 카테고리테이블 인서트
 		service.insertCategory(category);
 		// 사용자 입력값 주소테이블 인서트

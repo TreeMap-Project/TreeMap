@@ -13,6 +13,8 @@ public class AddressVO {
 	private String rowaddress;	//도로명
 	private String address;		//지번
 	private String memo;		//메모
+	private String placeName;	//가게이름
+	private String placeUrl;	//url
 	private String createdAt;	//생성일
 	private boolean detail;
 	

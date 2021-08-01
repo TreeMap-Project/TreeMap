@@ -81,6 +81,7 @@
 	font-size: 14px;
 	font-weight: 600;
 	position: relative;
+	cursor: pointer;
 }
 
 .favoritesBtn:after {
@@ -135,7 +136,15 @@
 	border: 0;
 	box-shadow: 0px 1px 2px #888;
 }
-
+.fBox{
+	width: 120px;
+    position: absolute;
+    height: 30px;
+    top: -93px;
+    left: 98px;
+    background-color: #343cc9;
+    border-radius: 5px;
+}
 .info .title {
 	padding: 5px 0 0 10px;
 	height: 30px;

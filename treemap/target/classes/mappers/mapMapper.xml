@@ -14,6 +14,8 @@
 		<id property="rowaddress" column="rowaddress" />
 		<id property="address" column="address" />
 		<id property="memo" column="memo" />
+		<id property="placeName" column="placeName" />
+		<id property="placeUrl" column="placeUrl" />
 		<id property="createdAt" column="createdAt" />
 	</resultMap>
 
@@ -65,8 +67,8 @@
 	<insert id="insertAddress"
 		parameterType="com.spring.treemap.domain.AddressVO">
 		insert into
-		Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo)
-		values(#{userNo},(select max(catNo) from category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo})
+		Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo,placeName,placeUrl)
+		values(#{userNo},(select max(catNo) from category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo},#{placeName},#{placeUrl})
 	</insert>
 
 	<insert id="insertCategory"
@@ -77,7 +79,7 @@
 	
 	<select id="getMapBoardDetail" resultMap="MapVO">
 		select
-		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.createdAt,c.catName,c.catNo
+		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.placeName,a.placeUrl,a.createdAt,c.catName,c.catNo
 		from category c, address a
 		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>

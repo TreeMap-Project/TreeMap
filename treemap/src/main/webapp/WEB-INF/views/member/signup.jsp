@@ -44,13 +44,13 @@
 						<label class="signupLabels">Phone</label> <input type="text"
 							name="phoneNum" id="phoneNum" class="signupInputs"
 							required="required"
-							placeholder="휴대폰 번호를 -없이 입력해주세요 (ex:01012341234)">
+							placeholder="휴대폰 번호 (ex:01012341234)">
 					</div>
 					<div class="signupBox">
 						<label class="signupLabels">Birthday</label> <input type="text"
 							name="birthday" id="birthday" class="signupInputs"
 							required="required"
-							placeholder="생년월일의 연월일을 -없이 입력해주세요 (ex:20010101)">
+							placeholder="생년월일 (ex:20010101)">
 					</div>
 					<div class="signupBox">
 						<button class="signupBtn">확 인</button>
@@ -63,12 +63,6 @@
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
-		/* var csrfHeaderName = "${_csrf.headerName}";
-		 var csrfTokenValue = "${_csrf.token}";
-		 $(document).ajaxSend(function(e,xhr,option){
-		 xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-		 });
-		 */
 		
 		let userEmail = document.getElementById('userEmail');
 		let userPW = document.getElementById('userPW');
@@ -76,6 +70,7 @@
 		let phoneNum = document.getElementById('phoneNum');
 		let birthday = document.getElementById('birthday');
 		let userChk = false;
+		
 		function emailChk() {
 			var regexEmail = /^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
 			$.ajax({

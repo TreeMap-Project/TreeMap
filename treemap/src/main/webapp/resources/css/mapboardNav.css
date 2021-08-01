@@ -84,6 +84,7 @@
 	background-color: white;
 	width: 100%;
 	height: 350px;
+	min-width:340px;
 	display: flex;
 	flex-direction: column;
 	border: 1px solid #dadce0;
@@ -115,7 +116,7 @@
 
 .memoBox {
 	width: 100%;
-	height: 110px;
+	height: 120px;
 	display: flex;
 	border-bottom: 1px solid #dadce0;
 }
@@ -137,7 +138,8 @@
 
 .MapChange {
 	width: 100%;
-	height: 60px;
+	height: 70px;
+	border-radius:5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -145,14 +147,25 @@
 
 .modifyBtn {
 	border: none;
-	background-color: rgb(35, 140, 250);
+	background-color: transparent;
 	width: 100px;
 	color: white;
 	margin: 10px;
 	padding: 5px;
 	cursor: pointer;
+	border-radius: 5px;
 }
-
+.listEmpty{
+	min-height:200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.emptySpan{
+	font-size: 13px;
+	margin-top:4px;
+}
 .boardList {
 	width: 100%;
 	height: 65px;
@@ -178,6 +191,7 @@
 	border: none;
 	margin-left: 20%;
 	text-align: left;
+	cursor:pointer;
 	background-color: white;
 	padding: 0px;
 	margin-bottom: 3px;

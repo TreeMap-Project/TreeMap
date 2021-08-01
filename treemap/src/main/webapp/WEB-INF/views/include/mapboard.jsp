@@ -33,7 +33,7 @@
 		</div>
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
-				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}" onkeyup="enterkey()"/>
+				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}" onkeyup="enterkey()"	/>
 				<button class="SearchBtn"  onclick="reloadMapListKeyword(1,1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
 			</div>
 			<c:choose>
@@ -62,17 +62,31 @@
 								<div class="detailLabel">메모일</div>
 								<textarea class="memo" disabled>${address.memo} </textarea>
 							</div>
-							<div class="MapChange">
+							<div class="MapChange" style="background-color:rgb(35, 140, 250)">
+								<button type="button" class="modifyBtn" style="background-color:blue" onclick="openKaKao('${address.placeName}','${address.lat}','${address.lng}')">길찾기</button>
+								<c:if test="${address.placeUrl ne ''}">
+									<button type="button" class="modifyBtn" onclick="openWindow('${address.placeUrl}')">홈페이지</button>
+								</c:if>
 								<button type="button" class="modifyBtn" onclick="modifyModel()">수정</button>
 								<button type="button" class="modifyBtn" onclick="deleteMapboard(${address.adrNo},${category.catNo})">삭제</button>
 							</div>
 						</div>
 						<div style="margin-top:20px;">
-							<button type="button" class="modifyBtn" onclick="reloadMapCategoryList()">돌아가기</button>
+							<button type="button" class="modifyBtn" style='background-color: rgb(35, 140, 250);' onclick="reloadMapCategoryList()">돌아가기</button>
 						</div>
 					</div>
 				</c:when>
 				<c:otherwise>
+						<c:if test="${empty mapBoardList }">
+							<div class="listEmpty">
+								<p class="emptySpan">
+								등록된 지도가 없습니다.</p>
+								<p class="emptySpan">
+								지도를 클릭해 나만의 지도를 </p>
+								<p class="emptySpan">
+								등록해보세요!</p>
+							</div>
+						</c:if>
 					<c:forEach items="${mapBoardList}" var="list" varStatus="status">
 						<div class="boardList">
 							<button class="addrName" onclick="addrmarker(${list.address.lat},${list.address.lng},'${list.address.rowaddress}','${list.address.address}','${list.address.adrName}',${list.address.adrNo},${list.address.catNo},'${list.category.iconUrl}');">
@@ -121,7 +135,7 @@
 				<input class="modalInput" id="Mcategory" type="text" value="${category.catName}" />
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">별칭</label><input class="modalInput" id="Maddressname" type="text" value="${address.adrName}" />
+				<label class="modalLabel">제목</label><input class="modalInput" id="Maddressname" type="text" value="${address.adrName}" />
 			</div>
 			<div class="modalBox">
 				<label class="modalLabel">메모</label><textarea class="modalmemo" id="Mmemo">${address.memo}</textarea>
@@ -162,6 +176,7 @@
 	</div>
 </body>
 <script type="text/javascript">
+
 function enterkey() {
     if (window.event.keyCode == 13) {
     	 // 엔터키가 눌렸을 때 실행할 내용
@@ -169,11 +184,20 @@ function enterkey() {
     }
     
 }
-/*
-history.pushState(null, null, location.href); 
-window.onpopstate=function(e){
-	console.log('리스트 뒤로가기')
-	reloadMapCategoryList();
-}*/
+//길찾기
+function openKaKao(placeName,lat,lng){
+	let url;
+	if(placeName===''){
+		url = 'https://map.kakao.com/link/to/도착,'+lat+','+lng;
+	}else{
+		url = 'https://map.kakao.com/link/to/'+placeName+','+lat+','+lng;
+	}
+	window.open(url);
+}
+
+function openWindow(placeUrl){
+	window.open(placeUrl);
+}
+
 </script>
 </html>

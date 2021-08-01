@@ -54,12 +54,11 @@
 			<div class="modalBox">
 				<label class="modalLabel">카테고리</label>
 				<div class="id">
-					<input class="modalInput" id="category" type="text"
-						placeholder="예) 맛집, 쇼핑" />
+					<input class="modalInput" id="category" type="text" maxlength='5' placeholder="5자리 이하 (ex 맛집, 쇼핑)" />
 				</div>
 			</div>
 			<div class="modalBox">
-				<label class="modalLabel">별칭</label><input class="modalInput"
+				<label class="modalLabel">제목</label><input class="modalInput"
 					id="addressname" type="text" value="${mapBoardDetail.adrName}" />
 			</div>
 			<div class="modalBox">
@@ -216,7 +215,7 @@
 				alert("빈칸이 있는지 확인해주세요");
 				return false;
 			}
-			
+			if(catName.value)
 			if(iconUrl==""){
 				alert("아이콘을 선택해주세요");
 				return false;
@@ -231,7 +230,9 @@
 				"catName" : catName.value,
 				"memo" : memo.value,
 				"iconUrl" : iconUrl,
-				"userNo" : ${userNo}
+				"userNo" : ${userNo},
+				"placeName":placeName,
+				"placeUrl" : placeUrl
 			};
 			
 			//return 값으로 html을 받아옴
@@ -375,17 +376,15 @@
 			// 마커가 지도 위에 표시되도록 설정합니다
 			DBmarker.setMap(map);
 			
-			//길찾기에 등록할 url
-			let latLng = 'https://map.kakao.com/link/to/도착,'+lat+','+lng;
 			
 			let iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
 			
 			// 커스텀 오버레이에 표시할 컨텐츠 입니다
 			// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 			// 별도의 이벤트 메소드를 제공하지 않습니다 
-			var content = '<div class="wrap">' + '    <div class="info">'
+			var content = '<div class="wrap">' 
+					+ '<div class="info">'
 					+ '        <div class="title">' + adrName
-					+ '          <span class="find" onclick="openKaKao(\''+latLng+'\')"> 길찾기 </span>'
 					+ '        </div>' 
 					+ '        <div class="body">'
 					+ '            <div class="desc">'
@@ -425,11 +424,6 @@
 			infowindow.open(null,null);
 		}
 		
-		function openKaKao(url){
-			window.open(url)
-			marker.setMap(null);
-			infowindow.open(null,null);
-		}
 		//수정 모달 오픈
 		function modifyModel() {
 			document.querySelector('#modifyModal').style = "display:block";
@@ -511,26 +505,7 @@
 			DBmarker.setMap(null);
 			infowindow.open(null,null);
 			overlay.setMap(null);
-			//window.location.reload();
-		//	closeOverlay();
-		//	removeMarker();
-		//	setMarkers(map);
 		}
-		/*
-		function setMarkers(map) {
-			console.log(map);
-		    for (var i = 0; i < markers.length; i++) {
-		        markers[i].setMap(map);
-		    }            
-		}
-		
-		function removeMarker() {
-			markers.pop();
-		}
-		//오버레이 삭제
-		function closeOverlay() {
-		    overlay.setMap(null);     
-		}*/
 		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
 		searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 		
@@ -620,7 +595,6 @@
 			}
 		}
 
-
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -660,12 +634,14 @@
 		        map.setBounds(bounds);
 		    } 
 		}
-	
+		
+		let placeName;
+		let placeUrl;
+		
 		// 지도에 마커를 표시하는 함수입니다
 		function displayMarker(place) {
-		    
+		    console.log(place);
 		    // 마커를 생성하고 지도에 표시합니다
-		   
 		    var placeMarker = new kakao.maps.Marker({
 		        map: map,
 		        position: new kakao.maps.LatLng(place.y, place.x) 
@@ -674,7 +650,10 @@
 		    
 		    // 마커에 클릭이벤트를 등록합니다
 		    kakao.maps.event.addListener(placeMarker, 'click', function() {
-		    	
+		    	//가게이름
+		    	placeName=place.place_name;
+		    	//가게url
+		    	placeUrl=place.place_url;
 		    	marker.setMap(null);
 				infowindow.open(null,null);
 		        
@@ -688,9 +667,10 @@
 						
 				if(${userNo}==0){
 					var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
+						+ '<span>상세보기</span> '
 						+ '    <div class="info">'
 						+ '        <div class="title">'
-						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;">'+place.place_name+' 로그인을 해주세요!</button>'
+						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;">'+'<span style="color:yellow">'+place.place_name+'</span> 로그인을 해주세요!</button>'
 						+ '        </div>'
 						+ '        <div class="body">'
 						+ '            <div class="desc">'
@@ -707,14 +687,18 @@
 						infowindow.setContent(content);
 				        infowindow.open(map, placeMarker);
 				}else{
-					var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
+					var content ='    <div class="fBox">'
+								+ '		<button type="button" class="favoritesBtn" style="font-size:11px ; margin-top:5px; margin-left:8px;" onclick="openModal();">즐겨찾기 등록하기</button></div>'
+					 
+							+'<div class="wrap" style="margin-left:0;left:-68px;top:-67px; heigth:100px;">'
 							+ '    <div class="info">'
 							+ '        <div class="title">'
-							+ '			<button type="button" class="favoritesBtn" style="font-size:11px;" onclick="openModal();">'+place.place_name+' 즐겨찾기 등록하기</button>'
+							+ '		<span style="color:yellow">'+place.place_name+'&nbsp&nbsp&nbsp&nbsp</span>'
+							+ ' <button class="favoritesBtn" onclick="window.open('+'\''+place.place_url+'\''+')">상세보기</button>'
 							+ '        </div>'
 							+ '        <div class="body">'
 							+ '            <div class="desc">'
-							+ detailAddr
+							+ detailAddr	
 							+ '            </div>'
 							+ '        </div>'
 							+ '    </div>' + '</div>';

@@ -38,17 +38,6 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-	history.pushState(null, null, location.href); 
-	window.onpopstate=function(e){
-		console.log("뒤로가기");
-		$.ajax({
-			url:'/member/customLogin',
-			type:'GET',
-			success : function(result) {
-				$('#include').html(result);
-			}
-		});
-	}
 
 	let userName = document.querySelector("#findName");
 	let userEmail = document.querySelector("#findEmail");
