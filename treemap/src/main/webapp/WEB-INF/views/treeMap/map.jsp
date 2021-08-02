@@ -8,8 +8,9 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>트리맵</title>
-
+<title>TREE MAP</title>
+<link rel="shortcut icon" href="../../../../resources/imgs/favicon.png">
+<link rel="icon" href="../../../../resources/imgs/favicon.png">
 <link href="../../../../resources/css/map.css" rel="stylesheet"
 	type="text/css">
 <link href="../../../../resources/css/searchKeyword.css"
@@ -294,7 +295,6 @@
 			//현재마커 인포위도우 초기화
 			marker.setMap(null);
 			infowindow.open(null,null);
-			console.log(type,kw);
 		}
 		
 		//검색타입
@@ -426,8 +426,15 @@
 		
 		//수정 모달 오픈
 		function modifyModel() {
+			let homePage = !!document.querySelector('#homePage');
 			document.querySelector('#modifyModal').style = "display:block";
-		}
+			document.querySelector('#findRoad').style="background-color:rgb(35, 140, 250);";
+			if(homePage){
+				document.querySelector('#homePage').style="background-color:rgb(35, 140, 250);";
+			}
+			document.querySelector('#detailModity').style="background-color:blue;";
+			document.querySelector('#detailDelete').style="background-color:rgb(35, 140, 250);";
+		}	
 
 		//수정완료시
 		function modifyFavorites(adrNo, catNo) {
@@ -435,7 +442,7 @@
 			let addressname = document.querySelector('#Maddressname');	
 			let memo = document.querySelector('#Mmemo');
 			let category = document.querySelector('#Mcategory');
-			
+
 			if(addressname.value.trim()=='' || memo.value.trim()==''||category.value.trim()==''){
 				alert("빈칸이 있는지 확인해주세요");
 				return false;
@@ -480,6 +487,8 @@
 		
 		//삭제
 		function deleteMapboard(adrNo, catNo) {
+			let homePage = !!document.querySelector('#homePage');
+			
 			if (confirm("정말 삭제하시겠습니까 ?")) {
 				$.ajax({
 					type : "POST",
@@ -502,6 +511,13 @@
 					}
 				});
 			}
+			document.querySelector('#findRoad').style="background-color:rgb(35, 140, 250);";
+			if(homePage){
+				document.querySelector('#homePage').style="background-color:rgb(35, 140, 250);";
+			}
+			document.querySelector('#detailModity').style="background-color:rgb(35, 140, 250);";
+			document.querySelector('#detailDelete').style="background-color:blue;";
+
 			DBmarker.setMap(null);
 			infowindow.open(null,null);
 			overlay.setMap(null);
@@ -640,7 +656,6 @@
 		
 		// 지도에 마커를 표시하는 함수입니다
 		function displayMarker(place) {
-		    console.log(place);
 		    // 마커를 생성하고 지도에 표시합니다
 		    var placeMarker = new kakao.maps.Marker({
 		        map: map,

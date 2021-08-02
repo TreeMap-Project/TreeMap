@@ -57,7 +57,6 @@ $(document).ajaxSend(function(e,xhr,option){
 let userEmail = document.getElementById('userEmail');
 let userChk = false;
 function emailChk(){
-	console.log(userEmail.value);
 	$.ajax({
         type : "POST",
         url : "/chkEmail",
@@ -67,7 +66,6 @@ function emailChk(){
           	if(userEmail.value.includes('@') && res==0){
           		alert("사용 가능한 아이디입니다.");
           		userChk =true;
-          		console.log("이메일 체크 완료");
           	}
           	else{
           		alert("다른 이메일를 사용해주세요.");

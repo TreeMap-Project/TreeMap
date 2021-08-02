@@ -4,6 +4,7 @@
 	<%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <link href="../../../../resources/css/mapboardNav.css" rel="stylesheet" type="text/css">
+<c:set var="homepage" value="false" />
 <html>
 <meta charset="UTF-8">
 <body>
@@ -63,12 +64,13 @@
 								<textarea class="memo" disabled>${address.memo} </textarea>
 							</div>
 							<div class="MapChange" style="background-color:rgb(35, 140, 250)">
-								<button type="button" class="modifyBtn" style="background-color:blue" onclick="openKaKao('${address.placeName}','${address.lat}','${address.lng}')">길찾기</button>
+								<button type="button" class="modifyBtn" id="findRoad" style="background-color:blue" onclick="openKaKao('${address.placeName}','${address.lat}','${address.lng}')">길찾기</button>
 								<c:if test="${address.placeUrl ne ''}">
-									<button type="button" class="modifyBtn" onclick="openWindow('${address.placeUrl}')">홈페이지</button>
+									<c:set var="homepage" value="true" />
+									<button type="button" class="modifyBtn" id="homePage" onclick="openUrl('${address.placeUrl}')">홈페이지</button>
 								</c:if>
-								<button type="button" class="modifyBtn" onclick="modifyModel()">수정</button>
-								<button type="button" class="modifyBtn" onclick="deleteMapboard(${address.adrNo},${category.catNo})">삭제</button>
+								<button type="button" class="modifyBtn" id="detailModity" onclick="modifyModel()">수정</button>
+								<button type="button" class="modifyBtn" id="detailDelete" onclick="deleteMapboard(${address.adrNo},${category.catNo})">삭제</button>
 							</div>
 						</div>
 						<div style="margin-top:20px;">
@@ -176,7 +178,6 @@
 	</div>
 </body>
 <script type="text/javascript">
-
 function enterkey() {
     if (window.event.keyCode == 13) {
     	 // 엔터키가 눌렸을 때 실행할 내용
@@ -186,6 +187,7 @@ function enterkey() {
 }
 //길찾기
 function openKaKao(placeName,lat,lng){
+	let homePage = !!document.querySelector('#homePage');
 	let url;
 	if(placeName===''){
 		url = 'https://map.kakao.com/link/to/도착,'+lat+','+lng;
@@ -193,10 +195,21 @@ function openKaKao(placeName,lat,lng){
 		url = 'https://map.kakao.com/link/to/'+placeName+','+lat+','+lng;
 	}
 	window.open(url);
+	document.querySelector('#findRoad').style="background-color:blue;";
+	if(homePage){
+		document.querySelector('#homePage').style="background-color:rgb(35, 140, 250);";
+	}
+	document.querySelector('#detailModity').style="background-color:rgb(35, 140, 250);";
+	document.querySelector('#detailDelete').style="background-color:rgb(35, 140, 250);";
+	
 }
 
-function openWindow(placeUrl){
+function openUrl(placeUrl){
 	window.open(placeUrl);
+	document.querySelector('#findRoad').style="background-color:rgb(35, 140, 250);";
+	document.querySelector('#homePage').style="background-color:blue;";
+	document.querySelector('#detailModity').style="background-color:rgb(35, 140, 250);";
+	document.querySelector('#detailDelete').style="background-color:rgb(35, 140, 250);";
 }
 
 </script>

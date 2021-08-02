@@ -52,7 +52,6 @@
 					'phoneNum' : phoneNum.value
 				},
 				success : function(result) {
-					console.log(result);
 					if (result !== '') {
 						alert(result);
 					} else{
@@ -72,7 +71,6 @@
 		}
 		if (birthday.value == '' || !(regexpBirth.test(birthday.value))) {
 			alert("생년월일의 연월일을 -없이 입력해주세요 (ex:20010101)");
-			console.log(regexpBirth.test(birthday.value));
 			birthday.focus();
 			return false;
 		}
@@ -92,7 +90,6 @@
    }
 	
 	function reloadLogin(){
-	      console.log("login 페이지로 이동");
 	      $.ajax({
 	         url:'/member/customLogin',
 	         type:'GET',

@@ -139,11 +139,7 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-history.pushState(null, null, location.href); 
-window.onpopstate=function(e){
-	console.log("보드 뒤로가기");
-	reloadMapList();
-}
+
 function modifyName(){
 	let name = document.querySelector("#changeName");
 	if(name.value===''){

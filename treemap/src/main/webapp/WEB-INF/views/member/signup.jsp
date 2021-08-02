@@ -85,14 +85,12 @@
 						if (res == 0) {
 							alert("사용 가능한 아이디입니다.");
 							userChk = true;
-							console.log("이메일 체크 완료");
 						} else {
 							alert("다른 이메일를 사용해주세요.");
 							userChk = false;
 						}
 					} else {
 						alert("이메일 형식에 맞게 입력해주세요.");
-						console.log("이메일 형식 오류");
 					}
 				},
 				error : function(request, status, error) {
@@ -140,7 +138,6 @@
 			}
 			if (birthday.value =='' || !(regexpBirth.test(birthday.value))) {
 				alert("생년월일의 연월일을 -없이 입력해주세요 (ex:20010101)");
-				console.log(regexpBirth.test(birthday.value));
 				birthday.focus();
 				return false;
 			}
