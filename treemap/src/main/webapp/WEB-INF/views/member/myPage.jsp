@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="../../../../resources/css/myPage.css" rel="stylesheet"
+<link href="<%=request.getContextPath() %>/resources/css/myPage.css" rel="stylesheet"
 	type="text/css">
-<link href="../../../../resources/css/myPageModal.css" rel="stylesheet"
+<link href="<%=request.getContextPath() %>/resources/css/myPageModal.css" rel="stylesheet"
 	type="text/css">
 <title>내 정보</title>
 </head>

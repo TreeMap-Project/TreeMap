@@ -139,7 +139,6 @@
              available for use by the Realm.  -->
         <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
       </Realm>
-
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
 
         <!-- SingleSignOn valve, share authentication between web applications
@@ -153,7 +152,10 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="treemap" path="/" reloadable="true" source="org.eclipse.jst.jee.server:treemap"/><Context docBase="treemap" path="/treemap" reloadable="true" source="org.eclipse.jst.jee.server:treemap"/></Host>
+      
+      
+      <Context docBase="treemap" path="/" reloadable="true" source="org.eclipse.jst.jee.server:treemap"/>
+      </Host>
     </Engine>
   </Service>
 </Server>

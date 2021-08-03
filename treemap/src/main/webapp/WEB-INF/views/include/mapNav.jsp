@@ -3,8 +3,8 @@
 	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<link href="../../../../resources/css/mapNav.css" rel="stylesheet" type="text/css">
-<link href="../../../../resources/css/modal.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/mapNav.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/modal.css" rel="stylesheet" type="text/css">
 <html>
 
 <div class="navbar">
@@ -31,9 +31,6 @@
 			<button id="loginBtn" class="rightBtn" onclick="login();">로그인</button>
 			<button id="signupBtn" class="rightBtn" onclick="signup();">회원가입</button>		
 		</sec:authorize>
-<!-- 
-		<button class="rightBtn" onclick="location.href='/member/myPage'">내 정보</button>
- -->
 			
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal.username" var="userEmail" />
@@ -42,7 +39,7 @@
 		</sec:authorize>
 	</div>
 	<div>
-		<button class="menuBtn" onclick="boardOpen()"><img style="width: 30px;"src="../../../../resources/imgs/메뉴버튼.png"></button>
+		<button class="menuBtn" onclick="boardOpen()"><img style="width: 30px;"src="<%=request.getContextPath() %>/resources/imgs/메뉴버튼.png"></button>
 	</div>
 </div>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>

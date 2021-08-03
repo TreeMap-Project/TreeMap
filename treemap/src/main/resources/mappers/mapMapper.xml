@@ -33,14 +33,14 @@
 	</resultMap>
 	
 	<select id="getAddressCount" resultType="int" parameterType="hashMap">
-		select count(adrNo) from address  where userNo=#{userNo} 
+		select count(adrNo) from Address  where userNo=#{userNo} 
 		 <if test = '!_parameter.equals("")'>
         	and adrName like concat('%',#{keyword},'%')
         </if>
 	</select>
 	
 	<select id="getCategoryCount" resultType="int" parameterType="hashMap">
-		select count(catNo) from category where userNo=#{userNo} and catName =#{keyword}
+		select count(catNo) from Category where userNo=#{userNo} and catName =#{keyword}
     </select>
     
     <select id="getUserNo" resultType="int" parameterType="String">
@@ -68,24 +68,24 @@
 		parameterType="com.spring.treemap.domain.AddressVO">
 		insert into
 		Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo,placeName,placeUrl)
-		values(#{userNo},(select max(catNo) from category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo},#{placeName},#{placeUrl})
+		values(#{userNo},(select max(catNo) from Category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo},#{placeName},#{placeUrl})
 	</insert>
 
 	<insert id="insertCategory"
 		parameterType="com.spring.treemap.domain.CategoryVO">
-		insert into category(userNo,iconUrl, catName)
+		insert into Category(userNo,iconUrl, catName)
 		values(#{userNo},#{iconUrl},#{catName})
 	</insert>
 	
 	<select id="getMapBoardDetail" resultMap="MapVO">
 		select
 		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.placeName,a.placeUrl,a.createdAt,c.catName,c.catNo
-		from category c, address a
+		from Category c, Address a
 		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
 	</select>
 	
 	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="hashMap">
-		select catName from category where userNo=#{userNo} 
+		select catName from Category where userNo=#{userNo} 
 		group by catName
 		<if test = 'endNum!=0'>
 			limit #{startNum}, #{endNum} 
@@ -102,19 +102,19 @@
 	</select>
 	
 	<update id="updateAddress" parameterType="com.spring.treemap.domain.AddressVO">
-	 	UPDATE address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
+	 	UPDATE Address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
 	</update>
 	
 	<update id="updateCategory" parameterType="com.spring.treemap.domain.CategoryVO">
-	 	 UPDATE category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
+	 	 UPDATE Category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
 	</update>
 	
 	<delete id="deleteAddress" parameterType="int">
-		DELETE from address where adrNo=#{adrNo}
+		DELETE from Address where adrNo=#{adrNo}
 	</delete>
 	
 	<delete id="deleteCategory" parameterType="int">
-		DELETE from category where catNo=#{catNo}
+		DELETE from Category where catNo=#{catNo}
 	</delete>
 
 </mapper>

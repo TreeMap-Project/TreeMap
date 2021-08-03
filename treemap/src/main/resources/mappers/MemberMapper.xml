@@ -23,16 +23,6 @@ INSERT INTO user_auth VALUES((select userNo from User where userEmail=#{userEmai
 SELECT userEmail FROM User WHERE userName=#{userName} and birthday=#{birthday} and phoneNum=#{phoneNum}
 </select>
 
-<!-- 비밀번호 찾기 -->
-<select id="getUserPW" resultType="String">
-
-</select>
-
-<!-- 회원탈퇴 -->
-<update id="deleteUser">
-UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User where userEmail=#{userEmail})
-</update>
-
 <resultMap type="com.spring.treemap.domain.MemberVO" id="memberMap">
 <id property="userEmail" column="userEmail"/>
 <result property="userNo" column="userNo"/>
@@ -54,16 +44,16 @@ UPDATE user_auth SET auth ='ROLE_MEMBER' WHERE userNo = (select userNo from User
  
  <select id="read" resultMap="memberMap">
 SELECT mem.userNo, userEmail, userName, userPW,birthday,createdAt, auth 
-FROM User mem LEFT OUTER JOIN User_auth auth ON mem.userNo = auth.userNo
+FROM User mem LEFT OUTER JOIN user_auth auth ON mem.userNo = auth.userNo
 WHERE mem.userEmail = #{userEmail}
  </select>
  
 <!--  임시 비밀번호 지급 -->
  <update id ="updatePw"  parameterType="com.spring.treemap.domain.MemberVO">
- 	update user set userPW = #{userPW} where userEmail=#{userEmail}
+ 	update User set userPW = #{userPW} where userEmail=#{userEmail}
 </update>
 
 <update id="updateName" parameterType="com.spring.treemap.domain.MemberVO">
-	update user set userName=#{userName} where userNo=#{userNo}
+	update User set userName=#{userName} where userNo=#{userNo}
 </update>
  </mapper>

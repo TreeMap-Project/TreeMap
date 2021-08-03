@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 	<%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
-<link href="../../../../resources/css/mapboardNav.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/mapboardNav.css" rel="stylesheet" type="text/css">
 <c:set var="homepage" value="false" />
 <html>
 <meta charset="UTF-8">
@@ -35,7 +35,7 @@
 		<div id="mapboardListBox" class="mapboardListBox">
 			<div class="mapboardListSearch">
 				<input class="boardSearch" placeholder="내 지도 검색" value="${keyword}" onkeyup="enterkey()"	/>
-				<button class="SearchBtn"  onclick="reloadMapListKeyword(1,1,'adrName','')"><img class="searchImg" src="../../../../resources/imgs/searchgray.png"></button>
+				<button class="SearchBtn"  onclick="reloadMapListKeyword(1,1,'adrName','')"><img class="searchImg" src="<%=request.getContextPath() %>/resources/imgs/searchgray.png"></button>
 			</div>
 			<c:choose>
 				<c:when test="${address.detail}">
@@ -65,7 +65,7 @@
 							</div>
 							<div class="MapChange" style="background-color:rgb(35, 140, 250)">
 								<button type="button" class="modifyBtn" id="findRoad" style="background-color:blue" onclick="openKaKao('${address.placeName}','${address.lat}','${address.lng}')">길찾기</button>
-								<c:if test="${address.placeUrl ne ''}">
+								<c:if test="${address.placeUrl ne null}">
 									<c:set var="homepage" value="true" />
 									<button type="button" class="modifyBtn" id="homePage" onclick="openUrl('${address.placeUrl}')">홈페이지</button>
 								</c:if>
@@ -146,14 +146,14 @@
 				<label class="modalLabel">마커 선택</label> 
 				<div class="markerBtnDiv">
 					<div class="markerBtnDiv2">
-						<button class="markerBtn" id="Mdefault" onclick="markerSelect('Mdefault','../../../../resources/imgs/default.png')"> <img style="width: 50px; "src="../../../../resources/imgs/default.png"> </button>
-						<button class="markerBtn" id="Mfood" onclick="markerSelect('Mfood','../../../../resources/imgs/food.png')"> <img style="width: 50px;" src="../../../../resources/imgs/food.png"> </button>
-						<button class="markerBtn" id="Mbank" onclick="markerSelect('Mbank','../../../../resources/imgs/bank.png')"> <img style="width: 50px;" src="../../../../resources/imgs/bank.png"> </button>
+						<button class="markerBtn" id="Mdefault" onclick="markerSelect('Mdefault','<%=request.getContextPath() %>/resources/imgs/default.png')"> <img style="width: 50px; "src="<%=request.getContextPath() %>/resources/imgs/default.png"> </button>
+						<button class="markerBtn" id="Mfood" onclick="markerSelect('Mfood','<%=request.getContextPath() %>/resources/imgs/food.png')"> <img style="width: 50px;" src="<%=request.getContextPath() %>/resources/imgs/food.png"> </button>
+						<button class="markerBtn" id="Mbank" onclick="markerSelect('Mbank','<%=request.getContextPath() %>/resources/imgs/bank.png')"> <img style="width: 50px;" src="<%=request.getContextPath() %>/resources/imgs/bank.png"> </button>
 					</div>
 					<div class="markerBtnDiv2">
-						<button class="markerBtn" id="Mmart" onclick="markerSelect('Mmart','../../../../resources/imgs/mart.png')"> <img style="width: 50px;" src="../../../../resources/imgs/mart.png"> </button>
-						<button class="markerBtn" id="Mhome"onclick="markerSelect('Mhome','../../../../resources/imgs/home.png')"> <img style="width: 50px;"src="../../../../resources/imgs/home.png"> </button>
-						<button class="markerBtn" id="Mhospital" onclick="markerSelect('Mhospital','../../../../resources/imgs/hospital.png')"> <img style="width: 50px;" src="../../../../resources/imgs/hospital.png"> </button>
+						<button class="markerBtn" id="Mmart" onclick="markerSelect('Mmart','<%=request.getContextPath() %>/resources/imgs/mart.png')"> <img style="width: 50px;" src="<%=request.getContextPath() %>/resources/imgs/mart.png"> </button>
+						<button class="markerBtn" id="Mhome"onclick="markerSelect('Mhome','<%=request.getContextPath() %>/resources/imgs/home.png')"> <img style="width: 50px;"src="<%=request.getContextPath() %>/resources/imgs/home.png"> </button>
+						<button class="markerBtn" id="Mhospital" onclick="markerSelect('Mhospital','<%=request.getContextPath() %>/resources/imgs/hospital.png')"> <img style="width: 50px;" src="<%=request.getContextPath() %>/resources/imgs/hospital.png"> </button>
 					</div>
 				</div>
 			</div>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="../../../../resources/css/findPW.css" rel="stylesheet"
+<link href="<%=request.getContextPath() %>/resources/css/findPW.css" rel="stylesheet"
 	type="text/css">
 <meta charset="UTF-8">
 <title>아이디 찾기</title>

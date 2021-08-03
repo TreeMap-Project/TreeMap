@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="../../../../resources/css/findPW.css" rel="stylesheet"
+<link href="<%=request.getContextPath() %>/resources/css/findPW.css" rel="stylesheet"
 	type="text/css">
-<link href="../../../../resources/css/myPageModal.css" rel="stylesheet"
+<link href="<%=request.getContextPath() %>/resources/css/myPageModal.css" rel="stylesheet"
 	type="text/css">
 <title>비밀번호 찾기</title>
 </head>

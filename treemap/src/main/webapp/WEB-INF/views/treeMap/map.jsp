@@ -9,14 +9,12 @@
 <head>
 <meta charset="utf-8">
 <title>TREE MAP</title>
-<link rel="shortcut icon" href="../../../../resources/imgs/favicon.png">
-<link rel="icon" href="../../../../resources/imgs/favicon.png">
-<link href="../../../../resources/css/map.css" rel="stylesheet"
-	type="text/css">
-<link href="../../../../resources/css/searchKeyword.css"
-	rel="stylesheet" type="text/css">
-<link href="../../../../resources/css/modal.css" rel="stylesheet"
-	type="text/css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=842543be7b015b65d49c7a92818f1397&libraries=services"></script>
+<link rel="shortcut icon" href="<%=request.getContextPath() %>/resources/imgs/favicon.png">
+<link rel="icon" href="<%=request.getContextPath() %>/resources/imgs/favicon.png">
+<link href="<%=request.getContextPath() %>/resources/css/map.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/searchKeyword.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/modal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<!-- right-header -->
@@ -41,7 +39,9 @@
 			<div id="map"
 				style="width: 100%; height: 700px; position: relative; overflow: hidden;"></div>
 			<div class="hAddr">
-				<span class="title">지도중심기준 행정동 주소정보</span> <span id="centerAddr"></span>
+				<span class="title">지도중심기준 행정동 주소정보</span> 
+					
+			<span id="centerAddr"></span>
 			</div>
 		</div>
 	</div>
@@ -71,35 +71,35 @@
 				<div class="markerBtnDiv">
 					<div class="markerBtnDiv2">
 						<button class="markerBtn" id="default"
-							onclick="markerSelect('default','../../../../resources/imgs/default.png')">
+							onclick="markerSelect('default','<%=request.getContextPath() %>/resources/imgs/default.png')">
 							<img style="width: 50px;"
-								src="../../../../resources/imgs/default.png">
+								src="<%=request.getContextPath() %>/resources/imgs/default.png">
 						</button>
 						<button class="markerBtn" id="food"
-							onclick="markerSelect('food','../../../../resources/imgs/food.png')">
+							onclick="markerSelect('food','<%=request.getContextPath() %>/resources/imgs/food.png')">
 							<img style="width: 50px;"
-								src="../../../../resources/imgs/food.png">
+								src="<%=request.getContextPath() %>/resources/imgs/food.png">
 						</button>
 						<button class="markerBtn" id="bank"
-							onclick="markerSelect('bank','../../../../resources/imgs/bank.png')">
+							onclick="markerSelect('bank','<%=request.getContextPath() %>/resources/imgs/bank.png')">
 							<img style="width: 50px;"
-								src="../../../../resources/imgs/bank.png">
+								src="<%=request.getContextPath() %>/resources/imgs/bank.png">
 						</button>
 					</div>
 					<div class="markerBtnDiv2">
 						<button class="markerBtn" id="mart"
-							onclick="markerSelect('mart','../../../../resources/imgs/mart.png')">
-							<img style="width: 50px;" src="../../../../resources/imgs/mart.png">
+							onclick="markerSelect('mart','<%=request.getContextPath() %>/resources/imgs/mart.png')">
+							<img style="width: 50px;" src="<%=request.getContextPath() %>/resources/imgs/mart.png">
 						</button>
 						<button class="markerBtn" id="home"
-							onclick="markerSelect('home','../../../../resources/imgs/home.png')">
+							onclick="markerSelect('home','<%=request.getContextPath() %>/resources/imgs/home.png')">
 							<img style="width: 50px;"
-								src="../../../../resources/imgs/home.png">
+								src="<%=request.getContextPath() %>/resources/imgs/home.png">
 						</button>
 						<button class="markerBtn" id="hospital"
-							onclick="markerSelect('hospital','../../../../resources/imgs/hospital.png')">
+							onclick="markerSelect('hospital','<%=request.getContextPath() %>/resources/imgs/hospital.png')">
 							<img style="width: 50px;"
-								src="../../../../resources/imgs/hospital.png">
+								src="<%=request.getContextPath() %>/resources/imgs/hospital.png">
 						</button>
 					</div>
 				</div>
@@ -124,8 +124,6 @@
 		</div>
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=842543be7b015b65d49c7a92818f1397&libraries=services"></script>
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
@@ -542,7 +540,7 @@
 												+ '    <div class="info">'
 												+ '        <div class="title">'
 												+ '			<button type="button" class="favoritesBtn">로그인을 해주세요!</button>'
-												+ '			<img src="../../../../resources/imgs/위치.png" style="width:20px; float:right;margin-right:10px;margin-top:5px;"/>'
+												+ '			<img src="<%=request.getContextPath() %>/resources/imgs/위치.png" style="width:20px; float:right;margin-right:10px;margin-top:5px;"/>'
 												+ '        </div>'
 												+ '        <div class="body">'
 												+ '            <div class="desc">'
@@ -555,7 +553,7 @@
 													+ '    <div class="info">'
 													+ '        <div class="title">'
 													+ '			<button type="button" class="favoritesBtn" onclick="openModal();">즐겨찾기 등록하기</button>'
-													+ '			<img src="../../../../resources/imgs/위치.png" style="width:20px; float:right;margin-right:10px;margin-top:5px;"/>'
+													+ '			<img src="<%=request.getContextPath() %>/resources/imgs/위치.png" style="width:20px; float:right;margin-right:10px;margin-top:5px;"/>'
 													+ '        </div>'
 													+ '        <div class="body">'
 													+ '            <div class="desc">'
