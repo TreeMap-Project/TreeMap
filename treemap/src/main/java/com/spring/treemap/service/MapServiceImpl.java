@@ -19,7 +19,12 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public MapVO getMapBoardDetail(int adrNo, int catNo) {
-		return dao.getMapBoardDetail(adrNo, catNo);
+		// 데이터를 한번에 넘길려고 map에 저장
+				HashMap<String, Object> data = new HashMap<>();
+				data.put("adrNo", adrNo);
+				data.put("catNo", catNo);
+				
+		return dao.getMapBoardDetail(data);
 	}
 
 	@Override

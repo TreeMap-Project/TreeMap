@@ -4,10 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<%=request.getContextPath() %>/resources/css/myPage.css" rel="stylesheet"
-	type="text/css">
-<link href="<%=request.getContextPath() %>/resources/css/myPageModal.css" rel="stylesheet"
-	type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/myPage.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/myPageModal.css" rel="stylesheet" type="text/css">
 <title>내 정보</title>
 </head>
 <body>

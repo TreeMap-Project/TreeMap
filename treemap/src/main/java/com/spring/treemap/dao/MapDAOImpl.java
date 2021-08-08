@@ -41,8 +41,8 @@ public class MapDAOImpl implements MapDAO {
 
 
 	@Override
-	public MapVO getMapBoardDetail(int adrNo,int catNo) {
-		return sql.selectOne(namespace+".getMapBoardDetail",adrNo);
+	public MapVO getMapBoardDetail(HashMap<String, Object> data) {
+		return sql.selectOne(namespace+".getMapBoardDetail",data);
 	}
 
 

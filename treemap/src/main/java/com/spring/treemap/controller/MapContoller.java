@@ -136,7 +136,9 @@ public class MapContoller {
 	// 상세보기
 	@GetMapping("/mapBoardDetail")
 	public String getMapBoardDetail(int adrNo, int catNo, Model model) {
+		System.out.println(adrNo+","+catNo);
 		MapVO mapBoardDetail = service.getMapBoardDetail(adrNo, catNo);
+		System.out.println(mapBoardDetail);
 		AddressVO address = mapBoardDetail.getAddress();
 		CategoryVO category = mapBoardDetail.getCategory();
 
@@ -163,6 +165,7 @@ public class MapContoller {
 	// 삭제
 	@PostMapping("/deleteMapBoard")
 	public String deleteMapBoard(int adrNo, int catNo) {
+		System.out.println(catNo);
 		// 해당 값을 가진 주소 테이블 삭제
 		service.deleteAddress(adrNo);
 		// 해당 값을 가진 카테고리 테이블 컬럼 삭제

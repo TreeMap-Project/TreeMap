@@ -15,7 +15,7 @@ public interface MapDAO {
 
 	void insertAddress(AddressVO vo);
 
-	MapVO getMapBoardDetail(int adrNo, int catNo);
+	MapVO getMapBoardDetail(HashMap<String, Object> data);
 
 	void updateAddress(AddressVO address);
 

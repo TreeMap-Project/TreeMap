@@ -6,8 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<%=request.getContextPath() %>/resources/css/customLogin.css" rel="stylesheet"
-	type="text/css">
+<link href="<%=request.getContextPath() %>/resources/css/customLogin.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class='login'>

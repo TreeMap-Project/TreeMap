@@ -65,7 +65,7 @@
 							</div>
 							<div class="MapChange" style="background-color:rgb(35, 140, 250)">
 								<button type="button" class="modifyBtn" id="findRoad" style="background-color:blue" onclick="openKaKao('${address.placeName}','${address.lat}','${address.lng}')">길찾기</button>
-								<c:if test="${address.placeUrl ne null}">
+								<c:if test="${address.placeUrl ne 'undefined'}">
 									<c:set var="homepage" value="true" />
 									<button type="button" class="modifyBtn" id="homePage" onclick="openUrl('${address.placeUrl}')">홈페이지</button>
 								</c:if>

@@ -248,7 +248,8 @@
 					addressname.value="";
 					catName.value=""
 					memo.value=""
-					
+					placeName="undefined";
+					placeUrl="undefined";
 				},
 				error : function(request, status, error) {
 					alert("code:" + request.status + "\n" + "message:"
@@ -649,8 +650,8 @@
 		    } 
 		}
 		
-		let placeName;
-		let placeUrl;
+		let placeName ="undefined";
+		let placeUrl = "undefined";
 		
 		// 지도에 마커를 표시하는 함수입니다
 		function displayMarker(place) {

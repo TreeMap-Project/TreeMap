@@ -77,7 +77,7 @@
 		values(#{userNo},#{iconUrl},#{catName})
 	</insert>
 	
-	<select id="getMapBoardDetail" resultMap="MapVO">
+	<select id="getMapBoardDetail" resultMap="MapVO" parameterType="hashMap">
 		select
 		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.placeName,a.placeUrl,a.createdAt,c.catName,c.catNo
 		from Category c, Address a
