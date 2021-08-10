@@ -44,6 +44,7 @@ public interface MapService {
 
 	// 카테고리 테이블 데이터 개수
 	int getCategoryCount(int userNo, String catName);
-
+	
+	//유저 확인
 	int getUserNo(String userEmail);
 }

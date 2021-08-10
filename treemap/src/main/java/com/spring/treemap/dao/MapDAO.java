@@ -10,7 +10,7 @@ import com.spring.treemap.domain.MapVO;
 public interface MapDAO {
 
 	List<MapVO> getMapBoardList(HashMap<String, Object> data);
-	
+
 	void insertCategory(CategoryVO vo);
 
 	void insertAddress(AddressVO vo);
@@ -34,6 +34,5 @@ public interface MapDAO {
 	int getCategoryCount(HashMap<String, Object> data);
 
 	int getUserNo(String userEmail);
-
 
 }

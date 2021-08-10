@@ -6,27 +6,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<%=request.getContextPath() %>/resources/css/customLogin.css" rel="stylesheet" type="text/css">
+<link
+	href="<%=request.getContextPath()%>/resources/css/customLogin.css"
+	rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class='login'>
-	<div class="customLogin">
-		<div class="customLogin-header"></div>
-		<div class="customLogin-body">
-			<h1 style="font-family:Open Sans; color:rgb(75,75,75)">Sign In</h1>
-			<h2>
-				<c:out value="${msg}" />
-				${msg}
-			</h2>
-			<h2>
-				<c:out value="${logout}" />
-			</h2>
-			<h3>
-				<c:out value="${loginFailMsg}" />
-			</h3>
+	<div class='login'>
+		<div class="customLogin">
+			<div class="customLogin-header"></div>
+			<div class="customLogin-body">
+				<h1 style="font-family: Open Sans; color: rgb(75, 75, 75)">Sign
+					In</h1>
+				<h2>
+					<c:out value="${msg}" />
+					${msg}
+				</h2>
+				<h2>
+					<c:out value="${logout}" />
+				</h2>
+				<h3>
+					<c:out value="${loginFailMsg}" />
+				</h3>
 
-			<form method="post" action="/login" id="loginForm">
-				
+				<form method="post" action="/login" id="loginForm">
+
 					<div class="loginBoxWrapper">
 						<div class="loginBox">
 							<label class="loginLabels">Email</label> <input
@@ -41,79 +44,78 @@
 								<input type="checkbox" name="remember-me">Remember Me
 							</div>
 							<div class="findBox">
-								<input type="button"  class="findIDPW" id="findPasswordBtn" value="비밀번호 찾기"/>
-								<input type="button" class="findIDPW" id="findPassIdBtn" value="아이디 찾기"/>
+								<input type="button" class="findIDPW" id="findPasswordBtn"
+									value="비밀번호 찾기" /> <input type="button" class="findIDPW"
+									id="findPassIdBtn" value="아이디 찾기" />
 							</div>
 						</div>
 						<div class="loginBox">
 							<button class="loginsubmit">확 인</button>
 						</div>
 					</div>
-					
-				<input type="hidden" name="${_csrf.parameterName }"
-					value="${_csrf.token }" />
-			</form>
+
+					<input type="hidden" name="${_csrf.parameterName }"
+						value="${_csrf.token }" />
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
-	let userEmail = document.getElementById('userEmail');
-	let userPW = document.getElementById('userPW');
-		
+		let userEmail = document.getElementById('userEmail');
+		let userPW = document.getElementById('userPW');
 
-	$(".loginsubmit").on("click", function(e) {
-		e.preventDefault();
-		if(checkForm()) $("#loginForm").submit();
-	});
-	
-	function checkForm() {
-		var regexEmail = /^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
- 		if (userEmail.value == ''|| !(regexEmail.test(userEmail.value))) {
-			alert("이메일을 입력해주세요.");
-			userEmail.focus();
-			return false;
+		$(".loginsubmit").on("click", function(e) {
+			e.preventDefault();
+			if (checkForm())
+				$("#loginForm").submit();
+		});
+
+		function checkForm() {
+			var regexEmail = /^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
+			if (userEmail.value == '' || !(regexEmail.test(userEmail.value))) {
+				alert("이메일을 입력해주세요.");
+				userEmail.focus();
+				return false;
+			}
+			if (userPW.value == '') {
+				alert("비밀번호를 입력해주세요.");
+				userPW.focus();
+				return false;
+			} else
+				return true;
 		}
-		if (userPW.value == '') {
-			alert("비밀번호를 입력해주세요.");
-			userPW.focus();
-			return false;
-		}
-		else return true;
-	}	
-		$("#findPasswordBtn").on("click",function(e){
+		$("#findPasswordBtn").on("click", function(e) {
 			$.ajax({
-				url:'/member/findPw',
-				type:'GET',
+				url : '/member/findPw',
+				type : 'GET',
 				success : function(result) {
 					$('#include').html(result);
 				}
 			});
-		
+
 		});
-		$("#findPasswordBtn").on("click",function(e){
+		$("#findPasswordBtn").on("click", function(e) {
 			$.ajax({
-				url:'/member/findPw',
-				type:'GET',
+				url : '/member/findPw',
+				type : 'GET',
 				success : function(result) {
 					$('#include').html(result);
 				}
 			});
-		
+
 		});
-		
-		$("#findPassIdBtn").on("click",function(e){
+
+		$("#findPassIdBtn").on("click", function(e) {
 			$.ajax({
-				url:'/member/findEmail',
-				type:'GET',
+				url : '/member/findEmail',
+				type : 'GET',
 				success : function(result) {
 					$('#include').html(result);
 				}
 			});
-		
+
 		});
-		
-	
 	</script>
 </body>
 </html>

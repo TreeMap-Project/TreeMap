@@ -3,10 +3,7 @@ package com.spring.treemap.mapper;
 import com.spring.treemap.domain.MemberVO;
 
 public interface MemberMapper {
-	/*
-	 * @Autowired SqlSessionTemplate sqlSession;
-	 */
-
+	
 	// 아이디 개수
 	public int emailCnt(String userEmail);
 

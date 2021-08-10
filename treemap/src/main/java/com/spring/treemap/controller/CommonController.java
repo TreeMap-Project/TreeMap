@@ -55,17 +55,17 @@ public class CommonController {
 		return "member/findEmail";
 	}
 
-	//아이디 찾기
+	// 아이디 찾기
 	@ResponseBody
 	@PostMapping("/member/findEmail")
 	public String doFindEmail(MemberVO member, Model model) {
 		log.info("아이디 찾기 시도");
 		String userEmail = service.findEmail(member);
 		log.info(userEmail);
-		model.addAttribute("userEmail",userEmail);
+		model.addAttribute("userEmail", userEmail);
 		return userEmail;
 	}
-	
+
 	// 이메일 중복 체크
 	@ResponseBody
 	@PostMapping("/chkEmail")
@@ -91,8 +91,6 @@ public class CommonController {
 		return "member/customLogin";
 	}
 
-	
-
 	@GetMapping("/accessError")
 	public void accessDenied(Authentication auth, Model model) {
 		log.info("access Denied: " + auth);
@@ -101,36 +99,35 @@ public class CommonController {
 
 	@GetMapping("/member/myPage")
 	public String myPage(Model model, MemberVO vo) {
-		model.addAttribute("member",service.read(vo));
-		
+		model.addAttribute("member", service.read(vo));
+
 		return "member/myPage";
 	}
-	
-	//이름 업데이트
+
+	// 이름 업데이트
 	@PostMapping("/member/myPage/modifyName")
 	public String updateName(Model model, MemberVO vo) {
 		service.updateName(vo);
-		model.addAttribute("member",service.read(vo));
+		model.addAttribute("member", service.read(vo));
 		return "member/myPage";
 	}
-	
-	//패스워드 체크
+
+	// 패스워드 체크
 	@ResponseBody
 	@GetMapping("/member/myPage/passwordChk")
 	public int passwordChk(MemberVO vo) {
 		return service.passwordChk(vo);
 	}
-	
-	//패스워드 변경
+
+	// 패스워드 변경
 	@PostMapping("/member/myPage/modifyPassword")
 	public String updatePassword(Model model, MemberVO vo) {
 		log.info("updatePassword 접근");
 		service.updatePassword(vo);
-		model.addAttribute("member",service.read(vo));
+		model.addAttribute("member", service.read(vo));
 		return "member/myPage";
 	}
-	
-	
+
 	@RequestMapping(value = "/member/findPw", method = RequestMethod.GET)
 	public String findPwGET() throws Exception {
 		return "member/findPw";

@@ -19,7 +19,7 @@ public interface MemberService {
 
 	// 회원 정보 불러오기
 	MemberVO read(MemberVO member);
-	
+
 	// 이름 수정
 	void updateName(MemberVO vo);
 

@@ -166,6 +166,11 @@
 		//사용자가 게시판 틀릭시 보여줄 오버레이인포위도우
 		let overlay;
 		
+		//검색타입
+		let type="";
+		//키워드
+		let kw="";
+		
 		//마커 선택
 		function markerSelect(icons, url) {
 			
@@ -200,10 +205,12 @@
 				}
 			}
 		}
+		
 		//오픈 모달
 		function openModal() {
 			document.querySelector('#myModal').style = "display:block";
 		}
+		
 		//즐겨찾기
 		function setFavorites() {
 			let addressname = document.querySelector("#addressname");
@@ -267,7 +274,7 @@
 		
 		function reloadMapList() {
 			type = "";
-			 kw="";
+			kw="";
 			$.ajax({
 					type : "GET",
 					url : "/treeMap/reloadBoard?num="+number+"&userNo="+${userNo},
@@ -295,12 +302,7 @@
 			marker.setMap(null);
 			infowindow.open(null,null);
 		}
-		
-		//검색타입
-		let type="";
-		//키워드
-		let kw="";
-		
+	
 		//키워드로 페이징 처리
 		function reloadMapListKeyword(num,catNum,searchType,keyword) {
 			number = num;
@@ -312,7 +314,6 @@
 			if(keyword==''){
 				keyword = boardSearch.value;
 			} 
-			  
 				$.ajax({
 					type : "GET",
 					url : "/treeMap/reloadBoard?num="+num+"&catNum="+catNum+"&searchType="+searchType+"&keyword="+keyword+"&userNo="+${userNo},
@@ -322,8 +323,6 @@
 					}
 				});
 			}
-			//marker.setMap(null);
-			//infowindow.open(null,null);
 		
 		//모달 취소
 		function closeModal() {
@@ -621,21 +620,19 @@
 
 		// 키워드 검색을 요청하는 함수입니다
 		function searchPlaces() {
-
 			var keyword = document.querySelector('.mapSearch');
 			keyword = keyword.value;
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {
 				alert('키워드를 입력해주세요!');
 				return false;
 			}
-			//displayMarker(null);
 			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 			ps.keywordSearch(keyword, placesSearchCB);
 		}
+		
 		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 		function placesSearchCB (data, status, pagination) {
 		    if (status === kakao.maps.services.Status.OK) {
-
 		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 		        // LatLngBounds 객체에 좌표를 추가합니다
 		        var bounds = new kakao.maps.LatLngBounds();	
@@ -644,8 +641,7 @@
 		            displayMarker(data[i]);    
 		            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
 		        }
-
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+				// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 		        map.setBounds(bounds);
 		    } 
 		}
@@ -661,7 +657,6 @@
 		        position: new kakao.maps.LatLng(place.y, place.x) 
 		    });
 		    
-		    
 		    // 마커에 클릭이벤트를 등록합니다
 		    kakao.maps.event.addListener(placeMarker, 'click', function() {
 		    	//가게이름
@@ -675,23 +670,26 @@
 		        
 		        var detailAddr = !!place.road_address ? '<div class="ellipsis">도로명주소 : '
 						+ place.road_address_name
-						+ '</div>'
-						: '';
-				detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '+ place.address_name+ '</div>';
+						+ '</div>' : '';
+						detailAddr += '<div class="jibun ellipsis"> 지번 주소 : '+ place.address_name+ '</div>';
 						
 				if(${userNo}==0){
 					var content = '<div class="wrap" style="margin-left:0;left:-68px;top:-67px;">'
 						+ '<span>상세보기</span> '
 						+ '    <div class="info">'
 						+ '        <div class="title">'
-						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;">'+'<span style="color:yellow">'+place.place_name+'</span> 로그인을 해주세요!</button>'
+						+ '			<button type="button" class="favoritesBtn" style="font-size:11px;">'
+						+ '				<span style="color:yellow">'
+						+					place.place_name
+						+ '				</span> 로그인을 해주세요!</button>'
 						+ '        </div>'
 						+ '        <div class="body">'
 						+ '            <div class="desc">'
-						+ detailAddr
+						+ 					detailAddr
 						+ '            </div>'
 						+ '        </div>'
-						+ '    </div>' + '</div>';
+						+ '    </div>' 
+						+ '</div>';
 						
 						lat = place.y;
 						lng =  place.x;
@@ -707,12 +705,14 @@
 							+'<div class="wrap" style="margin-left:0;left:-68px;top:-67px; heigth:100px;">'
 							+ '    <div class="info">'
 							+ '        <div class="title">'
-							+ '		<span style="color:yellow">'+place.place_name+'&nbsp&nbsp&nbsp&nbsp</span>'
-							+ ' <button class="favoritesBtn" onclick="window.open('+'\''+place.place_url+'\''+')">상세보기</button>'
+							+ '			<span style="color:yellow">'
+							+ 				place.place_name
+							+ ' 			&nbsp&nbsp&nbsp&nbsp</span>'
+							+ '     	 <button class="favoritesBtn" onclick="window.open('+'\''+place.place_url+'\''+')">상세보기</button>'
 							+ '        </div>'
 							+ '        <div class="body">'
 							+ '            <div class="desc">'
-							+ detailAddr	
+							+ 					detailAddr	
 							+ '            </div>'
 							+ '        </div>'
 							+ '    </div>' + '</div>';
@@ -735,7 +735,6 @@
 				$.ajax({
 				    type : "GET",
 				    url : "/member/customLogin",
-				    //data : {"userEmail":userEmail.value},
 				    success : function(res) {     
 				    	  $('#include').html(res);
 				    },
@@ -745,13 +744,13 @@
 				       }
 				});
 			} 
+		
 		 function signup(){
 			 document.querySelector('#loginBtn').style="border:1px solid rgb(70, 220, 120); color: rgb(70, 220, 120) ";
 			 document.querySelector('#signupBtn').style="border:1px solid white; color: white ";
 			 $.ajax({
 				    type : "GET",
 				    url : "/member/signup",
-				    //data : {"userEmail":userEmail.value},
 				    success : function(res) {     
 				    	 $('#include').html(res);
 				    },
@@ -761,6 +760,7 @@
 				       }
 				});
 			}
+		 
 		 function myPage(userEmail){
 			 $.ajax({
 					url:'/member/myPage',

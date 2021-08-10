@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<%=request.getContextPath() %>/resources/css/signup.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath()%>/resources/css/signup.css"
+	rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="signup">
@@ -42,14 +43,12 @@
 					<div class="signupBox">
 						<label class="signupLabels">Phone</label> <input type="text"
 							name="phoneNum" id="phoneNum" class="signupInputs"
-							required="required"
-							placeholder="휴대폰 번호 (ex:01012341234)">
+							required="required" placeholder="휴대폰 번호 (ex:01012341234)">
 					</div>
 					<div class="signupBox">
 						<label class="signupLabels">Birthday</label> <input type="text"
 							name="birthday" id="birthday" class="signupInputs"
-							required="required"
-							placeholder="생년월일 (ex:20010101)">
+							required="required" placeholder="생년월일 (ex:20010101)">
 					</div>
 					<div class="signupBox">
 						<button class="signupBtn">확 인</button>
@@ -62,14 +61,13 @@
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
-		
 		let userEmail = document.getElementById('userEmail');
 		let userPW = document.getElementById('userPW');
 		let userName = document.getElementById('userName');
 		let phoneNum = document.getElementById('phoneNum');
 		let birthday = document.getElementById('birthday');
 		let userChk = false;
-		
+
 		function emailChk() {
 			var regexEmail = /^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
 			$.ajax({
@@ -98,24 +96,23 @@
 				}
 			});
 		}
-		$(".signupBtn").on("click",
-				function(e) {
-					e.preventDefault();
-					if(checkForm()){
-					if (userChk == false) {
-						alert("이메일 중복 확인해주세요.");
-						return;
-					} else {
-						$("#signupForm").submit();
-					}
-					}else{
-						return;
-					}
-				});
-	function checkForm() {
+		$(".signupBtn").on("click", function(e) {
+			e.preventDefault();
+			if (checkForm()) {
+				if (userChk == false) {
+					alert("이메일 중복 확인해주세요.");
+					return;
+				} else {
+					$("#signupForm").submit();
+				}
+			} else {
+				return;
+			}
+		});
+		function checkForm() {
 			var regexpBirth = /^[0-9]{8}$/;
 			var regexpPhone = /^[0-9]{10,11}$/;
-	 		if (userEmail.value == '') {
+			if (userEmail.value == '') {
 				alert("이메일을 입력해주세요.");
 				return false;
 			}
@@ -124,24 +121,24 @@
 				userPW.focus();
 				return false;
 			}
-			if (userName.value == '' ) {
+			if (userName.value == '') {
 				alert("이름을 입력해주세요.");
 				userName.focus();
 				return false;
 			}
-			if (phoneNum.value == ''|| !(regexpPhone.test(phoneNum.value))) {
+			if (phoneNum.value == '' || !(regexpPhone.test(phoneNum.value))) {
 				alert("휴대폰 번호를 입력값을 확인 해주세요.");
-				
+
 				phoneNum.focus();
 				return false;
 			}
-			if (birthday.value =='' || !(regexpBirth.test(birthday.value))) {
+			if (birthday.value == '' || !(regexpBirth.test(birthday.value))) {
 				alert("생년월일의 연월일을 -없이 입력해주세요 (ex:20010101)");
 				birthday.focus();
 				return false;
-			}
-			else return true;
-		} 
+			} else
+				return true;
+		}
 	</script>
 </body>
 </html>

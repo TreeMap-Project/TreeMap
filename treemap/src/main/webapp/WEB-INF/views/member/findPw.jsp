@@ -36,27 +36,26 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-
 	let userName = document.querySelector("#findName");
 	let userEmail = document.querySelector("#findEmail");
-	function findPw(){
+	function findPw() {
 		$.ajax({
-			url:'/member/findPw',
-			type:'POST',
-			data:{
-				'userName':userName.value,
-				'userEmail':userEmail.value	
+			url : '/member/findPw',
+			type : 'POST',
+			data : {
+				'userName' : userName.value,
+				'userEmail' : userEmail.value
 			},
 			success : function(result) {
 				alert(result);
 			}
 		});
 	}
-	
-	function reloadLogin(){
+
+	function reloadLogin() {
 		$.ajax({
-			url:'/member/customLogin',
-			type:'GET',
+			url : '/member/customLogin',
+			type : 'GET',
 			success : function(result) {
 				$('#include').html(result);
 			}

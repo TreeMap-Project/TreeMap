@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.spring.treemap">
-
+	
 	<resultMap type="com.spring.treemap.domain.AddressVO" id="AddressVO">
 		<id property="adrNo" column="adrNo" />
 		<id property="userNo" column="userNo" />
@@ -19,7 +19,8 @@
 		<id property="createdAt" column="createdAt" />
 	</resultMap>
 
-	<resultMap type="com.spring.treemap.domain.CategoryVO" id="CategoryVO">
+	<resultMap type="com.spring.treemap.domain.CategoryVO"
+		id="CategoryVO">
 		<id property="userNo" column="userNo" />
 		<id property="catNo" column="catNo" />
 		<id property="iconUrl" column="iconUrl" />
@@ -31,90 +32,98 @@
 		<collection property="address" resultMap="AddressVO" />
 		<collection property="category" resultMap="CategoryVO" />
 	</resultMap>
-	
+
 	<select id="getAddressCount" resultType="int" parameterType="hashMap">
-		select count(adrNo) from Address  where userNo=#{userNo} 
-		 <if test = '!_parameter.equals("")'>
-        	and adrName like concat('%',#{keyword},'%')
-        </if>
-	</select>
-	
-	<select id="getCategoryCount" resultType="int" parameterType="hashMap">
-		select count(catNo) from Category where userNo=#{userNo} and catName =#{keyword}
-    </select>
-    
-    <select id="getUserNo" resultType="int" parameterType="String">
-    	select userNo from User where userEmail = #{userEmail}
-    </select>
-    
-    <select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
-		select
-		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
-		Address a, Category b 
-        where a.userNo=b.userNo and a.catNo = b.catNo 
-        and a.userNo=#{userNo} and b.userNo=#{userNo}
-        <if test = 'searchType.equals("adrName")'>
-        	and a.adrName like concat('%',#{keyword},'%')
-        </if>
-        
-        <if test = 'searchType.equals("catName")'>
-        	and b.catName like concat('%',#{keyword},'%')
-        </if>
-        order by a.adrNo desc
-        limit #{displayPost}, #{postNum}
+		select count(adrNo) from Address where userNo=#{userNo}
+		<if test='!_parameter.equals("")'>
+			and adrName like concat('%',#{keyword},'%')
+		</if>
 	</select>
 
-	<insert id="insertAddress"
-		parameterType="com.spring.treemap.domain.AddressVO">
+	<select id="getCategoryCount" resultType="int"
+		parameterType="hashMap">
+		select count(catNo) from Category where userNo=#{userNo}
+		and catName =#{keyword}
+	</select>
+
+	<select id="getUserNo" resultType="int" parameterType="String">
+		select userNo from User where userEmail = #{userEmail}
+	</select>
+
+	<select id="getMapBoardList" resultMap="MapVO" parameterType="hashMap">
+		select
+		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName
+		from
+		Address a, Category b
+		where a.userNo=b.userNo and a.catNo = b.catNo
+		and a.userNo=#{userNo} and b.userNo=#{userNo}
+		<if test='searchType.equals("adrName")'>
+			and a.adrName like concat('%',#{keyword},'%')
+		</if>
+
+		<if test='searchType.equals("catName")'>
+			and b.catName like concat('%',#{keyword},'%')
+		</if>
+		order by a.adrNo desc
+		limit #{displayPost}, #{postNum}
+	</select>
+
+	<insert id="insertAddress" parameterType="com.spring.treemap.domain.AddressVO">
 		insert into
 		Address(userNo,catNo,adrName,lat,lng,rowaddress,address,memo,placeName,placeUrl)
-		values(#{userNo},(select max(catNo) from Category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo},#{placeName},#{placeUrl})
+		values(#{userNo},(select max(catNo) from
+		Category),#{adrName},#{lat},#{lng},#{rowaddress},#{address},#{memo},#{placeName},#{placeUrl})
 	</insert>
 
-	<insert id="insertCategory"
-		parameterType="com.spring.treemap.domain.CategoryVO">
+	<insert id="insertCategory" parameterType="com.spring.treemap.domain.CategoryVO">
 		insert into Category(userNo,iconUrl, catName)
 		values(#{userNo},#{iconUrl},#{catName})
 	</insert>
-	
+
 	<select id="getMapBoardDetail" resultMap="MapVO" parameterType="hashMap">
 		select
 		a.adrNo,a.userNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,a.memo,a.placeName,a.placeUrl,a.createdAt,c.catName,c.catNo
 		from Category c, Address a
-		where a.adrNo = #{adrNo} and c.catNo = #{catNo}
+		where a.adrNo = #{adrNo} and c.catNo =
+		#{catNo}
 	</select>
-	
+
 	<select id="getMapBoardCategoryList" resultMap="CategoryVO" parameterType="hashMap">
-		select catName from Category where userNo=#{userNo} 
+		select catName from Category where userNo=#{userNo}
 		group by catName
-		<if test = 'endNum!=0'>
-			limit #{startNum}, #{endNum} 
+		<if test='endNum!=0'>
+			limit #{startNum}, #{endNum}
 		</if>
 	</select>
-	
+
 	<select id="getCatNameList" resultMap="MapVO" parameterType="hashMap">
 		select
-		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName from
-		Address a, Category b 
-        where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and b.userNo=#{userNo} and b.catName=#{keyword}
-        order by a.adrNo desc
-        limit #{displayPost}, #{postNum} 
+		a.adrNo,a.userNo,a.catNo,a.adrName,a.lat,a.lng,a.rowaddress,a.address,b.iconUrl,b.catName
+		from
+		Address a, Category b
+		where a.userNo=b.userNo and a.catNo = b.catNo and a.userNo=1 and
+		b.userNo=#{userNo} and b.catName=#{keyword}
+		order by a.adrNo desc
+		limit #{displayPost}, #{postNum}
 	</select>
-	
+
 	<update id="updateAddress" parameterType="com.spring.treemap.domain.AddressVO">
-	 	UPDATE Address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
+		UPDATE Address SET adrName=#{adrName},memo=#{memo} where adrNo=#{adrNo}
 	</update>
-	
+
 	<update id="updateCategory" parameterType="com.spring.treemap.domain.CategoryVO">
-	 	 UPDATE Category SET catName=#{catName},iconUrl = #{iconUrl} where catNo=#{catNo}
+		UPDATE Category SET catName=#{catName},iconUrl = #{iconUrl} where
+		catNo=#{catNo}
 	</update>
-	
+
 	<delete id="deleteAddress" parameterType="int">
-		DELETE from Address where adrNo=#{adrNo}
+		DELETE from Address
+		where adrNo=#{adrNo}
 	</delete>
-	
+
 	<delete id="deleteCategory" parameterType="int">
-		DELETE from Category where catNo=#{catNo}
+		DELETE from Category
+		where catNo=#{catNo}
 	</delete>
 
 </mapper>

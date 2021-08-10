@@ -20,10 +20,10 @@ public class MapServiceImpl implements MapService {
 	@Override
 	public MapVO getMapBoardDetail(int adrNo, int catNo) {
 		// 데이터를 한번에 넘길려고 map에 저장
-				HashMap<String, Object> data = new HashMap<>();
-				data.put("adrNo", adrNo);
-				data.put("catNo", catNo);
-				
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("adrNo", adrNo);
+		data.put("catNo", catNo);
+
 		return dao.getMapBoardDetail(data);
 	}
 
@@ -96,21 +96,21 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public int getAddressCount(int userNo,String keyword) {
-		
+	public int getAddressCount(int userNo, String keyword) {
+
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("userNo", userNo);
 		data.put("keyword", keyword);
-		
+
 		return dao.getAddressCount(data);
 	}
 
 	@Override
-	public int getCategoryCount(int userNo,String catName) {
+	public int getCategoryCount(int userNo, String catName) {
 		HashMap<String, Object> data = new HashMap<>();
 		data.put("userNo", userNo);
 		data.put("catName", catName);
-		
+
 		return dao.getCategoryCount(data);
 	}
 

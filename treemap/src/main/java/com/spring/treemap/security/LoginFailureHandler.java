@@ -23,17 +23,16 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 		if (exception instanceof AuthenticationServiceException) {
 			request.setAttribute("loginFailMsg", "존재하지 않는 사용자입니다.");
-		
-		} else if(exception instanceof BadCredentialsException) {
-			request.setAttribute("loginFailMsg", "아이디 또는 비밀번호가 틀립니다.");
-			
-		}else {
-			request.setAttribute("loginFailMsg", "로그인을 다시 시도해주세요.");
-		}	
 
-		
-	//response.sendRedirect("/treeMap/map");
-	RequestDispatcher dispatcher = request.getRequestDispatcher("/treeMap/map?status=fail");
-	dispatcher.forward(request, response);
+		} else if (exception instanceof BadCredentialsException) {
+			request.setAttribute("loginFailMsg", "아이디 또는 비밀번호가 틀립니다.");
+
+		} else {
+			request.setAttribute("loginFailMsg", "로그인을 다시 시도해주세요.");
+		}
+
+		// response.sendRedirect("/treeMap/map");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/treeMap/map?status=fail");
+		dispatcher.forward(request, response);
 	}
 }
